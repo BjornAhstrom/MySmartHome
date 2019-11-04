@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
+        TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
         return true
     }
 

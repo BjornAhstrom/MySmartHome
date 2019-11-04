@@ -7,21 +7,95 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0E557F23702F1800794DFF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E557E23702F1800794DFF /* DeviceInfo.swift */; };
+		1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */; };
+		1E0E558A23703F2600794DFF /* DevicesInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E558923703F2600794DFF /* DevicesInput.swift */; };
+		1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D282370195A00355398 /* MainTabBarController.swift */; };
+		1E2C9D2B23701C6A00355398 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2A23701C6A00355398 /* FirstViewController.swift */; };
+		1E2C9D2D23701C7B00355398 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2C23701C7B00355398 /* SecondViewController.swift */; };
+		1E2C9D2F237027B500355398 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2E237027B500355398 /* ThirdViewController.swift */; };
+		1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */; };
+		1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3323702C3F00355398 /* TelldusKeys.swift */; };
 		1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD69E2366B73400FBA461 /* AppDelegate.swift */; };
 		1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */; };
-		1ECAD6A32366B73400FBA461 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A22366B73400FBA461 /* ViewController.swift */; };
-		1ECAD6A62366B73400FBA461 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A42366B73400FBA461 /* Main.storyboard */; };
 		1ECAD6A92366B73400FBA461 /* MySmartHome.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A72366B73400FBA461 /* MySmartHome.xcdatamodeld */; };
 		1ECAD6AB2366B73500FBA461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ECAD6AA2366B73500FBA461 /* Assets.xcassets */; };
 		1ECAD6AE2366B73500FBA461 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ECAD6AC2366B73500FBA461 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1E0E556423702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F435027A1A6791B200038A29;
+			remoteInfo = OAuthSwift;
+		};
+		1E0E556623702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C48B28021AFA598D00C7DEF6;
+			remoteInfo = OAuthSwiftMacOS;
+		};
+		1E0E556823702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4B6EE1E1BF74CE300443596;
+			remoteInfo = OAuthSwiftTVOS;
+		};
+		1E0E556A23702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C40890C01C11B37000E3146A;
+			remoteInfo = OAuthSwiftWatchOS;
+		};
+		1E0E556C23702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F451E3C5195B8CD80051434C;
+			remoteInfo = OAuthSwiftDemo;
+		};
+		1E0E556E23702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C49FD5241AFB5DF500791E1A;
+			remoteInfo = OAuthSwiftMacOSDemo;
+		};
+		1E0E557023702DDB00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4D50DF71BFB693F0053B624;
+			remoteInfo = OAuthSwiftTests;
+		};
+		1E0E557323702EAE00794DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F43502791A6791B200038A29;
+			remoteInfo = OAuthSwift;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OAuthSwift.xcodeproj; path = ../../../OAuthSwift/OAuthSwift.xcodeproj; sourceTree = "<group>"; };
+		1E0E557E23702F1800794DFF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTableViewCell.swift; sourceTree = "<group>"; };
+		1E0E558923703F2600794DFF /* DevicesInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInput.swift; sourceTree = "<group>"; };
+		1E2C9D282370195A00355398 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		1E2C9D2A23701C6A00355398 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		1E2C9D2C23701C7B00355398 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		1E2C9D2E237027B500355398 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoOutput.swift; sourceTree = "<group>"; };
+		1E2C9D3323702C3F00355398 /* TelldusKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelldusKeys.swift; sourceTree = "<group>"; };
 		1ECAD69B2366B73400FBA461 /* MySmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ECAD69E2366B73400FBA461 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1ECAD6A22366B73400FBA461 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1ECAD6A52366B73400FBA461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1ECAD6A82366B73400FBA461 /* MySmartHome.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MySmartHome.xcdatamodel; sourceTree = "<group>"; };
 		1ECAD6AA2366B73500FBA461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ECAD6AD2366B73500FBA461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -39,6 +113,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E0E555B23702DDB00794DFF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1E0E556523702DDB00794DFF /* OAuthSwift.framework */,
+				1E0E556723702DDB00794DFF /* OAuthSwift.framework */,
+				1E0E556923702DDB00794DFF /* OAuthSwift.framework */,
+				1E0E556B23702DDB00794DFF /* OAuthSwift.framework */,
+				1E0E556D23702DDB00794DFF /* OAuthSwiftDemo.app */,
+				1E0E556F23702DDB00794DFF /* OAuthSwiftMacOSDemo.app */,
+				1E0E557123702DDB00794DFF /* OAuthSwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1E2C9D3023702BF300355398 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1E0E557E23702F1800794DFF /* DeviceInfo.swift */,
+				1E2C9D3323702C3F00355398 /* TelldusKeys.swift */,
+				1E0E558923703F2600794DFF /* DevicesInput.swift */,
+				1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */,
+				1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		1ECAD6922366B73400FBA461 = {
 			isa = PBXGroup;
 			children = (
@@ -58,14 +158,18 @@
 		1ECAD69D2366B73400FBA461 /* MySmartHome */ = {
 			isa = PBXGroup;
 			children = (
+				1E2C9D3023702BF300355398 /* Model */,
 				1ECAD69E2366B73400FBA461 /* AppDelegate.swift */,
 				1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */,
-				1ECAD6A22366B73400FBA461 /* ViewController.swift */,
-				1ECAD6A42366B73400FBA461 /* Main.storyboard */,
+				1E2C9D282370195A00355398 /* MainTabBarController.swift */,
+				1E2C9D2A23701C6A00355398 /* FirstViewController.swift */,
+				1E2C9D2C23701C7B00355398 /* SecondViewController.swift */,
+				1E2C9D2E237027B500355398 /* ThirdViewController.swift */,
 				1ECAD6AA2366B73500FBA461 /* Assets.xcassets */,
 				1ECAD6AC2366B73500FBA461 /* LaunchScreen.storyboard */,
 				1ECAD6AF2366B73500FBA461 /* Info.plist */,
 				1ECAD6A72366B73400FBA461 /* MySmartHome.xcdatamodeld */,
+				1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */,
 			);
 			path = MySmartHome;
 			sourceTree = "<group>";
@@ -84,6 +188,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1E0E557423702EAE00794DFF /* PBXTargetDependency */,
 			);
 			name = MySmartHome;
 			productName = MySmartHome;
@@ -116,12 +221,70 @@
 			mainGroup = 1ECAD6922366B73400FBA461;
 			productRefGroup = 1ECAD69C2366B73400FBA461 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1E0E555B23702DDB00794DFF /* Products */;
+					ProjectRef = 1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1ECAD69A2366B73400FBA461 /* MySmartHome */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1E0E556523702DDB00794DFF /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = 1E0E556423702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E556723702DDB00794DFF /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = 1E0E556623702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E556923702DDB00794DFF /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = 1E0E556823702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E556B23702DDB00794DFF /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = 1E0E556A23702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E556D23702DDB00794DFF /* OAuthSwiftDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftDemo.app;
+			remoteRef = 1E0E556C23702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E556F23702DDB00794DFF /* OAuthSwiftMacOSDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftMacOSDemo.app;
+			remoteRef = 1E0E556E23702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1E0E557123702DDB00794DFF /* OAuthSwiftTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OAuthSwiftTests.xctest;
+			remoteRef = 1E0E557023702DDB00794DFF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1ECAD6992366B73400FBA461 /* Resources */ = {
@@ -130,7 +293,6 @@
 			files = (
 				1ECAD6AE2366B73500FBA461 /* LaunchScreen.storyboard in Resources */,
 				1ECAD6AB2366B73500FBA461 /* Assets.xcassets in Resources */,
-				1ECAD6A62366B73400FBA461 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,24 +303,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ECAD6A32366B73400FBA461 /* ViewController.swift in Sources */,
+				1E0E558A23703F2600794DFF /* DevicesInput.swift in Sources */,
+				1E2C9D2D23701C7B00355398 /* SecondViewController.swift in Sources */,
+				1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */,
+				1E2C9D2B23701C6A00355398 /* FirstViewController.swift in Sources */,
 				1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */,
+				1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */,
+				1E2C9D2F237027B500355398 /* ThirdViewController.swift in Sources */,
 				1ECAD6A92366B73400FBA461 /* MySmartHome.xcdatamodeld in Sources */,
+				1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */,
+				1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */,
 				1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */,
+				1E0E557F23702F1800794DFF /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		1ECAD6A42366B73400FBA461 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1ECAD6A52366B73400FBA461 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		1E0E557423702EAE00794DFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OAuthSwift;
+			targetProxy = 1E0E557323702EAE00794DFF /* PBXContainerItemProxy */;
 		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
 		1ECAD6AC2366B73500FBA461 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
