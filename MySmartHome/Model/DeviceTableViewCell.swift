@@ -18,6 +18,7 @@ class DeviceTableViewCell: UITableViewCell {
         
         configureTitleLabel()
         setTitleLabelConstraints()
+        
     }
     
     func setDeviceInfo(name: String) {

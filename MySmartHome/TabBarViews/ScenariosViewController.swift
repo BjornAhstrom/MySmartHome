@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  ScenariosViewController.swift
 //  MySmartHome
 //
 //  Created by Björn Åhström on 2019-11-04.
@@ -8,9 +8,10 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class ScenariosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
 }

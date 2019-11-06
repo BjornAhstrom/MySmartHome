@@ -52,4 +52,18 @@ class DeviceInfoOutput {
             }
         }
     }
+    
+    static func getDeviceInformation(id: String) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                print(dataString ?? "")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

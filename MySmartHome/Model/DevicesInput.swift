@@ -12,7 +12,7 @@ class DevicesInput {
     
     static var devices: [Deviceinfo] = []
     
-    static func getDevicesInfo(tableView: UITableView, url: String) {
+    static func getDevicesInfo(url: String) {
                 TelldusKeys.oauthswift.client.get(url) { result in
                     switch result {
                     case .success(let response):
@@ -28,7 +28,6 @@ class DevicesInput {
                             
 //                        print("name: \(dev.name)    id: \(dev.id)")
                         }
-                        tableView.reloadData()
                         
                     case.failure(let error):
                         print(error.localizedDescription)

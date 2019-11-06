@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  CustomCollectionViewCell.swift
 //  MySmartHome
 //
 //  Created by Björn Åhström on 2019-11-04.
@@ -8,10 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+class CustomCollectionViewCell: UICollectionViewCell {
+    
     
 }

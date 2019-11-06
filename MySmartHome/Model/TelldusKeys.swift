@@ -20,13 +20,3 @@ class TelldusKeys {
     
 }
 
-
-
-//    let public_key = "FEHUVEW84RAFR5SP22RABURUPHAFRUNU"   //ConsumerKey
-//    let private_key = "ZUXEVEGA9USTAZEWRETHAQUBUR69U6EF"  //ConsumerSecret
-//
-//    let requestToken = "https://api.telldus.com/oauth/requestToken"
-//    let authorizeToken = "https://api.telldus.com/oauth/authorize"
-//    let accessToken = "https://api.telldus.com/oauth/accessToken"
-    
-//

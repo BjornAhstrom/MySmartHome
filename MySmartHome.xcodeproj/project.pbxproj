@@ -10,10 +10,14 @@
 		1E0E557F23702F1800794DFF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E557E23702F1800794DFF /* DeviceInfo.swift */; };
 		1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */; };
 		1E0E558A23703F2600794DFF /* DevicesInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E558923703F2600794DFF /* DevicesInput.swift */; };
+		1E0E558D2370464800794DFF /* OnOffLampButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E558C2370464800794DFF /* OnOffLampButton.swift */; };
+		1E0E559123707FEB00794DFF /* AllDevicesInCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E559023707FEB00794DFF /* AllDevicesInCollectionViewController.swift */; };
+		1E0E55992370882F00794DFF /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E55982370882F00794DFF /* CustomCollectionViewCell.swift */; };
+		1E0E559D2371530C00794DFF /* DeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E559C2371530C00794DFF /* DeviceInfoViewController.swift */; };
 		1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D282370195A00355398 /* MainTabBarController.swift */; };
-		1E2C9D2B23701C6A00355398 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2A23701C6A00355398 /* FirstViewController.swift */; };
-		1E2C9D2D23701C7B00355398 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2C23701C7B00355398 /* SecondViewController.swift */; };
-		1E2C9D2F237027B500355398 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2E237027B500355398 /* ThirdViewController.swift */; };
+		1E2C9D2B23701C6A00355398 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2A23701C6A00355398 /* ViewController.swift */; };
+		1E2C9D2D23701C7B00355398 /* ScenariosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2C23701C7B00355398 /* ScenariosViewController.swift */; };
+		1E2C9D2F237027B500355398 /* AllDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */; };
 		1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */; };
 		1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3323702C3F00355398 /* TelldusKeys.swift */; };
 		1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD69E2366B73400FBA461 /* AppDelegate.swift */; };
@@ -87,10 +91,14 @@
 		1E0E557E23702F1800794DFF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTableViewCell.swift; sourceTree = "<group>"; };
 		1E0E558923703F2600794DFF /* DevicesInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInput.swift; sourceTree = "<group>"; };
+		1E0E558C2370464800794DFF /* OnOffLampButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnOffLampButton.swift; sourceTree = "<group>"; };
+		1E0E559023707FEB00794DFF /* AllDevicesInCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesInCollectionViewController.swift; sourceTree = "<group>"; };
+		1E0E55982370882F00794DFF /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		1E0E559C2371530C00794DFF /* DeviceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoViewController.swift; sourceTree = "<group>"; };
 		1E2C9D282370195A00355398 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		1E2C9D2A23701C6A00355398 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		1E2C9D2C23701C7B00355398 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		1E2C9D2E237027B500355398 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		1E2C9D2A23701C6A00355398 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1E2C9D2C23701C7B00355398 /* ScenariosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenariosViewController.swift; sourceTree = "<group>"; };
+		1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesViewController.swift; sourceTree = "<group>"; };
 		1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoOutput.swift; sourceTree = "<group>"; };
 		1E2C9D3323702C3F00355398 /* TelldusKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelldusKeys.swift; sourceTree = "<group>"; };
 		1ECAD69B2366B73400FBA461 /* MySmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +135,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1E0E558B237045F900794DFF /* CustomButton */ = {
+			isa = PBXGroup;
+			children = (
+				1E0E558C2370464800794DFF /* OnOffLampButton.swift */,
+			);
+			path = CustomButton;
+			sourceTree = "<group>";
+		};
+		1E0E559A237152A300794DFF /* TabBarViews */ = {
+			isa = PBXGroup;
+			children = (
+				1E2C9D282370195A00355398 /* MainTabBarController.swift */,
+				1E2C9D2A23701C6A00355398 /* ViewController.swift */,
+				1E2C9D2C23701C7B00355398 /* ScenariosViewController.swift */,
+				1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */,
+			);
+			path = TabBarViews;
+			sourceTree = "<group>";
+		};
+		1E0E559B237152DA00794DFF /* TestViews */ = {
+			isa = PBXGroup;
+			children = (
+				1E0E559023707FEB00794DFF /* AllDevicesInCollectionViewController.swift */,
+				1E0E559C2371530C00794DFF /* DeviceInfoViewController.swift */,
+			);
+			path = TestViews;
+			sourceTree = "<group>";
+		};
 		1E2C9D3023702BF300355398 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +171,7 @@
 				1E0E558923703F2600794DFF /* DevicesInput.swift */,
 				1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */,
 				1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */,
+				1E0E55982370882F00794DFF /* CustomCollectionViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -158,13 +195,12 @@
 		1ECAD69D2366B73400FBA461 /* MySmartHome */ = {
 			isa = PBXGroup;
 			children = (
+				1E0E559B237152DA00794DFF /* TestViews */,
+				1E0E559A237152A300794DFF /* TabBarViews */,
+				1E0E558B237045F900794DFF /* CustomButton */,
 				1E2C9D3023702BF300355398 /* Model */,
 				1ECAD69E2366B73400FBA461 /* AppDelegate.swift */,
 				1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */,
-				1E2C9D282370195A00355398 /* MainTabBarController.swift */,
-				1E2C9D2A23701C6A00355398 /* FirstViewController.swift */,
-				1E2C9D2C23701C7B00355398 /* SecondViewController.swift */,
-				1E2C9D2E237027B500355398 /* ThirdViewController.swift */,
 				1ECAD6AA2366B73500FBA461 /* Assets.xcassets */,
 				1ECAD6AC2366B73500FBA461 /* LaunchScreen.storyboard */,
 				1ECAD6AF2366B73500FBA461 /* Info.plist */,
@@ -304,13 +340,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0E558A23703F2600794DFF /* DevicesInput.swift in Sources */,
-				1E2C9D2D23701C7B00355398 /* SecondViewController.swift in Sources */,
+				1E0E55992370882F00794DFF /* CustomCollectionViewCell.swift in Sources */,
+				1E2C9D2D23701C7B00355398 /* ScenariosViewController.swift in Sources */,
 				1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */,
-				1E2C9D2B23701C6A00355398 /* FirstViewController.swift in Sources */,
+				1E0E559D2371530C00794DFF /* DeviceInfoViewController.swift in Sources */,
+				1E2C9D2B23701C6A00355398 /* ViewController.swift in Sources */,
 				1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */,
 				1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */,
-				1E2C9D2F237027B500355398 /* ThirdViewController.swift in Sources */,
+				1E2C9D2F237027B500355398 /* AllDevicesViewController.swift in Sources */,
 				1ECAD6A92366B73400FBA461 /* MySmartHome.xcdatamodeld in Sources */,
+				1E0E558D2370464800794DFF /* OnOffLampButton.swift in Sources */,
+				1E0E559123707FEB00794DFF /* AllDevicesInCollectionViewController.swift in Sources */,
 				1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */,
 				1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */,
 				1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */,

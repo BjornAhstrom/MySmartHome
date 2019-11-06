@@ -17,7 +17,6 @@ struct Deviceinfo: Codable {
     let name: String
 //    let state: String
 //    let statevalue: String
-    //let stateValues: [Int] -- ändras
 //    let methods: String
 //    let type: String
 //    let client: String
