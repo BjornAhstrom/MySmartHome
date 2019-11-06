@@ -10,12 +10,12 @@ import Foundation
 import OAuthSwift
 
 class TelldusKeys {
-    static let token = ""
-    static let token_secret = ""
+    static let token = "7a6155f5d8977ffbf07c32c5946e2dd505c24b938"
+    static let token_secret = "20322a1cca49b2b58929fde2de38c18e"
     
     static let oauthswift = OAuth1Swift(
-        consumerKey:    "", //ConsumerKey
-        consumerSecret: ""  //ConsumerSecret
+        consumerKey:    "FEHUVEW84RAFR5SP22RABURUPHAFRUNU", //Public
+        consumerSecret: "ZUXEVEGA9USTAZEWRETHAQUBUR69U6EF"  //private
     )
     
 }

@@ -24,11 +24,9 @@ class MainTabBarController: UITabBarController {
         startViewController.title = "Start"
         
         let scenariosViewController = ScenariosViewController()
-        scenariosViewController.view.backgroundColor = .orange
         scenariosViewController.title = "Scenarios"
         
         let allDevicesViewController = AllDevicesViewController()
-        allDevicesViewController.view.backgroundColor = .purple
         allDevicesViewController.title = "Devices"
         
         self.viewControllers = [startViewController, scenariosViewController, allDevicesViewController]

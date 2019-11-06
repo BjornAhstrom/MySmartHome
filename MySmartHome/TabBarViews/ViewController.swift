@@ -20,8 +20,13 @@ class ViewController: UIViewController {
     
     var isOn = false
     
+    var buttons: [GroupButton] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        buttons = mockData()
+        
         appNameLabel()
         configureAllDevicesButton()
         configureAddGroupButton()
@@ -65,11 +70,10 @@ class ViewController: UIViewController {
     
     func configureTableView() {
         view.addSubview(tableView)
-        
+        tableView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
         setConstraintsToTableView()
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
     
     func configureAddGroupButton() {
@@ -77,6 +81,7 @@ class ViewController: UIViewController {
         addGroupButton?.setTitle("Add group", for: .normal)
         addGroupButton?.setTitleColor(.darkGray, for: .normal)
         addGroupButton?.layer.borderColor = UIColor.darkGray.cgColor
+        addGroupButton?.setTitleColor(.systemGray2, for: .highlighted)
         addGroupButton?.layer.borderWidth = 1
         addGroupButton?.layer.cornerRadius = 25
         
@@ -102,7 +107,6 @@ class ViewController: UIViewController {
     }
     
     @objc func addGroupButtonPressed() {
-        print("Add group")
         showAddGroupDialog()
     }
     
@@ -118,22 +122,46 @@ class ViewController: UIViewController {
     
 }
 
+// TableView
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return buttons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as? GroupButtonTableViewCell else {
+            fatalError()
+        }
+        
+        let button = buttons[indexPath.row]
+        
+//        cell.setTextToLabel(name: button.name)
+        
+        cell.textLabel?.text = button.name
+        
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+        
+        whenTableViewCellIsSelectedGoToNextView()
+        
     }
+//    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 80
+//    }
     
-    
+    func whenTableViewCellIsSelectedGoToNextView() {
+        let secondVC = TestViewController()
+        self.navigationController?.pushViewController(secondVC, animated: true)
+    }
 }
 
+// Alert sign
 extension ViewController {
     
     func showAddGroupDialog() {
@@ -156,7 +184,9 @@ extension ViewController {
             }
             
             // Tillsätt namnet till den nyskapade knappen
-            print(groupName)
+            self.buttons.append(GroupButton(name: groupName))
+            
+            self.tableView.reloadData()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: {(_) in })
@@ -166,6 +196,17 @@ extension ViewController {
         
         self.present(alert, animated: true)
     }
+}
+
+// Mockdata
+extension ViewController {
     
-    
+    func mockData() -> [GroupButton] {
+        let button1 = GroupButton(name: "Sovrumet")
+        let button2 = GroupButton(name: "Vardagsrummet")
+        let button3 = GroupButton(name: "Hallen")
+        
+        return [button1, button2, button3]
+        
+    }
 }
