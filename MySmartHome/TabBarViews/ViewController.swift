@@ -66,6 +66,7 @@ class ViewController: UIViewController {
     func configureTableView() {
         view.addSubview(tableView)
         
+        setConstraintsToTableView()
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -76,7 +77,8 @@ class ViewController: UIViewController {
         addGroupButton?.setTitle("Add group", for: .normal)
         addGroupButton?.setTitleColor(.darkGray, for: .normal)
         addGroupButton?.layer.borderColor = UIColor.darkGray.cgColor
-        addGroupButton?.layer.borderWidth = 2
+        addGroupButton?.layer.borderWidth = 1
+        addGroupButton?.layer.cornerRadius = 25
         
         addGroupButton?.addTarget(self, action: #selector(addGroupButtonPressed), for: .touchUpInside)
         view.addSubview(addGroupButton ?? UIButton())
@@ -92,7 +94,11 @@ class ViewController: UIViewController {
     }
     
     func setConstraintsToTableView() {
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
     }
     
     @objc func addGroupButtonPressed() {
@@ -119,6 +125,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
     
     
@@ -156,4 +166,6 @@ extension ViewController {
         
         self.present(alert, animated: true)
     }
+    
+    
 }
