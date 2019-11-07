@@ -1,5 +1,5 @@
 //
-//  TestViewController.swift
+//  DevicesInGroupViewController.swift
 //  MySmartHome
 //
 //  Created by Björn Åhström on 2019-11-06.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestViewController: UIViewController {
+class DevicesInGroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

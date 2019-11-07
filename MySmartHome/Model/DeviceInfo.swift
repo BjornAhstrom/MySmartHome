@@ -9,6 +9,7 @@
 import UIKit
 
 struct DeviceList: Codable {
+    
     let device : [Deviceinfo]
 }
 

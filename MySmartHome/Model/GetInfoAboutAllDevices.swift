@@ -1,0 +1,55 @@
+//
+//  GetInfoAboutAllDevices.swift
+//  MySmartHome
+//
+//  Created by Björn Åhström on 2019-11-04.
+//  Copyright © 2019 Björn Åhström. All rights reserved.
+//
+
+import UIKit
+
+class GetInfoAboutAllDevices {
+    
+    private init() {}
+    static let instance = GetInfoAboutAllDevices()
+    
+    var devices: [Deviceinfo] = []
+
+    func getDevicesInfo(url: String) {
+        TelldusKeys.oauthswift.client.get(url) { result in
+            switch result {
+            case .success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(DeviceList.self, from: jsonData!)
+                
+                let devi = device.device
+                for dev in devi {
+                    self.devices.append(dev)
+                    
+//                    print("name: \(dev.name)    id: \(dev.id)")
+                }
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    var count: Int {
+        return devices.count
+    }
+    
+    func clear() {
+        devices = []
+    }
+    
+    func devices(index: Int) -> Deviceinfo? {
+        if index >= 0 && index <= devices.count && !devices.isEmpty {
+            return devices[index]
+        }
+        return nil
+    }
+}

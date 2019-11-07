@@ -14,6 +14,7 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
         setupTabBar()
     }
     
@@ -30,5 +31,18 @@ class MainTabBarController: UITabBarController {
         allDevicesViewController.title = "Devices"
         
         self.viewControllers = [startViewController, scenariosViewController, allDevicesViewController]
+    }
+}
+
+extension UIViewController {
+    
+    func hideKeyBoard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmissKeyboard() {
+        view.endEditing(true)
     }
 }

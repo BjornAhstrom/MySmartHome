@@ -16,12 +16,23 @@ class AllDevicesViewController: UIViewController {
         static let deviceCell = "DeviceCell"
     }
     
+    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureTableView()
-        DevicesInput.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
-        tableView.reloadData()
+        loadActivityIndicator()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.removeActivityIndicator()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
     }
     
     func configureTableView() {
@@ -39,21 +50,36 @@ class AllDevicesViewController: UIViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
+    
+    func loadActivityIndicator() {
+        activityIndicator.startAnimating()
+        view.addSubview(activityIndicator)
+
+        activityIndicator.center = view.center
+    }
+
+    func removeActivityIndicator() {
+        
+        activityIndicator.removeFromSuperview()
+        
+    }
 }
 
 extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return DevicesInput.devices.count
+        return GetInfoAboutAllDevices.instance.devices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cells.deviceCell) as? DeviceTableViewCell else {
             fatalError("The deque cell is not an instace of DeviceTableViewCell.")
         }
-        let device = DevicesInput.devices[indexPath.row]
+        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        cell.setDeviceInfo(name: device.name)
+        print(device?.name ?? "")
+        
+        cell.setDeviceInfo(name: device?.name ?? "No name")
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
 //        cell.layer.cornerRadius = 15
@@ -68,16 +94,24 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let device = DevicesInput.devices[indexPath.row]
+        let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
         
-        showDialog(name: device.name, id: device.id)
+//        showDialog(name: device.name, id: device.id)
+        whenTableViewCellIsSelectedGoToNextView(title: device.name)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    func whenTableViewCellIsSelectedGoToNextView(title: String) {
+        let settings = SettingsViewController()
+        settings.title = title
+        self.navigationController?.pushViewController(settings, animated: true)
+    }
 }
 
+// Show alert sign with settings
 extension AllDevicesViewController {
     
     func showDialog(name: String, id : String) {
@@ -118,6 +152,8 @@ extension AllDevicesViewController {
 
                 // Skicka data till telldus om användaren vill ändra namnet
                 print(newDeviceName)
+                
+                DeviceInfoOutput.instance.setNewDeviceName(id: id, name: newDeviceName)
             })
             
             //the cancel action

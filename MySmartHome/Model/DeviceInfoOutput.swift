@@ -10,7 +10,11 @@ import UIKit
 
 class DeviceInfoOutput {
     
-    static func turnOnDevice(id: String) {
+    private init() {}
+    static let instance = DeviceInfoOutput()
+    
+    // the id of the device to turn on lamp
+    func turnOnDevice(id: String) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/turnOn?id=\(id)") { result in
             print(id)
             switch result {
@@ -25,7 +29,8 @@ class DeviceInfoOutput {
         }
     }
     
-    static func turnOffDevice(id: String) {
+    // the id of the device to turn off lamp
+    func turnOffDevice(id: String) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/turnOff?id=\(id)") { result in
             switch result {
             case.success(let response):
@@ -39,7 +44,8 @@ class DeviceInfoOutput {
         }
     }
     
-    static func dimmableLamp(id: String, dimValue: Float) {
+    // The id of the device to dim lamp
+    func dimmableLamp(id: String, dimValue: Float) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/dim?id=\(id)?level=\(dimValue)") { result in
             switch result {
             case.success(let response):
@@ -53,8 +59,54 @@ class DeviceInfoOutput {
         }
     }
     
-    static func getDeviceInformation(id: String) {
+    // The id of the device to get info
+    func getDeviceInformation(id: String) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                print(dataString ?? "")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // the id of the device and the new name to change name of the device
+    func setNewDeviceName(id: String, name: String) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/setName?id=\(id)?name=\(name)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                print(dataString ?? "")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    //The id of the client, the name of the group and a comma seperated string with the devices ids this group should control
+    func createNewDeviceGroupName(clientId: String, groupName: String, devices: String) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/add?id=\(clientId)?name=\(groupName)?devices=\(devices)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                print(dataString ?? "")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // The id of the device to learn
+    func learnDeviceToConnect(id: String) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/learn?id=\(id)") { result in
             switch result {
             case.success(let response):
                 let dataString = response.string

@@ -15,7 +15,6 @@ class Button: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initButton()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -26,9 +25,9 @@ class Button: UIButton {
     
     func initButton() {
         layer.borderWidth = 2
-        layer.borderColor = Colors.twitterBlue.cgColor
+        layer.borderColor = UIColor.darkGray.cgColor
         layer.cornerRadius = 25
-        setTitleColor(Colors.twitterBlue, for: .normal)
+        setTitleColor(UIColor.darkGray, for: .normal)
         addTarget(self, action: #selector(Button.buttonPressed), for: .touchUpInside)
     }
     
@@ -39,9 +38,9 @@ class Button: UIButton {
     func activateButton(bool: Bool) {
         isOn = bool
         
-        let color = bool ? Colors.twitterBlue : .clear
+        let color = bool ? UIColor.darkGray : .clear
         let title = bool ? "On" : "Off"
-        let titleColor = bool ? . white : Colors.twitterBlue
+        let titleColor = bool ? .white : UIColor.darkGray
         
         setTitle(title, for: .normal)
         setTitleColor(titleColor, for: .normal)
@@ -50,6 +49,6 @@ class Button: UIButton {
     
 }
 
-struct Colors {
-    static let twitterBlue = UIColor(displayP3Red: 29.0/255.0, green: 161.0/255.0, blue: 242.0/255.0, alpha: 1.0)
-}
+//struct Colors {
+//    static let twitterBlue = UIColor(displayP3Red: 29.0/255.0, green: 161.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+//}

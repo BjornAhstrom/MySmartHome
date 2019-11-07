@@ -145,18 +145,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        let button = buttons[indexPath.row]
         
-        
-        whenTableViewCellIsSelectedGoToNextView()
-        
+        whenTableViewCellIsSelectedGoToNextView(title: button.name)
     }
 //    
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return 80
 //    }
     
-    func whenTableViewCellIsSelectedGoToNextView() {
-        let secondVC = TestViewController()
+    func whenTableViewCellIsSelectedGoToNextView(title: String) {
+        let secondVC = DevicesInGroupViewController()
+        secondVC.title = title
         self.navigationController?.pushViewController(secondVC, animated: true)
     }
 }
@@ -185,6 +185,8 @@ extension ViewController {
             
             // Tillsätt namnet till den nyskapade knappen
             self.buttons.append(GroupButton(name: groupName))
+            
+            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "")
             
             self.tableView.reloadData()
         })
