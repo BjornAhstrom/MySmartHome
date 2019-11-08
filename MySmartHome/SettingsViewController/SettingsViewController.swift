@@ -15,6 +15,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     var changeNameButton: UIButton?
     var learnDeviceButton: UIButton?
     
+    var deviceName: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +31,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func configureChangeTextField() {
         changeNameTextField = UITextField()
+        
+        changeNameTextField?.text = deviceName
         let text = changeNameTextField?.text
         
         changeNameTextField?.frame = CGRect(x: 12, y: 120, width: 200, height: 40)
@@ -47,19 +51,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(changeNameTextField ?? UITextField())
         
         print(text ?? "")
-        
-//        let sampleTextField =  UITextField(frame: CGRect(x: 20, y: 100, width: 300, height: 40))
-//        sampleTextField.placeholder = "Enter text here"
-//        sampleTextField.font = UIFont.systemFont(ofSize: 15)
-//        sampleTextField.borderStyle = UITextField.BorderStyle.roundedRect
-//        sampleTextField.autocorrectionType = UITextAutocorrectionType.no
-//        sampleTextField.keyboardType = UIKeyboardType.default
-//        sampleTextField.returnKeyType = UIReturnKeyType.done
-//        sampleTextField.clearButtonMode = UITextField.ViewMode.whileEditing
-//        sampleTextField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-//        sampleTextField.delegate = self
-//        self.view.addSubview(sampleTextField)
-        
     }
     
     func configureChangeNameButton() {

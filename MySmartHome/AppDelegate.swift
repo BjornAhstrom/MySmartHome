@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
         TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
+        
+        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
         return true
     }
 

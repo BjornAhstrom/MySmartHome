@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var allDevicesButton: Button?
     var addGroupButton: UIButton?
     var settingsButton: UIButton?
@@ -20,17 +20,21 @@ class ViewController: UIViewController {
     
     var isOn = false
     
-    var buttons: [GroupButton] = []
+//    var buttons: [GroupButton] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttons = mockData()
+//        buttons = mockData()
         
         appNameLabel()
         configureAllDevicesButton()
         configureAddGroupButton()
         configureTableView()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
+            self.tableView.reloadData()
+        })
     }
     
     func appNameLabel() {
@@ -41,17 +45,17 @@ class ViewController: UIViewController {
         label?.textAlignment = NSTextAlignment.center
         label?.numberOfLines = 2
         label?.textColor = UIColor.darkGray
-//        label?.backgroundColor = UIColor.darkGray
+        //        label?.backgroundColor = UIColor.darkGray
         label?.font = UIFont.boldSystemFont(ofSize: 20.0)
         label?.font = UIFont(name: "Arial", size: 30)
-         
+        
         self.view.addSubview(label ?? UILabel())
     }
     
     func configureAllDevicesButton() {
         allDevicesButton = Button()
         allDevicesButton?.setTitle("Off", for: .normal)
-//        allDevicesButton?.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        //        allDevicesButton?.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         
         allDevicesButton?.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
         
@@ -60,13 +64,13 @@ class ViewController: UIViewController {
     }
     
     func setButtonConstraints() {
-            allDevicesButton?.translatesAutoresizingMaskIntoConstraints = false
-            allDevicesButton?.heightAnchor.constraint(equalToConstant: 80).isActive = true
-            allDevicesButton?.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    //        allDevicesButton?.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            allDevicesButton?.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            allDevicesButton?.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
-        }
+        allDevicesButton?.translatesAutoresizingMaskIntoConstraints = false
+        allDevicesButton?.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        allDevicesButton?.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        //        allDevicesButton?.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        allDevicesButton?.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        allDevicesButton?.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+    }
     
     func configureTableView() {
         view.addSubview(tableView)
@@ -117,42 +121,47 @@ class ViewController: UIViewController {
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
         
-//        bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
+        //        bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
     }
-    
 }
 
 // TableView
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return buttons.count
+        
+        return GetInfoAboutAllDevices.instance.devices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as? GroupButtonTableViewCell else {
-            fatalError()
+            fatalError("The deque cell is not an instace of GroupButtonTableViewCell.")
+        }
+        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        
+        if device?.type == "group" {
+            cell.textLabel?.text = device?.name ?? "No group"
         }
         
-        let button = buttons[indexPath.row]
-        
-//        cell.setTextToLabel(name: button.name)
-        
-        cell.textLabel?.text = button.name
+        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let button = buttons[indexPath.row]
         
-        whenTableViewCellIsSelectedGoToNextView(title: button.name)
+        let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
+        
+        if device.type == "group" {
+            whenTableViewCellIsSelectedGoToNextView(title: device.name)
+        }
+        
     }
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 80
-//    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
     
     func whenTableViewCellIsSelectedGoToNextView(title: String) {
         let secondVC = DevicesInGroupViewController()
@@ -184,14 +193,14 @@ extension ViewController {
             }
             
             // Tillsätt namnet till den nyskapade knappen
-            self.buttons.append(GroupButton(name: groupName))
+//            self.buttons.append(GroupButton(name: groupName))
             
             DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "")
             
             self.tableView.reloadData()
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: {(_) in })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in })
         
         alert.addAction(acceptAction)
         alert.addAction(cancelAction)

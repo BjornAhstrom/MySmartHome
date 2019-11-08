@@ -16,6 +16,8 @@ struct DeviceList: Codable {
 struct Deviceinfo: Codable {
     let id: String
     let name: String
+    let type: String
+    let devices: String?
 //    let state: String
 //    let statevalue: String
 //    let methods: String
