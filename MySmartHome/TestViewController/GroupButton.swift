@@ -9,5 +9,7 @@
 import UIKit
 
 struct GroupButton {
-    var name: String
+    var image = UIImage()
+    var id: String
 }
+

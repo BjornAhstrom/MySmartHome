@@ -9,7 +9,7 @@
 import UIKit
 
 class AllDevicesViewController: UIViewController {
-
+    
     var tableView = UITableView()
     
     struct Cells {
@@ -21,6 +21,9 @@ class AllDevicesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(tableView)
+        view.addSubview(activityIndicator)
+        
         configureTableView()
         loadActivityIndicator()
         
@@ -28,17 +31,17 @@ class AllDevicesViewController: UIViewController {
             self.tableView.reloadData()
             self.removeActivityIndicator()
         }
+        
+        setConstraints()
     }
     
     func configureTableView() {
-        view.addSubview(tableView)
         tableView.register(DeviceTableViewCell.self, forCellReuseIdentifier: Cells.deviceCell)
-        constraintsForTheTableView()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func constraintsForTheTableView() {
+    func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -48,15 +51,11 @@ class AllDevicesViewController: UIViewController {
     
     func loadActivityIndicator() {
         activityIndicator.startAnimating()
-        view.addSubview(activityIndicator)
-
         activityIndicator.center = view.center
     }
-
+    
     func removeActivityIndicator() {
-        
         activityIndicator.removeFromSuperview()
-        
     }
 }
 
@@ -75,7 +74,7 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         cell.setDeviceInfo(name: device?.name ?? "No name")
-
+        
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         return cell

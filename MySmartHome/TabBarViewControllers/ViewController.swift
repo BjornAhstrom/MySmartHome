@@ -10,104 +10,93 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var allDevicesButton: Button?
-    var addGroupButton: UIButton?
-    var settingsButton: UIButton?
-    var image: UIImageView?
-    var label: UILabel?
+    var appNameLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = .boldSystemFont(ofSize: 30)
+        textLabel.textAlignment = .center
+        textLabel.text = "My Smart Home"
+        textLabel.textColor = .darkGray
+        
+        return textLabel
+    }()
+    
+    var allDevicesButton: Button = {
+        let button = Button()
+        button.setTitle("Off", for: .normal)
+        button.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    var addGroupButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 25
+        button.setTitle("Add group", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.addTarget(self, action: #selector(addGroupButtonPressed), for: .touchUpInside)
+        
+        return button
+    }()
     
     var tableView = UITableView()
     
     var isOn = false
     
-//    var buttons: [GroupButton] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        buttons = mockData()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        appNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        addGroupButton.translatesAutoresizingMaskIntoConstraints = false
+        allDevicesButton.translatesAutoresizingMaskIntoConstraints = false
         
-        appNameLabel()
-        configureAllDevicesButton()
-        configureAddGroupButton()
         configureTableView()
+        
+        view.addSubview(tableView)
+        view.addSubview(appNameLabel)
+        view.addSubview(addGroupButton)
+        view.addSubview(allDevicesButton)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
             self.tableView.reloadData()
         })
-    }
-    
-    func appNameLabel() {
-        label = UILabel()
-        label?.frame = CGRect(x: 0, y: 80, width: self.view.frame.width, height: 50)
         
-        label?.text = "My Smart Home"
-        label?.textAlignment = NSTextAlignment.center
-        label?.numberOfLines = 2
-        label?.textColor = UIColor.darkGray
-        //        label?.backgroundColor = UIColor.darkGray
-        label?.font = UIFont.boldSystemFont(ofSize: 20.0)
-        label?.font = UIFont(name: "Arial", size: 30)
-        
-        self.view.addSubview(label ?? UILabel())
-    }
-    
-    func configureAllDevicesButton() {
-        allDevicesButton = Button()
-        allDevicesButton?.setTitle("Off", for: .normal)
-        //        allDevicesButton?.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
-        
-        allDevicesButton?.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
-        
-        view.addSubview(allDevicesButton ?? Button())
-        setButtonConstraints()
-    }
-    
-    func setButtonConstraints() {
-        allDevicesButton?.translatesAutoresizingMaskIntoConstraints = false
-        allDevicesButton?.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        allDevicesButton?.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        //        allDevicesButton?.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        allDevicesButton?.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        allDevicesButton?.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        setupConstraints()
     }
     
     func configureTableView() {
-        view.addSubview(tableView)
         tableView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
-        setConstraintsToTableView()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func configureAddGroupButton() {
-        addGroupButton = UIButton()
-        addGroupButton?.setTitle("Add group", for: .normal)
-        addGroupButton?.setTitleColor(.darkGray, for: .normal)
-        addGroupButton?.layer.borderColor = UIColor.darkGray.cgColor
-        addGroupButton?.setTitleColor(.systemGray2, for: .highlighted)
-        addGroupButton?.layer.borderWidth = 1
-        addGroupButton?.layer.cornerRadius = 25
-        
-        addGroupButton?.addTarget(self, action: #selector(addGroupButtonPressed), for: .touchUpInside)
-        view.addSubview(addGroupButton ?? UIButton())
-        setConstraintsOnAddGroupButton()
-    }
-    
-    func setConstraintsOnAddGroupButton() {
-        addGroupButton?.translatesAutoresizingMaskIntoConstraints = false
-        addGroupButton?.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        addGroupButton?.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        addGroupButton?.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        addGroupButton?.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    }
-    
-    func setConstraintsToTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+    func setupConstraints() {
+        // tableView constraints
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        
+        // appNameLabel constraints
+        appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        appNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        appNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        
+        // addGroupButton constraints
+        addGroupButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addGroupButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        addGroupButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        addGroupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        //allDevicesButton constraints
+        allDevicesButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        allDevicesButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        allDevicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        allDevicesButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
     }
     
     @objc func addGroupButtonPressed() {
@@ -121,7 +110,7 @@ class ViewController: UIViewController {
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
         
-        //        bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
+        //bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
     }
 }
 
@@ -193,7 +182,7 @@ extension ViewController {
             }
             
             // Tillsätt namnet till den nyskapade knappen
-//            self.buttons.append(GroupButton(name: groupName))
+            //            self.buttons.append(GroupButton(name: groupName))
             
             DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "")
             
@@ -209,15 +198,4 @@ extension ViewController {
     }
 }
 
-// Mockdata
-extension ViewController {
-    
-    func mockData() -> [GroupButton] {
-        let button1 = GroupButton(name: "Sovrumet")
-        let button2 = GroupButton(name: "Vardagsrummet")
-        let button3 = GroupButton(name: "Hallen")
-        
-        return [button1, button2, button3]
-        
-    }
-}
+

@@ -9,100 +9,116 @@
 import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
-
-    var changeNameTextField: UITextField?
-    var learnDeviceLabel: UILabel?
-    var changeNameButton: UIButton?
-    var learnDeviceButton: UIButton?
+    
+    var learnDeviceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.darkGray
+        label.font = UIFont(name: "Arial", size: 20)
+        label.text = "Learn device"
+        
+        return label
+    }()
+    
+    var changeNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.keyboardType = UIKeyboardType.default
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
+        textField.placeholder = "New device name"
+        
+        
+        return textField
+    }()
+    
+    var learnDeviceButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.cornerRadius = 20
+        button.setTitle("Learn", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.addTarget(self, action: #selector(learnDeviceButtonPressed), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    var changeNameButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.cornerRadius = 20
+        button.setTitle("Change name", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.addTarget(self, action: #selector(changeNameButtonPressed), for: .touchUpInside)
+        
+        return button
+    }()
     
     var deviceName: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .systemBackground
         
-        configureChangeTextField()
-        configureChangeNameButton()
-        configureLearnDeviceLabel()
-        configureLearnDeviceButton()
+        changeNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        learnDeviceButton.translatesAutoresizingMaskIntoConstraints = false
+        changeNameButton.translatesAutoresizingMaskIntoConstraints = false
+        learnDeviceLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(learnDeviceLabel)
+        view.addSubview(changeNameButton)
+        view.addSubview(learnDeviceButton)
+        view.addSubview(changeNameTextField)
+        
         self.hideKeyBoard()
+        
+        changeNameTextField.text = deviceName
+        
+        setConstraints()
     }
     
-    func configureChangeTextField() {
-        changeNameTextField = UITextField()
+    func setConstraints() {
+        // changeNameTextField constraints
+        changeNameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
+        changeNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
+        changeNameTextField.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        changeNameTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        changeNameTextField?.text = deviceName
-        let text = changeNameTextField?.text
+        // changeNameButton constraints
+        changeNameButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
+        changeNameTextField.leadingAnchor.constraint(equalTo: changeNameTextField.trailingAnchor, constant: 20).isActive = true
+        changeNameButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        changeNameButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        changeNameButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        changeNameTextField?.frame = CGRect(x: 12, y: 120, width: 200, height: 40)
-        changeNameTextField?.placeholder = "New device name"
-//        changeNameTextField?.layer.borderWidth = 1
-//        changeNameTextField?.layer.borderColor = UIColor.darkGray.cgColor
-//        changeNameTextField?.layer.cornerRadius = 20
+        // learnDeviceLabel constraints
+        learnDeviceLabel.topAnchor.constraint(equalTo: changeNameTextField.bottomAnchor, constant: 10).isActive = true
+        learnDeviceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
+        learnDeviceLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        learnDeviceLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        changeNameTextField?.borderStyle = UITextField.BorderStyle.roundedRect
-        changeNameTextField?.keyboardType = UIKeyboardType.default
-        changeNameTextField?.returnKeyType = UIReturnKeyType.done
-        changeNameTextField?.clearButtonMode = UITextField.ViewMode.whileEditing
-        changeNameTextField?.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        changeNameTextField?.delegate = self
-        
-        self.view.addSubview(changeNameTextField ?? UITextField())
-        
-        print(text ?? "")
-    }
-    
-    func configureChangeNameButton() {
-        changeNameButton = UIButton()
-        
-        changeNameButton?.frame = CGRect(x: 240, y: 120, width: 120, height: 40)
-        changeNameButton?.setTitleColor(.black, for: .normal)
-        changeNameButton?.setTitleColor(.systemGray2, for: .highlighted)
-        changeNameButton?.setTitle("Change name", for: .normal)
-        changeNameButton?.layer.borderWidth = 1
-        changeNameButton?.layer.borderColor = UIColor.darkGray.cgColor
-        changeNameButton?.layer.cornerRadius = 20
-        changeNameButton?.addTarget(self, action: #selector(changeNameButtonPressed), for: .touchUpInside)
-        
-        view.addSubview(changeNameButton ?? UIButton())
+        // learnDeviceButton
+        learnDeviceButton.topAnchor.constraint(equalTo: changeNameButton.bottomAnchor, constant: 10).isActive = true
+        learnDeviceButton.leadingAnchor.constraint(equalTo: learnDeviceLabel.trailingAnchor, constant: 20).isActive = true
+        learnDeviceButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        learnDeviceButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        learnDeviceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc func changeNameButtonPressed() {
-        print(changeNameTextField?.text ?? "No text")
-        changeNameTextField?.text = ""
+        print(changeNameTextField.text ?? "error")
+        changeNameTextField.text = ""
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == changeNameTextField {
             textField.resignFirstResponder()
         }
         return true
-    }
-    
-    func configureLearnDeviceLabel() {
-        learnDeviceLabel = UILabel()
-        learnDeviceLabel?.frame = CGRect(x: 12, y: 180, width: 200, height: 40)
-        learnDeviceLabel?.text = "Learn Device"
-        learnDeviceLabel?.font = UIFont(name: "Arial", size: 20)
-        learnDeviceLabel?.textColor = UIColor.black
-        
-        view.addSubview(learnDeviceLabel ?? UILabel())
-    }
-    
-    func configureLearnDeviceButton() {
-        learnDeviceButton = UIButton()
-        
-        learnDeviceButton?.frame = CGRect(x: 240, y: 180, width: 120, height: 40)
-        learnDeviceButton?.setTitleColor(.black, for: .normal)
-        learnDeviceButton?.setTitleColor(.systemGray2, for: .highlighted)
-        learnDeviceButton?.setTitle("Learn", for: .normal)
-        learnDeviceButton?.layer.borderWidth = 1
-        learnDeviceButton?.layer.borderColor = UIColor.black.cgColor
-        learnDeviceButton?.layer.cornerRadius = 20
-        learnDeviceButton?.addTarget(self, action: #selector(learnDeviceButtonPressed), for: .touchUpInside)
-        
-        view.addSubview(learnDeviceButton ?? UIButton())
-        
     }
     
     @objc func learnDeviceButtonPressed() {
