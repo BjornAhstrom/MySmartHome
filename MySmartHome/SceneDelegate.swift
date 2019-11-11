@@ -22,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        let vc = MainTabBarController()
-        let mainTabBar = UINavigationController(rootViewController: vc)
+        let mainTabVC = MainTabBarController()
         
+        let mainTabBar = UINavigationController(rootViewController: mainTabVC)
         
         window?.rootViewController = mainTabBar
         window?.makeKeyAndVisible()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UINavigationBarDelegate {
     
     var appNameLabel: UILabel = {
         let textLabel = UILabel()
@@ -23,7 +23,21 @@ class ViewController: UIViewController {
     var allDevicesButton: Button = {
         let button = Button()
         button.setTitle("Off", for: .normal)
+        button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    var settingButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
+        button.setTitle("S", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.backgroundColor = .systemBackground
+        button.addTarget(self, action: #selector(settingsButtonForAllDevicesButtonPressed), for: .touchUpInside)
         
         return button
     }()
@@ -52,6 +66,7 @@ class ViewController: UIViewController {
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
         addGroupButton.translatesAutoresizingMaskIntoConstraints = false
         allDevicesButton.translatesAutoresizingMaskIntoConstraints = false
+        settingButton.translatesAutoresizingMaskIntoConstraints = false
         
         configureTableView()
         
@@ -59,6 +74,7 @@ class ViewController: UIViewController {
         view.addSubview(appNameLabel)
         view.addSubview(addGroupButton)
         view.addSubview(allDevicesButton)
+        view.addSubview(settingButton)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
             self.tableView.reloadData()
@@ -75,28 +91,51 @@ class ViewController: UIViewController {
     
     func setupConstraints() {
         // tableView constraints
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: addGroupButton.bottomAnchor, constant: 30),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         
         // appNameLabel constraints
-        appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-        appNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        appNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        
-        // addGroupButton constraints
-        addGroupButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        addGroupButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        addGroupButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        addGroupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            appNameLabel.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: 110),
+            appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            appNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            appNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            appNameLabel.bottomAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: -20)
+        ])
         
         //allDevicesButton constraints
-        allDevicesButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        allDevicesButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        allDevicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        allDevicesButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        NSLayoutConstraint.activate([
+            allDevicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            allDevicesButton.heightAnchor.constraint(equalToConstant: 80),
+            allDevicesButton.widthAnchor.constraint(equalToConstant: 200),
+            allDevicesButton.bottomAnchor.constraint(equalTo: addGroupButton.topAnchor, constant: -30)
+        ])
+        
+        // addGroupButton constraints
+        
+        NSLayoutConstraint.activate([
+            addGroupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addGroupButton.heightAnchor.constraint(equalToConstant: 50),
+            addGroupButton.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        
+        
+        // settingsButton
+        NSLayoutConstraint.activate([
+            settingButton.topAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: 5),
+            settingButton.trailingAnchor.constraint(equalTo: allDevicesButton.trailingAnchor, constant: -5),
+            settingButton.widthAnchor.constraint(equalToConstant: 30),
+            settingButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    @objc func settingsButtonForAllDevicesButtonPressed() {
+        print("Settings button pressed")
     }
     
     @objc func addGroupButtonPressed() {
@@ -129,7 +168,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         if device?.type == "group" {
-            cell.textLabel?.text = device?.name ?? "No group"
+            cell.setTextToLabel(name: device?.name ?? "No group")
         }
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
@@ -143,7 +182,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
         
         if device.type == "group" {
-            whenTableViewCellIsSelectedGoToNextView(title: device.name)
+            whenTableViewCellIsSelectedGoToNextView(title: device.name, id: device.id)
         }
         
     }
@@ -152,10 +191,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
-    func whenTableViewCellIsSelectedGoToNextView(title: String) {
-        let secondVC = DevicesInGroupViewController()
-        secondVC.title = title
-        self.navigationController?.pushViewController(secondVC, animated: true)
+    func whenTableViewCellIsSelectedGoToNextView(title: String, id: String) {
+        let groupViewController = DevicesInGroupViewController()
+        groupViewController.title = title
+        groupViewController.deviceId = id
+        self.navigationController?.pushViewController(groupViewController, animated: true)
     }
 }
 

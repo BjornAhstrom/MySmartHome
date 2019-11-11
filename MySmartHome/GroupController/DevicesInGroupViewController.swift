@@ -13,6 +13,9 @@ class DevicesInGroupViewController: UIViewController {
     var buttons: [GroupButton] = []
     var selectedButtons: [ListOfSelectedButtons] = []
     
+    var deviceId: String = ""
+    var devices: [DeviceList] = []
+    
 //    fileprivate var longPressGesture: UILongPressGestureRecognizer?
     
 //    var collectionView: UICollectionView = UICollectionView()
@@ -30,7 +33,7 @@ class DevicesInGroupViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        DeviceInfoOutput.instance.getDeviceInformation(id: deviceId)
         configureCollectionView()
     }
     
@@ -78,7 +81,7 @@ class DevicesInGroupViewController: UIViewController {
 extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return buttons.count
+        return GetInfoAboutAllDevices.instance.count  //buttons.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -87,12 +90,12 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
             fatalError()
         }
         
+        
+        
+        
         let lampButton = buttons[indexPath.row]
         
-        cell.imageView.image = lampButton.image
-        cell.imageView.layer.borderWidth = 1
-        cell.imageView.layer.borderColor = UIColor.black.cgColor
-        cell.imageView.layer.cornerRadius = 10
+        cell.setTextAndImageToCell(name: lampButton.id, image: lampButton.image)
         
         return cell
     }
@@ -137,15 +140,15 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
 extension DevicesInGroupViewController {
     
     func mockData() -> [GroupButton] {
-        let button1 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test1")
+        let button1 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test1")
         let button2 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test2")
         let button3 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test3")
         let button4 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test4")
-        let button5 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test5")
+        let button5 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test5")
         let button6 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test6")
         let button7 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test7")
         let button8 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test8")
-        let button9 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test9")
+        let button9 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test9")
         let button10 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test10")
         let button11 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test11")
         let button12 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test12")

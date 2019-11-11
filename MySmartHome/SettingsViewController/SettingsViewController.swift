@@ -25,9 +25,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.keyboardType = UIKeyboardType.default
         textField.returnKeyType = UIReturnKeyType.done
-        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
+        textField.contentVerticalAlignment = .center
+        textField.contentHorizontalAlignment = .left
+        textField.textColor = .darkGray
         textField.placeholder = "New device name"
-        
         
         return textField
     }()
@@ -84,30 +85,38 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func setConstraints() {
         // changeNameTextField constraints
-        changeNameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
-        changeNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
-        changeNameTextField.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        changeNameTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        NSLayoutConstraint.activate([
+            changeNameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            changeNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            changeNameTextField.trailingAnchor.constraint(lessThanOrEqualTo: changeNameButton.leadingAnchor, constant: -12),
+            changeNameTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            changeNameTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
         // changeNameButton constraints
-        changeNameButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
-        changeNameTextField.leadingAnchor.constraint(equalTo: changeNameTextField.trailingAnchor, constant: 20).isActive = true
-        changeNameButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        changeNameButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        changeNameButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        NSLayoutConstraint.activate([
+            changeNameButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            changeNameButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            changeNameButton.widthAnchor.constraint(equalToConstant: 120),
+            changeNameButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
         // learnDeviceLabel constraints
-        learnDeviceLabel.topAnchor.constraint(equalTo: changeNameTextField.bottomAnchor, constant: 10).isActive = true
-        learnDeviceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
-        learnDeviceLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        learnDeviceLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        NSLayoutConstraint.activate([
+            learnDeviceLabel.topAnchor.constraint(equalTo: changeNameTextField.bottomAnchor, constant: 10),
+            learnDeviceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            learnDeviceLabel.trailingAnchor.constraint(lessThanOrEqualTo: learnDeviceButton.leadingAnchor, constant: -12),
+            learnDeviceLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            learnDeviceLabel.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
         // learnDeviceButton
-        learnDeviceButton.topAnchor.constraint(equalTo: changeNameButton.bottomAnchor, constant: 10).isActive = true
-        learnDeviceButton.leadingAnchor.constraint(equalTo: learnDeviceLabel.trailingAnchor, constant: 20).isActive = true
-        learnDeviceButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        learnDeviceButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        learnDeviceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        NSLayoutConstraint.activate([
+            learnDeviceButton.topAnchor.constraint(equalTo: changeNameButton.bottomAnchor, constant: 10),
+            learnDeviceButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            learnDeviceButton.widthAnchor.constraint(equalToConstant: 120),
+            learnDeviceButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
     
     @objc func changeNameButtonPressed() {

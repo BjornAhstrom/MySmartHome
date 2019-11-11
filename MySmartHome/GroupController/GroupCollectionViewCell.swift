@@ -13,27 +13,74 @@ class GroupCollectionViewCell: UICollectionViewCell {
     var imageView: UIImageView = {
         var image = UIImageView()
         image.contentMode = .scaleAspectFit
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.black.cgColor
+        image.layer.cornerRadius = 10
         
         return image
     }()
     
+    var textLabel: UILabel = {
+       let label = UILabel()
+        label.layer.borderColor = UIColor.darkGray.cgColor
+        label.layer.borderWidth = 1
+        label.layer.cornerRadius = 5
+        label.font = .boldSystemFont(ofSize: 18)
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(imageView)
+        addSubview(textLabel)
         
-        setConstraintsToImageCell()
+        setConstraints()
+        
+//        textLabelAnimation()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setConstraintsToImageCell() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    func setTextAndImageToCell(name: String, image: UIImage) {
+        textLabel.text = name
+        imageView.image = image
+    }
+    
+    func setConstraints() {
+         // imageView constraints
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        // texLabel constraints
+        NSLayoutConstraint.activate([
+            textLabel.heightAnchor.constraint(equalToConstant: 20),
+            textLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 5),
+            textLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 5),
+            textLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -5)
+        ])
+    }
+    
+    func textLabelAnimation() {
+
+        DispatchQueue.main.async(execute: {
+
+            UIView.animate(withDuration: 10.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+
+                self.textLabel.center = CGPoint(x: 0 - self.textLabel.bounds.size.width / 2, y: self.textLabel.center.y)
+
+            }, completion:  nil)
+        })
     }
 }

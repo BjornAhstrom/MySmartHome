@@ -16,10 +16,14 @@ class AllDevicesViewController: UIViewController {
         static let deviceCell = "DeviceCell"
     }
     
+    private var deviceId: String = ""
+    
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
@@ -42,11 +46,12 @@ class AllDevicesViewController: UIViewController {
     }
     
     func setConstraints() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     func loadActivityIndicator() {
@@ -74,6 +79,10 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         cell.setDeviceInfo(name: device?.name ?? "No name")
+        cell.deviceId = device?.id ?? "No id"
+        deviceId = device?.id ?? "No id"
+        
+        cell.deviceOnOrOffButton.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
@@ -96,6 +105,15 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         settings.title = title
         settings.deviceName = deviceName
         self.navigationController?.pushViewController(settings, animated: true)
+    }
+    
+    @objc func buttonPressed(sender: Button) {
+        sender.isOn ? print("On") : print("Off")
+        sender.isOn ? lampButtonPressed(id: deviceId) : lampButtonPressed(id: deviceId)
+    }
+    
+    func lampButtonPressed(id: String) {
+        print("print \(id)")
     }
 }
 
