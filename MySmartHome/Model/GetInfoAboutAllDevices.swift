@@ -14,12 +14,17 @@ class GetInfoAboutAllDevices {
     static let instance = GetInfoAboutAllDevices()
     
     var devices: [Deviceinfo] = []
+    
+    var deviceCount: Int {
+        return devices.count
+    }
 
     func getDevicesInfo(url: String) {
         TelldusKeys.oauthswift.client.get(url) { result in
             switch result {
             case .success(let response):
                 let dataString = response.string
+                
                 
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
@@ -28,6 +33,7 @@ class GetInfoAboutAllDevices {
                 let devi = device.device
                 for dev in devi {
                     self.devices.append(dev)
+                   
                     
 //                    print("name: \(dev.name)    id: \(dev.id)")
                 }
@@ -38,11 +44,7 @@ class GetInfoAboutAllDevices {
         }
     }
     
-    var count: Int {
-        return devices.count
-    }
-    
-    func clear() {
+    func deviceClear() {
         devices = []
     }
     

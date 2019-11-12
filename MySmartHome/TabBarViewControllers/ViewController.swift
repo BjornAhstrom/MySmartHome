@@ -107,7 +107,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             appNameLabel.bottomAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: -20)
         ])
         
-        //allDevicesButton constraints
+        // allDevicesButton constraints
         NSLayoutConstraint.activate([
             allDevicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             allDevicesButton.heightAnchor.constraint(equalToConstant: 80),
@@ -123,8 +123,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             addGroupButton.widthAnchor.constraint(equalToConstant: 150)
         ])
         
-        
-        
         // settingsButton
         NSLayoutConstraint.activate([
             settingButton.topAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: 5),
@@ -139,7 +137,11 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func addGroupButtonPressed() {
-        showAddGroupDialog()
+        let addGroupViewController = AddGroupViewController()
+        addGroupViewController.title = "Add new group"
+        self.navigationController?.pushViewController(addGroupViewController, animated: true)
+        
+//        showAddGroupDialog()
     }
     
     @objc func allDevicesButtonPressed() {
@@ -158,6 +160,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        //return GetInfoAboutGroups.instance.groups.count
         return GetInfoAboutAllDevices.instance.devices.count
     }
     
@@ -166,10 +169,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("The deque cell is not an instace of GroupButtonTableViewCell.")
         }
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+
+        cell.setTextToLabel(name: device?.name ?? "No group")
         
-        if device?.type == "group" {
-            cell.setTextToLabel(name: device?.name ?? "No group")
-        }
+//        if device?.type == "group" {
+//            cell.setTextToLabel(name: device?.name ?? "No group")
+//        }
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
@@ -179,11 +184,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
+        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        if device.type == "group" {
-            whenTableViewCellIsSelectedGoToNextView(title: device.name, id: device.id)
-        }
+        whenTableViewCellIsSelectedGoToNextView(groupName: device?.name ?? "No name", id: device?.id ?? "No id", devicesId: device?.devices ?? "No devices")
         
     }
     
@@ -191,15 +194,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
-    func whenTableViewCellIsSelectedGoToNextView(title: String, id: String) {
+    func whenTableViewCellIsSelectedGoToNextView(groupName: String, id: String, devicesId: String) {
         let groupViewController = DevicesInGroupViewController()
-        groupViewController.title = title
-        groupViewController.deviceId = id
+        groupViewController.title = groupName
+        groupViewController.groupId = id
+        groupViewController.devicesId = devicesId
         self.navigationController?.pushViewController(groupViewController, animated: true)
     }
 }
 
-// Alert sign
+// Alert sign for add group button
 extension ViewController {
     
     func showAddGroupDialog() {

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
         
         GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
+        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
         return true
     }
 

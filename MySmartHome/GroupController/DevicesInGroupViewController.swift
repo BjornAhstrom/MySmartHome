@@ -13,7 +13,9 @@ class DevicesInGroupViewController: UIViewController {
     var buttons: [GroupButton] = []
     var selectedButtons: [ListOfSelectedButtons] = []
     
-    var deviceId: String = ""
+    var groupId: String = "" // group id
+    var devicesId: String = "" // all ids from the group
+    var devicesIds: [String] = [] // splitted string from deviceId
     var devices: [DeviceList] = []
     
 //    fileprivate var longPressGesture: UILongPressGestureRecognizer?
@@ -22,6 +24,8 @@ class DevicesInGroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        devicesIds = devicesId.components(separatedBy: ",")
         
 //        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(gesture:)))
 //
@@ -33,7 +37,7 @@ class DevicesInGroupViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DeviceInfoOutput.instance.getDeviceInformation(id: deviceId)
+//        DeviceInfoOutput.instance.getDeviceInformation(id: deviceId)
         configureCollectionView()
     }
     
@@ -81,7 +85,7 @@ class DevicesInGroupViewController: UIViewController {
 extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GetInfoAboutAllDevices.instance.count  //buttons.count
+        return devicesIds.count  //buttons.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -90,12 +94,32 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
             fatalError()
         }
         
+        let deviceId = devicesIds[indexPath.row]
         
         
         
-        let lampButton = buttons[indexPath.row]
+//        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=3475345") { result in
+//                       switch result {
+//                       case.success(let response):
+//                           let dataString = response.string
+//
+////                           let jsonData = dataString!.data(using: .utf8)
+////                           let decoder = JSONDecoder()
+////                           let device = try! decoder.decode(DeviceList.self, from: jsonData!)
+//
+////                           print("TEST \(device)")
+//
+//                       case.failure(let error):
+//                           print(error.localizedDescription)
+//                       }
+//                   }
         
-        cell.setTextAndImageToCell(name: lampButton.id, image: lampButton.image)
+        
+        
+        
+//        let lampButton = buttons[indexPath.row]
+        
+//        cell.setTextAndImageToCell(name: "", image: UIImage(named: "Lamp") ?? UIImage())
         
         return cell
     }

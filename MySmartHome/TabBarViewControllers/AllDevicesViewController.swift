@@ -93,7 +93,7 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: false)
         
         let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
-        whenTableViewCellIsSelectedGoToNextView(title: device.name, id: device.id, deviceName: device.name, type: device.type)
+        whenTableViewCellIsSelectedGoToNextView(title: device.name ?? "", id: device.id ?? "", deviceName: device.name ?? "", type: device.type ?? "")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
