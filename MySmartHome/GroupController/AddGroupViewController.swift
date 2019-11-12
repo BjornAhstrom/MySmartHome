@@ -11,7 +11,7 @@ import UIKit
 class AddGroupViewController: UIViewController {
     
     var newGroupNameTextField: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .done
@@ -29,9 +29,22 @@ class AddGroupViewController: UIViewController {
         label.textColor = .darkGray
         label.numberOfLines = 0
         label.font = UIFont(name: "Arial", size: 18)
-        label.text = "3243,324234,123423,"
+        label.text = ""
         
         return label
+    }()
+    
+    var addDevicesButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitle("Add", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.addTarget(self, action: #selector(addDeviceButtonPressed), for: .touchUpInside)
+        
+        return button
     }()
     
     lazy var flowLayout:UICollectionViewFlowLayout = {
@@ -50,8 +63,9 @@ class AddGroupViewController: UIViewController {
         return view
     }()
     
+    fileprivate var longPressGesture: UILongPressGestureRecognizer?
     var devicesId: [String: Int] = [:]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -60,15 +74,21 @@ class AddGroupViewController: UIViewController {
         collectionView.dataSource = self
         
         devicesLabel.translatesAutoresizingMaskIntoConstraints = false
-        newGroupNameTextField.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        addDevicesButton.translatesAutoresizingMaskIntoConstraints = false
+        newGroupNameTextField.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(devicesLabel)
-        view.addSubview(newGroupNameTextField)
         view.addSubview(collectionView)
+        view.addSubview(addDevicesButton)
+        view.addSubview(newGroupNameTextField)
         
         setConstraints()
         self.hideKeyBoard()
+        
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(gesture:)))
+        
+        collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
     }
     
     func setConstraints() {
@@ -80,19 +100,45 @@ class AddGroupViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             devicesLabel.widthAnchor.constraint(equalToConstant: 300),
+            devicesLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             devicesLabel.centerYAnchor.constraint(equalTo: newGroupNameTextField.centerYAnchor, constant: 50),
             devicesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: devicesLabel.bottomAnchor, constant: 50),
+            addDevicesButton.widthAnchor.constraint(equalToConstant: 100),
+            addDevicesButton.heightAnchor.constraint(equalToConstant: 40),
+            addDevicesButton.topAnchor.constraint(equalTo: devicesLabel.bottomAnchor, constant: 20),
+            addDevicesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: addDevicesButton.bottomAnchor, constant: 40),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
+    @objc func handleLongPressGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+                break
+            }
+            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
+        case .ended:
+            collectionView.endInteractiveMovement()
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
+    }
     
+    @objc func addDeviceButtonPressed() {
+        print("Pressed")
+    }
 }
 
 // CollectionView
@@ -123,6 +169,7 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         
         devicesId.updateValue(indexPath.row, forKey: device)
         
+        devicesLabel.text? += ",\(device)"
         
         print(devicesId)
         
@@ -138,6 +185,9 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
         devicesId.removeValue(forKey: device)
+        let str1 = devicesLabel.text
+        let str2 = str1?.replacingOccurrences(of: ",\(device)", with: "", options: String.CompareOptions.literal, range: nil)
+        devicesLabel.text = str2
         
         print(devicesId)
         
@@ -148,4 +198,13 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        print("starting index: \(sourceIndexPath.item)")
+        print("Ending index: \(destinationIndexPath.item)")
+    }
 }

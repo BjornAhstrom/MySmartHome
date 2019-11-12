@@ -18,7 +18,7 @@ class DevicesInGroupViewController: UIViewController {
     var devicesIds: [String] = [] // splitted string from deviceId
     var devices: [DeviceList] = []
     
-//    fileprivate var longPressGesture: UILongPressGestureRecognizer?
+
     
 //    var collectionView: UICollectionView = UICollectionView()
     
@@ -27,9 +27,7 @@ class DevicesInGroupViewController: UIViewController {
         
         devicesIds = devicesId.components(separatedBy: ",")
         
-//        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(gesture:)))
-//
-//        collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
+
         
         buttons = mockData()
 //        view.backgroundColor = .systemBackground
@@ -56,29 +54,7 @@ class DevicesInGroupViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
-//    @objc func handleLongPressGesture(gesture: UILongPressGestureRecognizer) {
-//        switch gesture.state {
-//        case .began:
-//            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
-//                break
-//            }
-//            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-//        case .changed:
-//            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
-//        case .ended:
-//            collectionView.endInteractiveMovement()
-//        default:
-//            collectionView.cancelInteractiveMovement()
-//        }
-//    }
-    
-//    func setConstraintsOnCollectionView() {
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//    }
+
 }
 
 // CollectionView
