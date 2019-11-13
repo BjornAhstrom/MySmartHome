@@ -55,11 +55,11 @@ class DevicesInGroupViewController: UIViewController {
     var groupId: String = "" // group id
     var devicesId: String = "" // all ids from the group
     var devicesIds: [String] = [] // splitted string from deviceId
-    var devices: [DeviceList] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        DeviceInfoOutput.instance.getDeviceInformation(id: groupId)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -74,7 +74,6 @@ class DevicesInGroupViewController: UIViewController {
         view.addSubview(removeGroupLabel)
         view.addSubview(removeGroupButton)
         
-        buttons = mockData()
         setConstraints()
     }
     
@@ -106,7 +105,7 @@ class DevicesInGroupViewController: UIViewController {
 extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GetInfoAboutAllDevices.instance.deviceCount
+        return devicesIds.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -114,33 +113,34 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? GroupCollectionViewCell else {
             fatalError()
         }
+        let devId = devicesIds[indexPath.row]
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-        
-        cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "Lamp") ?? UIImage())
+        DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { response in
+            cell.setTextAndImageToCell(name: response, image: UIImage(named: "Lamp") ?? UIImage())
+        })
         
         return cell
     }
 }
 
-// Mockdata
-extension DevicesInGroupViewController {
-    
-    func mockData() -> [GroupButton] {
-        let button1 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test1")
-        let button2 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test2")
-        let button3 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test3")
-        let button4 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test4")
-        let button5 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test5")
-        let button6 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test6")
-        let button7 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test7")
-        let button8 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test8")
-        let button9 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test9")
-        let button10 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test10")
-        let button11 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test11")
-        let button12 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test12")
-        
-        return [button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12]
-        
-    }
-}
+//// Mockdata
+//extension DevicesInGroupViewController {
+//
+//    func mockData() -> [GroupButton] {
+//        let button1 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test1")
+//        let button2 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test2")
+//        let button3 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test3")
+//        let button4 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test4")
+//        let button5 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test5")
+//        let button6 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test6")
+//        let button7 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test7")
+//        let button8 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test8")
+//        let button9 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test test9")
+//        let button10 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test10")
+//        let button11 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test11")
+//        let button12 = GroupButton(image: UIImage(named: "Lamp") ?? UIImage(), id: "test12")
+//
+//        return [button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12]
+//
+//    }
+//}

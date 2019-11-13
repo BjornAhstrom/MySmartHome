@@ -116,7 +116,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         ])
         
         // addGroupButton constraints
-        
         NSLayoutConstraint.activate([
             addGroupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addGroupButton.heightAnchor.constraint(equalToConstant: 50),
@@ -140,8 +139,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         let addGroupViewController = AddGroupViewController()
         addGroupViewController.title = "Add new group"
         self.navigationController?.pushViewController(addGroupViewController, animated: true)
-        
-//        showAddGroupDialog()
     }
     
     @objc func allDevicesButtonPressed() {
@@ -160,7 +157,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        //return GetInfoAboutGroups.instance.groups.count
         return GetInfoAboutAllDevices.instance.devices.count
     }
     
@@ -171,10 +167,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
 
         cell.setTextToLabel(name: device?.name ?? "No group")
-        
-//        if device?.type == "group" {
-//            cell.setTextToLabel(name: device?.name ?? "No group")
-//        }
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
@@ -187,7 +179,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         whenTableViewCellIsSelectedGoToNextView(groupName: device?.name ?? "No name", id: device?.id ?? "No id", devicesId: device?.devices ?? "No devices")
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -201,47 +192,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         groupViewController.devicesId = devicesId
         self.navigationController?.pushViewController(groupViewController, animated: true)
     }
-}
-
-// Alert sign for add group button
-extension ViewController {
-    
-//    func showAddGroupDialog() {
-//
-//        let alert = UIAlertController(title: "Add group", message: "", preferredStyle: .alert)
-//
-//        alert.addTextField(configurationHandler: {(addGroupName) in
-//            addGroupName.placeholder = "Group name"
-//            addGroupName.autocapitalizationType = .sentences
-//        })
-//
-//        let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { [weak alert] (error) in
-//            guard let newGroupName = alert?.textFields?[0] else {
-//                print(" \(error)")
-//                return
-//            }
-//            guard let groupName = newGroupName.text else {
-//                print(" \(error)")
-//                return
-//            }
-//
-//            print(groupName)
-//
-//            // Tillsätt namnet till den nyskapade knappen
-//            //            self.buttons.append(GroupButton(name: groupName))
-//
-////            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "", onCompletion: <#(String) -> Void#>)
-//
-//            self.tableView.reloadData()
-//        })
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in })
-//
-//        alert.addAction(acceptAction)
-//        alert.addAction(cancelAction)
-//
-//        self.present(alert, animated: true)
-//    }
 }
 
 

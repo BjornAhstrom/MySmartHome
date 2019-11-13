@@ -13,6 +13,13 @@ class DeviceInfoOutput {
     private init() {}
     static let instance = DeviceInfoOutput()
     
+    
+    var devices: [Deviceinfo] = []
+    
+    var deviceCount: Int {
+        return devices.count
+    }
+    
     // the id of the device to turn on lamp
     func turnOnDevice(id: String) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/turnOn?id=\(id)") { result in
@@ -69,9 +76,27 @@ class DeviceInfoOutput {
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
-
                 
                 print(device)
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // The id of the group to get info
+    func getGroupInformation(id: String, onCompletion: @escaping (String) -> Void ) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
+                
+                onCompletion(device.name)
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -152,4 +177,15 @@ class DeviceInfoOutput {
             }
         }
     }
+    
+    func deviceClear() {
+           devices = []
+       }
+       
+       func devices(index: Int) -> Deviceinfo? {
+           if index >= 0 && index <= devices.count && !devices.isEmpty {
+               return devices[index]
+           }
+           return nil
+       }
 }

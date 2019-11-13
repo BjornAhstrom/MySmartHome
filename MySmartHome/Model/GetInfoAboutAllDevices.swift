@@ -33,9 +33,6 @@ class GetInfoAboutAllDevices {
                 let devi = device.device
                 for dev in devi {
                     self.devices.append(dev)
-                   
-                    
-//                    print("name: \(dev.name)    id: \(dev.id)")
                 }
                 
             case.failure(let error):
