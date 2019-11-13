@@ -228,7 +228,7 @@ extension ViewController {
             // Tillsätt namnet till den nyskapade knappen
             //            self.buttons.append(GroupButton(name: groupName))
             
-            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "")
+//            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "", onCompletion: <#(String) -> Void#>)
             
             self.tableView.reloadData()
         })

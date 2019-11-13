@@ -23,6 +23,7 @@
 		1E2C9D2F237027B500355398 /* AllDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */; };
 		1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */; };
 		1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3323702C3F00355398 /* TelldusKeys.swift */; };
+		1E9C5FE5237C031400700C1B /* MessageFromTelldus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */; };
 		1EA0CC6E237480EE00571C9B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC6D237480EE00571C9B /* SettingsViewController.swift */; };
 		1EA0CC722375A29700571C9B /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */; };
 		1EA0CC7B2375FADD00571C9B /* SelectedButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */; };
@@ -114,6 +115,7 @@
 		1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesViewController.swift; sourceTree = "<group>"; };
 		1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoOutput.swift; sourceTree = "<group>"; };
 		1E2C9D3323702C3F00355398 /* TelldusKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelldusKeys.swift; sourceTree = "<group>"; };
+		1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFromTelldus.swift; sourceTree = "<group>"; };
 		1EA0CC6D237480EE00571C9B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButtons.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */,
 				1E0E55982370882F00794DFF /* CustomCollectionViewCell.swift */,
 				1E0E55A423730D2D00794DFF /* GroupButtonTableViewCell.swift */,
+				1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				1EA0CC87237A848000571C9B /* GetInfoAboutGroups.swift in Sources */,
 				1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */,
 				1E0E55A72373265000794DFF /* DevicesInGroupViewController.swift in Sources */,
+				1E9C5FE5237C031400700C1B /* MessageFromTelldus.swift in Sources */,
 				1E0E557F23702F1800794DFF /* DeviceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

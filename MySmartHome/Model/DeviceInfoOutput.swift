@@ -46,7 +46,7 @@ class DeviceInfoOutput {
     
     // The id of the device to dim lamp
     func dimmableLamp(id: String, dimValue: Float) {
-        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/dim?id=\(id)?level=\(dimValue)") { result in
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/dim?id=\(id)&level=\(dimValue)") { result in
             switch result {
             case.success(let response):
                 let dataString = response.string
@@ -66,9 +66,7 @@ class DeviceInfoOutput {
             case.success(let response):
                 let dataString = response.string
                 
-//                let jsonData = dataString!.data(using: .utf8)
-//                let decoder = JSONDecoder()
-//                let device = try! decoder.decode(DeviceList.self, from: jsonData!)
+
                 
                 print(dataString ?? "")
                 
@@ -80,7 +78,7 @@ class DeviceInfoOutput {
     
     // the id of the device and the new name to change name of the device
     func setNewDeviceName(id: String, name: String) {
-        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/setName?id=\(id)?name=\(name)") { result in
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/setName?id=\(id)&name=\(name)") { result in
             switch result {
             case.success(let response):
                 let dataString = response.string
@@ -94,14 +92,21 @@ class DeviceInfoOutput {
     }
     
     //The id of the client, the name of the group and a comma seperated string with the devices ids this group should control
-    func createNewDeviceGroupName(clientId: String, groupName: String, devices: String) {
+    func createNewDeviceGroupName(clientId: String, groupName: String, devices: String, onCompletion: @escaping (String) -> Void) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/add?clientId=\(clientId)&name=\(groupName)&devices=\(devices)") { result in
             switch result {
             case.success(let response):
                 let dataString = response.string
                 
-                    print("!!!!!!!!!! \(dataString ?? "")")
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
                 
+                if device.error == nil {
+                    onCompletion(device.status ?? "")
+                } else {
+                    onCompletion(device.error ?? "")
+                }
                 
                 
             case.failure(let error):

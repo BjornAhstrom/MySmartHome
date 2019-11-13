@@ -65,6 +65,7 @@ class AddGroupViewController: UIViewController {
     }()
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
+    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     var devicesId: [String: Int] = [:]
     
     override func viewDidLoad() {
@@ -82,6 +83,7 @@ class AddGroupViewController: UIViewController {
         view.addSubview(devicesLabel)
         view.addSubview(collectionView)
         view.addSubview(addDevicesButton)
+        view.addSubview(activityIndicator)
         view.addSubview(newGroupNameTextField)
         
         setConstraints()
@@ -138,23 +140,19 @@ class AddGroupViewController: UIViewController {
     }
     
     @objc func addDeviceButtonPressed() {
+        loadActivityIndicator()
         let text = devicesLabel.text
         let groupName = newGroupNameTextField.text
         let str = text?.dropLast()
-       
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500) , execute: {
-            let test = DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""))
-            self.showAlert(status: test)
+        // clientId 75884
+        DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { response in
+            self.showAlert(status: response)
+            self.removeActivityIndicator()
         })
-        
-        
-        
-        print("!!!!!!!! \(String(groupName ?? ""))")
-        print(String(str ?? ""))
     }
     
-    func showAlert(status: String) {
+    public func showAlert(status: String) {
         
         let alert = UIAlertController(title: "Add group", message: status, preferredStyle: .alert)
         
@@ -163,6 +161,15 @@ class AddGroupViewController: UIViewController {
         alert.addAction(acceptAction)
         
         self.present(alert, animated: true)
+    }
+    
+    func loadActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.center = view.center
+    }
+    
+    func removeActivityIndicator() {
+        activityIndicator.removeFromSuperview()
     }
 }
 
