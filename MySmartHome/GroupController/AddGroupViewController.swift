@@ -140,6 +140,10 @@ class AddGroupViewController: UIViewController {
     }
     
     @objc func addDeviceButtonPressed() {
+        showAddGroupAlert()
+    }
+    
+    func addNewGroup() {
         loadActivityIndicator()
         let text = devicesLabel.text
         let groupName = newGroupNameTextField.text
@@ -147,22 +151,21 @@ class AddGroupViewController: UIViewController {
         
         // clientId 75884
         DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { response in
-            self.showAlert(status: response)
-            self.removeActivityIndicator()
+            
+            if groupName != "" {
+                self.showAlertWhenNewGroupName(groupName: groupName ?? "", alertMessage: response)
+                self.removeActivityIndicator()
+            } else {
+                self.showAlertWhenNoGroupName(alertMessage: response)
+                self.removeActivityIndicator()
+            }
         })
+        if groupName != "" {
+            self.goBackToViewControllerWhenOkButtonInAlertIsPressed()
+        }
     }
     
-    public func showAlert(status: String) {
-        
-        let alert = UIAlertController(title: "Add group", message: status, preferredStyle: .alert)
-        
-        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: {(_) in })
-        
-        alert.addAction(acceptAction)
-        
-        self.present(alert, animated: true)
-    }
-    
+    // ActivityIndicator
     func loadActivityIndicator() {
         activityIndicator.startAnimating()
         activityIndicator.center = view.center
@@ -170,6 +173,11 @@ class AddGroupViewController: UIViewController {
     
     func removeActivityIndicator() {
         activityIndicator.removeFromSuperview()
+    }
+    
+    func goBackToViewControllerWhenOkButtonInAlertIsPressed() {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -222,7 +230,7 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         
         devicesLabel.text = str2
         
-//        print(devicesId)
+        //        print(devicesId)
         
         print("Deselected \(indexPath.row)")
         
@@ -239,5 +247,48 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         
         print("starting index: \(sourceIndexPath.item)")
         print("Ending index: \(destinationIndexPath.item)")
+    }
+}
+
+// Alert popup controllers
+extension AddGroupViewController {
+    
+    public func showAddGroupAlert() {
+        let newGroup = newGroupNameTextField.text
+        let alert = UIAlertController(title: "Add group", message: newGroup, preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { (error) in
+            print(error)
+            self.addNewGroup()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in })
+        
+        alert.addAction(acceptAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
+    
+    func showAlertWhenNoGroupName(alertMessage: String) {
+        
+        let alert = UIAlertController(title: "No group name", message: alertMessage, preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: { (_) in })
+        
+        alert.addAction(acceptAction)
+        
+        self.present(alert, animated: true)
+    }
+    
+    func showAlertWhenNewGroupName(groupName: String, alertMessage: String) {
+        
+        let alert = UIAlertController(title: groupName, message: alertMessage, preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: { (_) in })
+        
+        alert.addAction(acceptAction)
+        
+        self.present(alert, animated: true)
     }
 }

@@ -206,40 +206,42 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 // Alert sign for add group button
 extension ViewController {
     
-    func showAddGroupDialog() {
-        
-        let alert = UIAlertController(title: "Add group", message: "", preferredStyle: .alert)
-        
-        alert.addTextField(configurationHandler: {(addGroupName) in
-            addGroupName.placeholder = "Group name"
-            addGroupName.autocapitalizationType = .sentences
-        })
-        
-        let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { [weak alert] (error) in
-            guard let newGroupName = alert?.textFields?[0] else {
-                print(" \(error)")
-                return
-            }
-            guard let groupName = newGroupName.text else {
-                print(" \(error)")
-                return
-            }
-            
-            // Tillsätt namnet till den nyskapade knappen
-            //            self.buttons.append(GroupButton(name: groupName))
-            
-//            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "", onCompletion: <#(String) -> Void#>)
-            
-            self.tableView.reloadData()
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in })
-        
-        alert.addAction(acceptAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true)
-    }
+//    func showAddGroupDialog() {
+//
+//        let alert = UIAlertController(title: "Add group", message: "", preferredStyle: .alert)
+//
+//        alert.addTextField(configurationHandler: {(addGroupName) in
+//            addGroupName.placeholder = "Group name"
+//            addGroupName.autocapitalizationType = .sentences
+//        })
+//
+//        let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { [weak alert] (error) in
+//            guard let newGroupName = alert?.textFields?[0] else {
+//                print(" \(error)")
+//                return
+//            }
+//            guard let groupName = newGroupName.text else {
+//                print(" \(error)")
+//                return
+//            }
+//
+//            print(groupName)
+//
+//            // Tillsätt namnet till den nyskapade knappen
+//            //            self.buttons.append(GroupButton(name: groupName))
+//
+////            DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "", groupName: groupName, devices: "", onCompletion: <#(String) -> Void#>)
+//
+//            self.tableView.reloadData()
+//        })
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in })
+//
+//        alert.addAction(acceptAction)
+//        alert.addAction(cancelAction)
+//
+//        self.present(alert, animated: true)
+//    }
 }
 
 

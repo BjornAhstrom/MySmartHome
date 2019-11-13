@@ -60,9 +60,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }()
     
     var deviceName: String = ""
+    var newDeviceName: String = ""
+    var deviceId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        changeNameTextField.text = deviceName
         
         view.backgroundColor = .systemBackground
         
@@ -77,8 +81,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(changeNameTextField)
         
         self.hideKeyBoard()
-        
-        changeNameTextField.text = deviceName
         
         setConstraints()
     }
@@ -120,8 +122,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeNameButtonPressed() {
-        print(changeNameTextField.text ?? "error")
-        changeNameTextField.text = ""
+        newDeviceName = changeNameTextField.text ?? ""
+        
+        DeviceInfoOutput.instance.setNewDeviceName(id: deviceId, name: newDeviceName)
+        
+        changeNameTextField.text = newDeviceName
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == changeNameTextField {

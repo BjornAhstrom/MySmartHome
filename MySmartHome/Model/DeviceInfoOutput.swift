@@ -66,9 +66,12 @@ class DeviceInfoOutput {
             case.success(let response):
                 let dataString = response.string
                 
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
 
                 
-                print(dataString ?? "")
+                print(device)
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -114,6 +117,26 @@ class DeviceInfoOutput {
             }
         }
     }
+    
+    // The id from the group to remove group
+    func removeGroup(deviceId: String) {
+           TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/remove?id=\(deviceId)") { result in
+               switch result {
+               case.success(let response):
+                   let dataString = response.string
+                   
+                   let jsonData = dataString!.data(using: .utf8)
+                   let decoder = JSONDecoder()
+                   let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
+                   
+                   print("\(device)")
+                   
+               case.failure(let error):
+                   print(error.localizedDescription)
+               }
+           }
+       }
+    
     
     // The id of the device to learn
     func learnDeviceToConnect(id: String) {

@@ -100,10 +100,12 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
+    // go to settingsViewController and send value
     func whenTableViewCellIsSelectedGoToNextView(title: String, id: String, deviceName: String, type: String) {
         let settings = SettingsViewController()
         settings.title = title
         settings.deviceName = deviceName
+        settings.deviceId = id
         self.navigationController?.pushViewController(settings, animated: true)
     }
     

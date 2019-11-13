@@ -10,6 +10,45 @@ import UIKit
 
 class DevicesInGroupViewController: UIViewController {
     
+    lazy var flowLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 10, right: 20)
+        layout.itemSize = CGSize(width: layout.itemSize.width*3, height: 60)
+        
+        return layout
+    }()
+    
+    lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
+        view.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.backgroundColor = UIColor.systemBackground
+        view.allowsMultipleSelection = true
+        
+        return view
+    }()
+    
+    var removeGroupLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.font = .boldSystemFont(ofSize: 20)
+        label.text = "Remove group"
+        
+        return label
+    }()
+    
+    var removeGroupButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+
+        button.setTitle("Remove group", for: .normal)
+        
+        return button
+    }()
+    
     var buttons: [GroupButton] = []
     var selectedButtons: [ListOfSelectedButtons] = []
     
@@ -18,50 +57,56 @@ class DevicesInGroupViewController: UIViewController {
     var devicesIds: [String] = [] // splitted string from deviceId
     var devices: [DeviceList] = []
     
-
-    
-//    var collectionView: UICollectionView = UICollectionView()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        removeGroupLabel.translatesAutoresizingMaskIntoConstraints = false
+        removeGroupButton.translatesAutoresizingMaskIntoConstraints = false
         
         devicesIds = devicesId.components(separatedBy: ",")
         
-
+        view.addSubview(collectionView)
+        view.addSubview(removeGroupLabel)
+        view.addSubview(removeGroupButton)
         
         buttons = mockData()
-//        view.backgroundColor = .systemBackground
+        setConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        DeviceInfoOutput.instance.getDeviceInformation(id: deviceId)
-        configureCollectionView()
-    }
-    
-    func configureCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 200, left: 20, bottom: 10, right: 20)
-        layout.itemSize = CGSize(width: layout.itemSize.width*3, height: 60)
+    func setConstraints() {
+        NSLayoutConstraint.activate([
+            removeGroupLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
+            removeGroupLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            removeGroupLabel.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
-        let collectionView: UICollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
-        collectionView.backgroundColor = UIColor.systemBackground
-        collectionView.allowsMultipleSelection = true
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: removeGroupLabel.bottomAnchor, constant: 60),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12)
+        ])
         
-        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            removeGroupButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
+            removeGroupButton.leadingAnchor.constraint(greaterThanOrEqualTo: removeGroupLabel.trailingAnchor, constant: 20),
+            removeGroupButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
+            removeGroupButton.heightAnchor.constraint(equalToConstant: 40),
+            removeGroupButton.widthAnchor.constraint(equalToConstant: 150)
+        ])
     }
-    
-
 }
 
 // CollectionView
 extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return devicesIds.count  //buttons.count
+        return GetInfoAboutAllDevices.instance.deviceCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -70,69 +115,11 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
             fatalError()
         }
         
-        let deviceId = devicesIds[indexPath.row]
+        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        
-        
-//        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=3475345") { result in
-//                       switch result {
-//                       case.success(let response):
-//                           let dataString = response.string
-//
-////                           let jsonData = dataString!.data(using: .utf8)
-////                           let decoder = JSONDecoder()
-////                           let device = try! decoder.decode(DeviceList.self, from: jsonData!)
-//
-////                           print("TEST \(device)")
-//
-//                       case.failure(let error):
-//                           print(error.localizedDescription)
-//                       }
-//                   }
-        
-        
-        
-        
-//        let lampButton = buttons[indexPath.row]
-        
-//        cell.setTextAndImageToCell(name: "", image: UIImage(named: "Lamp") ?? UIImage())
+        cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "Lamp") ?? UIImage())
         
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-        cell?.backgroundColor = UIColor.darkGray
-        cell?.layer.cornerRadius = 10
-        
-//        let button = buttons[indexPath.row]
-//
-//        var selected = selectedButtons[indexPath.row]
-        
-        print("Selected \(indexPath.row)")
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor.clear
-        cell?.layer.cornerRadius = 10
-        
-        print("Deselected \(indexPath.row)")
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        let temp = buttons.remove(at: sourceIndexPath.item)
-        buttons.insert(temp, at: destinationIndexPath.item)
-        
-        print("starting index: \(sourceIndexPath.item)")
-        print("Ending index: \(destinationIndexPath.item)")
     }
 }
 
