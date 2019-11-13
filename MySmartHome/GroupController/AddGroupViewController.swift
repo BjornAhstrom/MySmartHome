@@ -17,6 +17,7 @@ class AddGroupViewController: UIViewController {
         textField.returnKeyType = .done
         textField.textColor = .darkGray
         textField.placeholder = "New group name"
+        textField.text = ""
         
         return textField
     }()
@@ -137,7 +138,31 @@ class AddGroupViewController: UIViewController {
     }
     
     @objc func addDeviceButtonPressed() {
-        print("Pressed")
+        let text = devicesLabel.text
+        let groupName = newGroupNameTextField.text
+        let str = text?.dropLast()
+       
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500) , execute: {
+            let test = DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""))
+            self.showAlert(status: test)
+        })
+        
+        
+        
+        print("!!!!!!!! \(String(groupName ?? ""))")
+        print(String(str ?? ""))
+    }
+    
+    func showAlert(status: String) {
+        
+        let alert = UIAlertController(title: "Add group", message: status, preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: {(_) in })
+        
+        alert.addAction(acceptAction)
+        
+        self.present(alert, animated: true)
     }
 }
 
@@ -169,7 +194,7 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         
         devicesId.updateValue(indexPath.row, forKey: device)
         
-        devicesLabel.text? += ",\(device)"
+        devicesLabel.text? += "\(device),"
         
         print(devicesId)
         
@@ -185,11 +210,12 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
         devicesId.removeValue(forKey: device)
-        let str1 = devicesLabel.text
-        let str2 = str1?.replacingOccurrences(of: ",\(device)", with: "", options: String.CompareOptions.literal, range: nil)
+        let str1 = devicesLabel.text ?? ""
+        let str2 = str1.replacingOccurrences(of: "\(device),", with: "", options: String.CompareOptions.literal, range: nil)
+        
         devicesLabel.text = str2
         
-        print(devicesId)
+//        print(devicesId)
         
         print("Deselected \(indexPath.row)")
         

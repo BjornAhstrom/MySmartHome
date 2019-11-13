@@ -95,12 +95,14 @@ class DeviceInfoOutput {
     
     //The id of the client, the name of the group and a comma seperated string with the devices ids this group should control
     func createNewDeviceGroupName(clientId: String, groupName: String, devices: String) {
-        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/add?id=\(clientId)?name=\(groupName)?devices=\(devices)") { result in
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/add?clientId=\(clientId)&name=\(groupName)&devices=\(devices)") { result in
             switch result {
             case.success(let response):
                 let dataString = response.string
                 
-                print(dataString ?? "")
+                    print("!!!!!!!!!! \(dataString ?? "")")
+                
+                
                 
             case.failure(let error):
                 print(error.localizedDescription)
