@@ -25,7 +25,6 @@ class GetInfoAboutAllDevices {
             case .success(let response):
                 let dataString = response.string
                 
-                
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(DeviceList.self, from: jsonData!)

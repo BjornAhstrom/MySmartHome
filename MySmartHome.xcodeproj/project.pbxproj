@@ -24,6 +24,8 @@
 		1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */; };
 		1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3323702C3F00355398 /* TelldusKeys.swift */; };
 		1E9C5FE5237C031400700C1B /* MessageFromTelldus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */; };
+		1E9C5FEE237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */; };
+		1E9C5FF0237D947500700C1B /* ButtonSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */; };
 		1EA0CC6E237480EE00571C9B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC6D237480EE00571C9B /* SettingsViewController.swift */; };
 		1EA0CC722375A29700571C9B /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */; };
 		1EA0CC7B2375FADD00571C9B /* SelectedButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */; };
@@ -116,6 +118,8 @@
 		1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoOutput.swift; sourceTree = "<group>"; };
 		1E2C9D3323702C3F00355398 /* TelldusKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelldusKeys.swift; sourceTree = "<group>"; };
 		1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFromTelldus.swift; sourceTree = "<group>"; };
+		1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInGroupCollectionViewCell.swift; sourceTree = "<group>"; };
+		1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSettingsViewController.swift; sourceTree = "<group>"; };
 		1EA0CC6D237480EE00571C9B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButtons.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				1EA0CC82237A75F200571C9B /* DeviceInformation.swift */,
 				1EA0CC84237A792C00571C9B /* GroupInformation.swift */,
 				1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */,
+				1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */,
 			);
 			path = TestViewController;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				1EA0CC88237AA1AC00571C9B /* AddGroupViewController.swift */,
 				1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */,
 				1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */,
+				1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */,
 			);
 			path = GroupController;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 				1E0E55A523730D2D00794DFF /* GroupButtonTableViewCell.swift in Sources */,
 				1E2C9D2D23701C7B00355398 /* ScenariosViewController.swift in Sources */,
 				1EA0CC89237AA1AC00571C9B /* AddGroupViewController.swift in Sources */,
+				1E9C5FF0237D947500700C1B /* ButtonSettingsViewController.swift in Sources */,
 				1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */,
 				1E0E559D2371530C00794DFF /* DeviceInfoViewController.swift in Sources */,
 				1E2C9D2B23701C6A00355398 /* ViewController.swift in Sources */,
@@ -407,6 +414,7 @@
 				1EA0CC7B2375FADD00571C9B /* SelectedButtons.swift in Sources */,
 				1E0E559123707FEB00794DFF /* AllDevicesInCollectionViewController.swift in Sources */,
 				1EA0CC722375A29700571C9B /* GroupCollectionViewCell.swift in Sources */,
+				1E9C5FEE237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift in Sources */,
 				1EA0CC83237A75F200571C9B /* DeviceInformation.swift in Sources */,
 				1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */,
 				1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */,

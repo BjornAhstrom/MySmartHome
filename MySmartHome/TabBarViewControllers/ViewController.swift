@@ -133,6 +133,12 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     @objc func settingsButtonForAllDevicesButtonPressed() {
         print("Settings button pressed")
+        
+        let popup = ButtonSettingsViewController()
+        self.addChild(popup)
+        popup.view.frame = self.view.frame
+        self.view.addSubview(popup.view)
+        popup.didMove(toParent: self)
     }
     
     @objc func addGroupButtonPressed() {
@@ -167,6 +173,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
 
         cell.setTextToLabel(name: device?.name ?? "No group")
+        
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         

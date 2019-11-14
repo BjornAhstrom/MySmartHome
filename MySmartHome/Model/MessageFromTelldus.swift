@@ -11,4 +11,5 @@ import UIKit
 struct MessageFromTelldus: Codable {
     let error: String?
     let status: String?
+    let state: String?
 }

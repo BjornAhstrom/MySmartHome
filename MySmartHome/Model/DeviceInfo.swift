@@ -19,3 +19,23 @@ struct Deviceinfo: Codable {
     let type: String
     let devices: String?
 }
+
+struct DeviceInforma: Codable {
+    let id: String
+    let name: String
+    let state: String
+    let type: String
+}
+
+struct DeviceHistorys: Codable {
+    let history: [DeviceHistory]
+}
+
+struct DeviceHistory: Codable {
+    let ts: Int? //"ts": 1573728053,
+    let state: Int?//"state": 2,
+    let stateValue: Int? //"stateValue": 0,
+    let origin: String? //"origin": "Telldus Live! mobile - iOS",
+    let successStatus: Int? //"successStatus": 0
+}
+

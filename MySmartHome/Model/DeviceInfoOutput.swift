@@ -15,6 +15,7 @@ class DeviceInfoOutput {
     
     
     var devices: [Deviceinfo] = []
+    var deviceStatus: [DeviceHistory] = []
     
     var deviceCount: Int {
         return devices.count
@@ -75,7 +76,7 @@ class DeviceInfoOutput {
                 
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
-                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
+                let device = try! decoder.decode(DeviceInforma.self, from: jsonData!)
                 
                 print(device)
                 
@@ -94,8 +95,9 @@ class DeviceInfoOutput {
                 
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
-                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
+                let device = try! decoder.decode(DeviceInforma.self, from: jsonData!)
                 
+                //                print("devId: \(device.id), devNAme: \(device.name), devState: \(device.state), devType: \(device.type) ")
                 onCompletion(device.name)
                 
             case.failure(let error):
@@ -145,22 +147,22 @@ class DeviceInfoOutput {
     
     // The id from the group to remove group
     func removeGroup(deviceId: String) {
-           TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/remove?id=\(deviceId)") { result in
-               switch result {
-               case.success(let response):
-                   let dataString = response.string
-                   
-                   let jsonData = dataString!.data(using: .utf8)
-                   let decoder = JSONDecoder()
-                   let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
-                   
-                   print("\(device)")
-                   
-               case.failure(let error):
-                   print(error.localizedDescription)
-               }
-           }
-       }
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/remove?id=\(deviceId)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
+                
+                print("\(device)")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     
     // The id of the device to learn
@@ -178,14 +180,72 @@ class DeviceInfoOutput {
         }
     }
     
+    // The id of the device to find history from a specific device to get the state value
+    func getHistory(id: String, onCompletion: @escaping (Int) -> Void ) {
+        
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/history?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let deviceHistory = try! decoder.decode(DeviceHistorys.self, from: jsonData!)
+                
+                for devHis in deviceHistory.history {
+                    
+                    self.deviceStatus.append(devHis)
+                }
+                
+                if let test = self.deviceStatus.last {
+                    onCompletion(test.state ?? 0)
+                }
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    // The id of the device to find history from a specific device to get the state value
+    func getHistory1(id: String, onCompletion: @escaping (Int) -> Void ) {
+        
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/history?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let deviceHistory = try! decoder.decode(DeviceHistory.self, from: jsonData!)
+                
+                onCompletion(deviceHistory.state ?? 0)
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     func deviceClear() {
-           devices = []
-       }
-       
-       func devices(index: Int) -> Deviceinfo? {
-           if index >= 0 && index <= devices.count && !devices.isEmpty {
-               return devices[index]
-           }
-           return nil
-       }
+        devices = []
+    }
+    
+    func devices(index: Int) -> Deviceinfo? {
+        if index >= 0 && index <= devices.count && !devices.isEmpty {
+            return devices[index]
+        }
+        return nil
+    }
 }

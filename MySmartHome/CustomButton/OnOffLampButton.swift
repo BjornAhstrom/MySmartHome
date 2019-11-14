@@ -26,9 +26,10 @@ class Button: UIButton {
     func initButton() {
         layer.borderWidth = 2
         layer.borderColor = UIColor.darkGray.cgColor
-        layer.cornerRadius = 25
+        layer.cornerRadius = 15
         setTitleColor(UIColor.darkGray, for: .normal)
         addTarget(self, action: #selector(Button.buttonPressed), for: .touchUpInside)
+        
     }
     
     @objc func buttonPressed() {
@@ -45,6 +46,7 @@ class Button: UIButton {
         setTitle(title, for: .normal)
         setTitleColor(titleColor, for: .normal)
         backgroundColor = color
+        
     }
     
 }
