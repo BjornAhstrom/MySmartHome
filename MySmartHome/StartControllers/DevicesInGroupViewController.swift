@@ -44,6 +44,7 @@ class DevicesInGroupViewController: UIViewController {
         button.layer.cornerRadius = 8
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
+        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
         
         button.setTitle("Remove group", for: .normal)
         
@@ -79,6 +80,11 @@ class DevicesInGroupViewController: UIViewController {
         view.addSubview(removeGroupButton)
         
         setConstraints()
+    }
+    
+    // Remove group
+    @objc func removeButtonPressed() {
+        print("Remove button pressed")
     }
     
     func setConstraints() {

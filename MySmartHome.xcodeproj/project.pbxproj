@@ -33,6 +33,7 @@
 		1EA0CC85237A792C00571C9B /* GroupInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC84237A792C00571C9B /* GroupInformation.swift */; };
 		1EA0CC87237A848000571C9B /* GetInfoAboutGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */; };
 		1EA0CC89237AA1AC00571C9B /* AddGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA0CC88237AA1AC00571C9B /* AddGroupViewController.swift */; };
+		1EBDF306237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBDF305237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift */; };
 		1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD69E2366B73400FBA461 /* AppDelegate.swift */; };
 		1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */; };
 		1ECAD6A92366B73400FBA461 /* MySmartHome.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A72366B73400FBA461 /* MySmartHome.xcdatamodeld */; };
@@ -127,6 +128,7 @@
 		1EA0CC84237A792C00571C9B /* GroupInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInformation.swift; sourceTree = "<group>"; };
 		1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoAboutGroups.swift; sourceTree = "<group>"; };
 		1EA0CC88237AA1AC00571C9B /* AddGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewController.swift; sourceTree = "<group>"; };
+		1EBDF305237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSettingsCollectionViewCell.swift; sourceTree = "<group>"; };
 		1ECAD69B2366B73400FBA461 /* MySmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ECAD69E2366B73400FBA461 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -173,9 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				1E2C9D282370195A00355398 /* MainTabBarController.swift */,
-				1E2C9D2A23701C6A00355398 /* ViewController.swift */,
-				1E2C9D2C23701C7B00355398 /* ScenariosViewController.swift */,
-				1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */,
 			);
 			path = TabBarViewControllers;
 			sourceTree = "<group>";
@@ -183,13 +182,11 @@
 		1E0E559B237152DA00794DFF /* TestViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1E0E559023707FEB00794DFF /* AllDevicesInCollectionViewController.swift */,
 				1E0E559C2371530C00794DFF /* DeviceInfoViewController.swift */,
 				1E0E55A22373070600794DFF /* GroupButton.swift */,
 				1EA0CC82237A75F200571C9B /* DeviceInformation.swift */,
 				1EA0CC84237A792C00571C9B /* GroupInformation.swift */,
 				1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */,
-				1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */,
 			);
 			path = TestViewController;
 			sourceTree = "<group>";
@@ -197,6 +194,7 @@
 		1E2C9D3023702BF300355398 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */,
 				1E0E557E23702F1800794DFF /* DeviceInfo.swift */,
 				1E2C9D3323702C3F00355398 /* TelldusKeys.swift */,
 				1E0E558923703F2600794DFF /* GetInfoAboutAllDevices.swift */,
@@ -217,16 +215,35 @@
 			path = SettingsViewController;
 			sourceTree = "<group>";
 		};
-		1EA0CC6F237594AD00571C9B /* GroupController */ = {
+		1EB6212F237EA5CC0066B14B /* StartControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1E2C9D2A23701C6A00355398 /* ViewController.swift */,
 				1E0E55A62373265000794DFF /* DevicesInGroupViewController.swift */,
 				1EA0CC88237AA1AC00571C9B /* AddGroupViewController.swift */,
 				1EA0CC712375A29700571C9B /* GroupCollectionViewCell.swift */,
-				1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */,
 				1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */,
+				1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */,
+				1EBDF305237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift */,
 			);
-			path = GroupController;
+			path = StartControllers;
+			sourceTree = "<group>";
+		};
+		1EB62136237EA6030066B14B /* ScenariosControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1E2C9D2C23701C7B00355398 /* ScenariosViewController.swift */,
+			);
+			path = ScenariosControllers;
+			sourceTree = "<group>";
+		};
+		1EB62137237EA6260066B14B /* AllDevicesControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */,
+				1E0E559023707FEB00794DFF /* AllDevicesInCollectionViewController.swift */,
+			);
+			path = AllDevicesControllers;
 			sourceTree = "<group>";
 		};
 		1ECAD6922366B73400FBA461 = {
@@ -248,12 +265,14 @@
 		1ECAD69D2366B73400FBA461 /* MySmartHome */ = {
 			isa = PBXGroup;
 			children = (
-				1EA0CC6F237594AD00571C9B /* GroupController */,
-				1EA0CC66237480A500571C9B /* SettingsViewController */,
-				1E0E559B237152DA00794DFF /* TestViewController */,
 				1E0E559A237152A300794DFF /* TabBarViewControllers */,
+				1EB6212F237EA5CC0066B14B /* StartControllers */,
+				1EB62136237EA6030066B14B /* ScenariosControllers */,
+				1EB62137237EA6260066B14B /* AllDevicesControllers */,
+				1EA0CC66237480A500571C9B /* SettingsViewController */,
 				1E0E558B237045F900794DFF /* CustomButton */,
 				1E2C9D3023702BF300355398 /* Model */,
+				1E0E559B237152DA00794DFF /* TestViewController */,
 				1ECAD69E2366B73400FBA461 /* AppDelegate.swift */,
 				1ECAD6A02366B73400FBA461 /* SceneDelegate.swift */,
 				1ECAD6AA2366B73500FBA461 /* Assets.xcassets */,
@@ -395,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0E558A23703F2600794DFF /* GetInfoAboutAllDevices.swift in Sources */,
+				1EBDF306237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift in Sources */,
 				1E0E55A32373070600794DFF /* GroupButton.swift in Sources */,
 				1E0E55992370882F00794DFF /* CustomCollectionViewCell.swift in Sources */,
 				1EA0CC6E237480EE00571C9B /* SettingsViewController.swift in Sources */,

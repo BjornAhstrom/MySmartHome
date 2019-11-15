@@ -56,8 +56,8 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }()
     
     var tableView = UITableView()
-    
     var isOn = false
+    var deviceIdToAllDevicesButton: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,6 +154,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
         
+        print("AllDevicesButton id: \(deviceIdToAllDevicesButton)")
         //bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
     }
 }
