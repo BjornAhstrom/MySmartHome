@@ -79,7 +79,10 @@ class ButtonSettingsViewController: UIViewController {
         return button
     }()
     
+    let deviceIdKey = "DeviceId"
+    
     var selectedDeviceId: String = ""
+    var mainViewController: ViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,10 +153,10 @@ class ButtonSettingsViewController: UIViewController {
     @objc func onOkButtonPressed() {
         // send selectedDeviceId value to allDeviceButton in ViewController
         
-        let view = ViewController()
-        view.deviceIdToAllDevicesButton = selectedDeviceId
+        UserDefaults.standard.removeObject(forKey: deviceIdKey)
+        UserDefaults.standard.set(selectedDeviceId, forKey: deviceIdKey)
         
-        print("Ok button pressed. Device id: \(selectedDeviceId)")
+        self.view.removeFromSuperview()
     }
 }
 
@@ -188,10 +191,6 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
         let deviceId = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         selectedDeviceId = deviceId?.id ?? ""
-        
-        print("Selected device id: \(deviceId?.id ?? "")")
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -200,8 +199,6 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
         collectionView.deselectItem(at: indexPath, animated: true)
         cell?.backgroundColor = UIColor.clear
         cell?.layer.cornerRadius = 8
-        
-        print("Deselected")
     }
     
     

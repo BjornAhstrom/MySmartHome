@@ -55,18 +55,20 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         return button
     }()
     
+    let deviceIdKey = "DeviceId"
+    
     var tableView = UITableView()
     var isOn = false
-    var deviceIdToAllDevicesButton: String = ""
+    var deviceId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        settingButton.translatesAutoresizingMaskIntoConstraints = false
         addGroupButton.translatesAutoresizingMaskIntoConstraints = false
         allDevicesButton.translatesAutoresizingMaskIntoConstraints = false
-        settingButton.translatesAutoresizingMaskIntoConstraints = false
         
         configureTableView()
         
@@ -131,6 +133,10 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         ])
     }
     
+    public func setValue() {
+        deviceId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
+    }
+    
     @objc func settingsButtonForAllDevicesButtonPressed() {
         print("Settings button pressed")
         
@@ -148,13 +154,14 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func allDevicesButtonPressed() {
+        setValue()
         turnLampOnOrOff(bool: !isOn)
     }
     
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
         
-        print("AllDevicesButton id: \(deviceIdToAllDevicesButton)")
+        print("AllDevicesButton id: \(deviceId)")
         //bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
     }
 }
