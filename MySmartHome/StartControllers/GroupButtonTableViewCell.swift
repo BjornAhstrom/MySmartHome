@@ -21,10 +21,16 @@ class GroupButtonTableViewCell: UITableViewCell {
     var groupOnOrOffButton: Button = {
         let button = Button()
         button.setTitle("Off", for: .normal)
-        button.layer.cornerRadius = 10
+//        button.setTitleColor(.darkGray, for: .normal)
+//        button.setTitleColor(.systemGray2, for: .highlighted)
+//        button.layer.borderColor = UIColor.darkGray.cgColor
+//        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
         
         return button
     }()
+    
+    var isOn: Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -45,6 +51,16 @@ class GroupButtonTableViewCell: UITableViewCell {
     func setTextToLabel(name: String) {
         groupDevicesLabel.text = name
     }
+    
+//    @objc func onButtonPressed() {
+//        setButtonOnPressed(bool: !isOn)
+//       }
+//
+//    func setButtonOnPressed(bool : Bool) {
+//        isOn = bool
+//
+//        bool ? print("On \(isOn)") : print("Off \(isOn)")
+//    }
     
     func setConstraints() {
         // groupDevicesLabel constraints

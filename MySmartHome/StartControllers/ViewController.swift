@@ -96,7 +96,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     func getDeviceInfo() {
         DeviceInfoOutput.instance.getGroupDevicesId(id: groupId, onCompletion: {(response) in
             
-            // strängen som kommer från responsen är en sträng med flera id som är komma separerade ex (12345,54321,34567)
+            // Strängen som kommer från responsen är en sträng med flera id som är komma separerade ex (12345,54321,34567)
             // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
             self.devicesIds = response.components(separatedBy: ",")
             
@@ -115,7 +115,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             }
         })
     }
-    
     
     func configureTableView() {
         tableView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
@@ -209,9 +208,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as? GroupButtonTableViewCell else {
             fatalError("The deque cell is not an instace of GroupButtonTableViewCell.")
         }
+        
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-
+        
+        cell.groupOnOrOffButton.deviceId = device?.id ?? ""
         cell.setTextToLabel(name: device?.name ?? "No group")
+        
         
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator

@@ -216,8 +216,8 @@ class DeviceInfoOutput {
                     self.deviceStatus.append(devHis)
                 }
                 
-                if let test = self.deviceStatus.last {
-                    onCompletion(test.state ?? 0)
+                if let state = self.deviceStatus.last { // Tar ut det sista värdet som registrerades och skickar vidare det
+                    onCompletion(state.state ?? 0)
                 }
                 
             case.failure(let error):

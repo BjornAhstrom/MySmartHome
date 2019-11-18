@@ -82,7 +82,8 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.deviceId = device?.id ?? "No id"
         deviceId = device?.id ?? "No id"
         
-        cell.deviceOnOrOffButton.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
+//        cell.deviceOnOrOffButton.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
+        cell.deviceOnOrOffButton.deviceId = device?.id ?? ""
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
