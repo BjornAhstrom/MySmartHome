@@ -146,12 +146,11 @@ class ButtonSettingsViewController: UIViewController {
     }
     
     @objc func onCancelButtonPressed() {
-        print("Pressed")
         self.view.removeFromSuperview()
     }
     
     @objc func onOkButtonPressed() {
-        // send selectedDeviceId value to allDeviceButton in ViewController
+        // send selectedDeviceId value to deviceId in ViewController
         
         UserDefaults.standard.removeObject(forKey: deviceIdKey)
         UserDefaults.standard.set(selectedDeviceId, forKey: deviceIdKey)

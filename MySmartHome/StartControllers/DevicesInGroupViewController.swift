@@ -64,7 +64,6 @@ class DevicesInGroupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        //        DeviceInfoOutput.instance.getDeviceInformation(id: groupId)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -125,7 +124,8 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         }
         let devId = devicesIds[indexPath.row]
         
-        DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { devName in
+        DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { (devName) in
+            
             cell.setDeviceNameToLabel(name: devName, image: UIImage(named: "Lamp") ?? UIImage())
         })
         
@@ -133,10 +133,14 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
             print(state)
             
             if state == 1 {
+                // Dvice is on
+                collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
                 cell.backgroundColor = UIColor.clear
                 cell.layer.cornerRadius = 10
             }
             else if state == 2 {
+                // Device is off
+                collectionView.deselectItem(at: indexPath, animated: true)
                 cell.backgroundColor = UIColor(displayP3Red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
                 cell.layer.cornerRadius = 10
             }

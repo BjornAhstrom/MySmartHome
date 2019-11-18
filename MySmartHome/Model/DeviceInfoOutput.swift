@@ -16,6 +16,7 @@ class DeviceInfoOutput {
     
     var devices: [Deviceinfo] = []
     var deviceStatus: [DeviceHistory] = []
+    var deviceInfo: [DeviceInforma] = []
     
     var deviceCount: Int {
         return devices.count
@@ -78,7 +79,7 @@ class DeviceInfoOutput {
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(DeviceInforma.self, from: jsonData!)
                 
-                print(device)
+                self.deviceInfo.append(device)
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -95,10 +96,28 @@ class DeviceInfoOutput {
                 
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
-                let device = try! decoder.decode(DeviceInforma.self, from: jsonData!)
+                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
                 
-                //                print("devId: \(device.id), devNAme: \(device.name), devState: \(device.state), devType: \(device.type) ")
                 onCompletion(device.name)
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // The id of the group to get all devices id in group
+    func getGroupDevicesId(id: String, onCompletion: @escaping (String) -> Void ) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
+            switch result {
+            case.success(let response):
+                let dataString = response.string
+                
+                let jsonData = dataString!.data(using: .utf8)
+                let decoder = JSONDecoder()
+                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
+                
+                onCompletion(device.devices ?? "")
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -231,12 +250,6 @@ class DeviceInfoOutput {
             }
         }
     }
-    
-    
-    
-    
-    
-    
     
     func deviceClear() {
         devices = []

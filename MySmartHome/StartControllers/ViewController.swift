@@ -20,9 +20,13 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         return textLabel
     }()
     
-    var allDevicesButton: Button = {
-        let button = Button()
+    var allDevicesButton: UIButton = {
+        let button = UIButton()
         button.setTitle("Off", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
         
@@ -59,7 +63,9 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     var tableView = UITableView()
     var isOn = false
-    var deviceId: String = ""
+    var groupId: String = ""
+    var test: Int = 0
+    var devicesIds: [String] = [] // split string from deviceId in to this array
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,12 +84,38 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         view.addSubview(allDevicesButton)
         view.addSubview(settingButton)
         
+        setupConstraints()
+        setValue()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
             self.tableView.reloadData()
+            self.getDeviceInfo()
         })
-        
-        setupConstraints()
     }
+    
+    func getDeviceInfo() {
+        DeviceInfoOutput.instance.getGroupDevicesId(id: groupId, onCompletion: {(response) in
+            
+            // strängen som kommer från responsen är en sträng med flera id som är komma separerade ex (12345,54321,34567)
+            // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
+            self.devicesIds = response.components(separatedBy: ",")
+            
+            for id in self.devicesIds {
+                DeviceInfoOutput.instance.getHistory(id: id, onCompletion: {(state) in
+                    
+                    if state == 1 {
+                        self.isOn = true
+                        self.allDevicesButton.setTitle("On", for: .normal)
+                    }
+                    else if state == 2 {
+                        self.isOn = false
+                        self.allDevicesButton.setTitle("Off", for: .normal)
+                    }
+                })
+            }
+        })
+    }
+    
     
     func configureTableView() {
         tableView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
@@ -134,7 +166,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }
     
     public func setValue() {
-        deviceId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
+        groupId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
     }
     
     @objc func settingsButtonForAllDevicesButtonPressed() {
@@ -160,9 +192,8 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
-        
-        print("AllDevicesButton id: \(deviceId)")
-        //bool ? DeviceInfoOutput.turnOnDevice(id: "5449082") : DeviceInfoOutput.turnOffDevice(id: "5449082")
+        bool ? allDevicesButton.setTitle("On", for: .normal) : allDevicesButton.setTitle("Off", for: .normal)
+        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId) : DeviceInfoOutput.instance.turnOffDevice(id: groupId)
     }
 }
 
