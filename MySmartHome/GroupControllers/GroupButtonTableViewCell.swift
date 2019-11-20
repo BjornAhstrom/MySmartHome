@@ -14,6 +14,7 @@ class GroupButtonTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .darkGray
         label.font = .boldSystemFont(ofSize: 20)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -34,6 +35,7 @@ class GroupButtonTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .white
         
         groupDevicesLabel.translatesAutoresizingMaskIntoConstraints = false
         groupOnOrOffButton.translatesAutoresizingMaskIntoConstraints = false
@@ -51,16 +53,6 @@ class GroupButtonTableViewCell: UITableViewCell {
     func setTextToLabel(name: String) {
         groupDevicesLabel.text = name
     }
-    
-//    @objc func onButtonPressed() {
-//        setButtonOnPressed(bool: !isOn)
-//       }
-//
-//    func setButtonOnPressed(bool : Bool) {
-//        isOn = bool
-//
-//        bool ? print("On \(isOn)") : print("Off \(isOn)")
-//    }
     
     func setConstraints() {
         // groupDevicesLabel constraints

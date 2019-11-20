@@ -16,7 +16,7 @@ class DeviceInfoOutput {
     
     var devices: [Deviceinfo] = []
     var deviceStatus: [DeviceHistory] = []
-    var deviceInfo: [DeviceInforma] = []
+    var deviceInfo: [Deviceinfo] = []
     
     var deviceCount: Int {
         return devices.count
@@ -25,7 +25,6 @@ class DeviceInfoOutput {
     // the id of the device to turn on lamp
     func turnOnDevice(id: String) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/turnOn?id=\(id)") { result in
-            print(id)
             switch result {
             case.success(let response):
                 let dataString = response.string
@@ -69,7 +68,7 @@ class DeviceInfoOutput {
     }
     
     // The id of the device to get info
-    func getDeviceInformation(id: String) {
+    func getDeviceInformation(id: String, onCompletion: @escaping (String, String) -> Void ) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
             switch result {
             case.success(let response):
@@ -77,9 +76,10 @@ class DeviceInfoOutput {
                 
                 let jsonData = dataString!.data(using: .utf8)
                 let decoder = JSONDecoder()
-                let device = try! decoder.decode(DeviceInforma.self, from: jsonData!)
+                let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
                 
                 self.deviceInfo.append(device)
+                onCompletion(device.statevalue ?? "", device.deviceType ?? "")
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -98,7 +98,7 @@ class DeviceInfoOutput {
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
                 
-                onCompletion(device.name)
+                onCompletion(device.name ?? "")
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -200,7 +200,7 @@ class DeviceInfoOutput {
     }
     
     // The id of the device to find history from a specific device to get the state value
-    func getHistory(id: String, onCompletion: @escaping (Int) -> Void ) {
+    func getHistory(id: String, onCompletion: @escaping (Int, Int) -> Void ) {
         
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/history?id=\(id)") { result in
             switch result {
@@ -211,13 +211,13 @@ class DeviceInfoOutput {
                 let decoder = JSONDecoder()
                 let deviceHistory = try! decoder.decode(DeviceHistorys.self, from: jsonData!)
                 
-                for devHis in deviceHistory.history {
+                for devHis in deviceHistory.history ?? [] {
                     
                     self.deviceStatus.append(devHis)
                 }
                 
                 if let state = self.deviceStatus.last { // Tar ut det sista värdet som registrerades och skickar vidare det
-                    onCompletion(state.state ?? 0)
+                    onCompletion(state.state ?? 0, state.stateValue ?? 0)
                 }
                 
             case.failure(let error):

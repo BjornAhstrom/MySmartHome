@@ -14,22 +14,23 @@ class AllDevicesInCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
 //        DevicesInput.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
         configurCollectionView()
     }
     
     func configurCollectionView() {
-        print("!!!!!!!!!! 1")
-        collectionView?.delegate = self
-        print("!!!!!!!!!! 2")
-        collectionView?.dataSource = self
-        print("!!!!!!!!!! 3")
-        collectionView?.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        print("!!!!!!!!!! 4")
-//        self.view.addSubview(collectionView)
-        print("!!!!!!!!!! 5")
-        constraintsForTheTableView()
+//        print("!!!!!!!!!! 1")
+//        collectionView?.delegate = self
+//        print("!!!!!!!!!! 2")
+//        collectionView?.dataSource = self
+//        print("!!!!!!!!!! 3")
+//        collectionView?.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+//        print("!!!!!!!!!! 4")
+////        self.view.addSubview(collectionView)
+//        print("!!!!!!!!!! 5")
+//        constraintsForTheTableView()
     }
     
     func constraintsForTheTableView() {
@@ -52,7 +53,7 @@ extension AllDevicesInCollectionViewController: UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CustomCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? UICollectionViewCell else {
             fatalError("error")
         }
 //        let device = DevicesInput.devices[indexPath.row]

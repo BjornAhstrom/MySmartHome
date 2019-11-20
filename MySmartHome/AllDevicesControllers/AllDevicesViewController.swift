@@ -10,18 +10,25 @@ import UIKit
 
 class AllDevicesViewController: UIViewController {
     
-    var tableView = UITableView()
+    var tableView: UITableView = {
+        let tView = UITableView()
+        tView.backgroundColor = .white
+        
+        return tView
+    }()
     
     struct Cells {
         static let deviceCell = "DeviceCell"
     }
     
     private var deviceId: String = ""
+    private var sliderValue: Float?
     
-    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    private let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -37,6 +44,11 @@ class AllDevicesViewController: UIViewController {
         }
         
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
     }
     
     func configureTableView() {
@@ -82,9 +94,30 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.deviceId = device?.id ?? "No id"
         deviceId = device?.id ?? "No id"
         
-//        cell.deviceOnOrOffButton.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
-        cell.deviceOnOrOffButton.deviceId = device?.id ?? ""
+        cell.deviceOnOrOffButton.isHidden = true
+        cell.slider.isHidden = true
         
+        DeviceInfoOutput.instance.getHistory(id: self.deviceId, onCompletion: {(state, stateValue) in
+ 
+            
+        })
+        
+        DeviceInfoOutput.instance.getDeviceInformation(id: device?.id ?? "", onCompletion: {(value, deviceType)  in
+
+                if deviceType == TelldusKeys.dimmableDeviceNr {
+                    cell.slider.isHidden = false
+                    self.sliderValue = cell.slider.value
+                    cell.setSlider(value: self.sliderValue ?? 0.0)
+                   
+                    
+                } else {
+                    cell.deviceOnOrOffButton.isHidden = false
+                }
+        })
+        
+
+        
+        cell.backgroundColor = .white
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         return cell
@@ -95,6 +128,7 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         
         let device = GetInfoAboutAllDevices.instance.devices[indexPath.row]
         whenTableViewCellIsSelectedGoToNextView(title: device.name ?? "", id: device.id ?? "", deviceName: device.name ?? "", type: device.type ?? "")
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -110,14 +144,14 @@ extension AllDevicesViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(settings, animated: true)
     }
     
-    @objc func buttonPressed(sender: Button) {
-        sender.isOn ? print("On") : print("Off")
-        sender.isOn ? lampButtonPressed(id: deviceId) : lampButtonPressed(id: deviceId)
-    }
-    
-    func lampButtonPressed(id: String) {
-        print("print \(id)")
-    }
+//    @objc func buttonPressed(sender: Button) {
+//        sender.isOn ? print("On") : print("Off")
+//        sender.isOn ? lampButtonPressed(id: deviceId) : lampButtonPressed(id: deviceId)
+//    }
+//
+//    func lampButtonPressed(id: String) {
+//        print("print \(id)")
+//    }
 }
 
 //// Show alert sign with settings

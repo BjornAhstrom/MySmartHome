@@ -189,12 +189,12 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? GroupCollectionViewCell else {
-            fatalError("Something went wrong to th cell")
+            fatalError("Something went wrong to the cell")
         }
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "Lamp") ?? UIImage())
+        cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "") ?? UIImage())
         
         return cell
     }
@@ -210,10 +210,6 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         devicesId.updateValue(indexPath.row, forKey: device)
         
         devicesLabel.text? += "\(device),"
-        
-        print(devicesId)
-        
-        print("Selected \(indexPath.row)")
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -229,14 +225,6 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         let str2 = str1.replacingOccurrences(of: "\(device),", with: "", options: String.CompareOptions.literal, range: nil)
         
         devicesLabel.text = str2
-        
-        //        print(devicesId)
-        
-        print("Deselected \(indexPath.row)")
-        
-        for i in devicesId {
-            print(i)
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -244,9 +232,6 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        print("starting index: \(sourceIndexPath.item)")
-        print("Ending index: \(destinationIndexPath.item)")
     }
 }
 

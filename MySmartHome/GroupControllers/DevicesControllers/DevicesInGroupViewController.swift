@@ -126,11 +126,10 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         
         DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { (devName) in
             
-            cell.setDeviceNameToLabel(name: devName, image: UIImage(named: "Lamp") ?? UIImage())
+            cell.setDeviceNameToLabel(name: devName, image: UIImage(named: "") ?? UIImage())
         })
         
-        DeviceInfoOutput.instance.getHistory(id: devId, onCompletion: { (state) in
-            print(state)
+        DeviceInfoOutput.instance.getHistory(id: devId, onCompletion: { (state, stateValue)  in
             
             if state == 1 {
                 // Dvice is on
@@ -145,6 +144,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
                 cell.layer.cornerRadius = 10
             }
         })
+        
         return cell
     }
     
@@ -157,8 +157,6 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         cell?.layer.cornerRadius = 10
         
         DeviceInfoOutput.instance.turnOnDevice(id: devId)
-        print("On: \(devId)")
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -170,7 +168,6 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         cell?.layer.cornerRadius = 10
         
         DeviceInfoOutput.instance.turnOffDevice(id: devId)
-        print("Off: \(devId)")
     }
 }
 

@@ -30,7 +30,7 @@ class GetInfoAboutAllDevices {
                 let device = try! decoder.decode(DeviceList.self, from: jsonData!)
                 
                 let devi = device.device
-                for dev in devi {
+                for dev in devi ?? [] {
                     self.devices.append(dev)
                 }
                 

@@ -38,9 +38,9 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
-        button.setTitle("S", for: .normal)
+        button.setTitle("°°°", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
-        button.backgroundColor = .systemBackground
+        button.backgroundColor = .white
         button.addTarget(self, action: #selector(settingsButtonForAllDevicesButtonPressed), for: .touchUpInside)
         
         return button
@@ -59,9 +59,15 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         return button
     }()
     
+    var tableView: UITableView = {
+        let tView = UITableView()
+        tView.backgroundColor = .white
+        
+        return tView
+    }()
+    
     let deviceIdKey = "DeviceId"
     
-    var tableView = UITableView()
     var isOn = false
     var groupId: String = ""
     var test: Int = 0
@@ -69,6 +75,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -96,20 +103,24 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     func getDeviceInfo() {
         DeviceInfoOutput.instance.getGroupDevicesId(id: groupId, onCompletion: {(response) in
             
-            // Strängen som kommer från responsen är en sträng med flera id som är komma separerade ex (12345,54321,34567)
+            // Strängen som kommer från responsen är en sträng med flera id som är komma (,) separerade ex (12345,54321,34567)
             // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
             self.devicesIds = response.components(separatedBy: ",")
             
             for id in self.devicesIds {
-                DeviceInfoOutput.instance.getHistory(id: id, onCompletion: {(state) in
+                DeviceInfoOutput.instance.getHistory(id: id, onCompletion: {(state, stateValue)  in
                     
                     if state == 1 {
                         self.isOn = true
+                        self.allDevicesButton.setTitleColor(.white, for: .normal)
                         self.allDevicesButton.setTitle("On", for: .normal)
+                        self.allDevicesButton.backgroundColor = .darkGray
                     }
                     else if state == 2 {
                         self.isOn = false
+                        self.allDevicesButton.setTitleColor(.darkGray, for: .normal)
                         self.allDevicesButton.setTitle("Off", for: .normal)
+                        self.allDevicesButton.backgroundColor = .clear
                     }
                 })
             }
@@ -169,8 +180,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func settingsButtonForAllDevicesButtonPressed() {
-        print("Settings button pressed")
-        
         let popup = ButtonSettingsViewController()
         self.addChild(popup)
         popup.view.frame = self.view.frame
@@ -215,7 +224,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setTextToLabel(name: device?.name ?? "No group")
         
         
-        
+        cell.backgroundColor = .white
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         return cell

@@ -10,32 +10,34 @@ import UIKit
 
 struct DeviceList: Codable {
     
-    let device : [Deviceinfo]
+    let device : [Deviceinfo]?
 }
 
 struct Deviceinfo: Codable {
-    var id: String
-    let name: String
-    let type: String
+    var id: String?
+    let name: String?
+    let statevalue: String?
+    let type: String?
     let devices: String?
+    let deviceType: String?
 }
 
-struct DeviceInforma: Codable {
-    let id: String
-    let name: String
-    let state: String
-    let type: String
-}
+//struct DeviceInforma: Codable {
+//    let id: String?
+//    let name: String?
+//    let state: String?
+//    let type: String?
+//}
 
 struct DeviceHistorys: Codable {
-    let history: [DeviceHistory]
+    let history: [DeviceHistory]?
 }
 
 struct DeviceHistory: Codable {
-    let ts: Int? //"ts": 1573728053,
-    let state: Int?//"state": 2,
-    let stateValue: Int? //"stateValue": 0,
-    let origin: String? //"origin": "Telldus Live! mobile - iOS",
-    let successStatus: Int? //"successStatus": 0
+    let ts: Int? 
+    let state: Int?
+    let stateValue: Int?
+    let origin: String?
+    let successStatus: Int?
 }
 

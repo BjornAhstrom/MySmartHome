@@ -16,11 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
-        TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
-        
-        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
-        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
+       
         return true
     }
 

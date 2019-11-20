@@ -34,7 +34,6 @@ class Button: UIButton {
         layer.cornerRadius = 15
         setTitleColor(UIColor.darkGray, for: .normal)
         addTarget(self, action: #selector(Button.buttonPressed), for: .touchUpInside)
-        
     }
     
     @objc func buttonPressed() {
@@ -59,9 +58,7 @@ class Button: UIButton {
         
 //        isOn ? DeviceInfoOutput.instance.turnOffDevice(id: deviceId) : DeviceInfoOutput.instance.turnOnDevice(id: deviceId)
         
-        DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state) in
-            print(state)
-            
+        DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
             if state == 1 {
                 self.isOn = true
                 self.setTitleColor(.white, for: .normal)

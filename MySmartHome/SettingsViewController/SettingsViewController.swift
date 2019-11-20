@@ -22,6 +22,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     var changeNameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = UITextField.BorderStyle.roundedRect
+        textField.backgroundColor = UIColor.white
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.keyboardType = UIKeyboardType.default
         textField.returnKeyType = UIReturnKeyType.done
@@ -65,10 +66,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         changeNameTextField.text = deviceName
-        
-        view.backgroundColor = .systemBackground
         
         changeNameTextField.translatesAutoresizingMaskIntoConstraints = false
         learnDeviceButton.translatesAutoresizingMaskIntoConstraints = false

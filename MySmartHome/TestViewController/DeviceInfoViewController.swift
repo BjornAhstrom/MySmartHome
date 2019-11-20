@@ -36,7 +36,7 @@ class DeviceInfoViewController: UINavigationController {
                             
                             let devi = device.device
                             
-                            for dev in devi {
+                            for dev in devi ?? [] {
                                 
                                 self.nameLabel.text = dev.name
                             }

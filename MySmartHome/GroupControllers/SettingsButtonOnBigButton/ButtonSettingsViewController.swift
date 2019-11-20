@@ -21,7 +21,7 @@ class ButtonSettingsViewController: UIViewController {
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
         view.register(ButtonSettingsCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         view.layer.borderColor = UIColor.darkGray.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 10
@@ -46,7 +46,7 @@ class ButtonSettingsViewController: UIViewController {
     var viewController: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 15
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         
         return view
     }()
@@ -79,7 +79,7 @@ class ButtonSettingsViewController: UIViewController {
         return button
     }()
     
-    let deviceIdKey = "DeviceId"
+    let deviceIdKey = ""
     
     var selectedDeviceId: String = ""
     var mainViewController: ViewController?
@@ -151,11 +151,12 @@ class ButtonSettingsViewController: UIViewController {
     
     @objc func onOkButtonPressed() {
         // send selectedDeviceId value to deviceId in ViewController
-        
-        UserDefaults.standard.removeObject(forKey: deviceIdKey)
-        UserDefaults.standard.set(selectedDeviceId, forKey: deviceIdKey)
-        
-        self.view.removeFromSuperview()
+        if selectedDeviceId != "" {
+            UserDefaults.standard.removeObject(forKey: deviceIdKey)
+            UserDefaults.standard.set(selectedDeviceId, forKey: deviceIdKey)
+            
+            self.view.removeFromSuperview()
+        }
     }
 }
 
