@@ -100,6 +100,11 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         })
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
+    
     func getDeviceInfo() {
         DeviceInfoOutput.instance.getGroupDevicesId(id: groupId, onCompletion: {(response) in
             
@@ -245,6 +250,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func whenTableViewCellIsSelectedGoToNextView(groupName: String, id: String, devicesId: String) {
         let groupViewController = DevicesInGroupViewController()
         groupViewController.title = groupName
+        groupViewController.groupName = groupName
         groupViewController.groupId = id
         groupViewController.devicesId = devicesId
         self.navigationController?.pushViewController(groupViewController, animated: true)

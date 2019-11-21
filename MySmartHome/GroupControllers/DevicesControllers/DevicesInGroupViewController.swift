@@ -10,6 +10,16 @@ import UIKit
 
 class DevicesInGroupViewController: UIViewController {
     
+    var backgroundView: UIImageView = {
+            let imageView = UIImageView()
+//            imageView.image = UIImage(named: "Background")
+            imageView.backgroundColor = .white
+        imageView.contentMode =  .scaleAspectFill
+    //        imageView.clipsToBounds = true
+            
+            return imageView
+        }()
+    
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 10, right: 20)
@@ -60,25 +70,29 @@ class DevicesInGroupViewController: UIViewController {
     
     var isOn: Bool = false
     var currentDeviceId: String = ""
+    var groupName: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         removeGroupLabel.translatesAutoresizingMaskIntoConstraints = false
         removeGroupButton.translatesAutoresizingMaskIntoConstraints = false
         
         devicesIds = devicesId.components(separatedBy: ",")
         
+        view.addSubview(backgroundView)
         view.addSubview(collectionView)
         view.addSubview(removeGroupLabel)
         view.addSubview(removeGroupButton)
         
         setConstraints()
+        getImage(imageName: groupName)
     }
     
     // Remove group
@@ -87,6 +101,13 @@ class DevicesInGroupViewController: UIViewController {
     }
     
     func setConstraints() {
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
         NSLayoutConstraint.activate([
             removeGroupLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
             removeGroupLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
@@ -107,6 +128,18 @@ class DevicesInGroupViewController: UIViewController {
             removeGroupButton.heightAnchor.constraint(equalToConstant: 40),
             removeGroupButton.widthAnchor.constraint(equalToConstant: 150)
         ])
+    }
+    
+    func getImage(imageName: String) {
+        let fileManager = FileManager.default
+        
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        if fileManager.fileExists(atPath: imagePath) {
+            self.backgroundView.image = UIImage(contentsOfFile: imagePath)
+        } else {
+            print("No image")
+        }
     }
 }
 

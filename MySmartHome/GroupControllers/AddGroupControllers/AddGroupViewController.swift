@@ -14,7 +14,7 @@ class AddGroupViewController: UIViewController {
         let imageView = UIImageView()
 //        imageView.image = UIImage(named: "Background")
         imageView.backgroundColor = .white
-//        imageView.contentMode =  .scaleAspectFit
+        imageView.contentMode =  .scaleAspectFill
 //        imageView.clipsToBounds = true
         
         return imageView
@@ -128,6 +128,7 @@ class AddGroupViewController: UIViewController {
         print("Test")
         self.view.insertSubview(self.backgroundView, at: 0)
         
+        
     }
     
     func setConstraints() {
@@ -191,6 +192,7 @@ class AddGroupViewController: UIViewController {
     
     @objc func addDeviceButtonPressed() {
         showAddGroupAlert()
+        saveImage(imageName: self.newGroupNameTextField.text ?? "")
     }
     
     @objc func onPressedAddPhotoButton() {
@@ -385,7 +387,6 @@ extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerC
             return
         }
         backgroundView.image = image
-        print(image.size)
     }
     
     func alertWhenNoCamera() {
@@ -394,5 +395,22 @@ extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerC
         alert.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: {(_) in }))
         
         present(alert, animated: true)
+    }
+    
+    func saveImage(imageName: String) {
+        // Create an instance of the fileManager
+        let fileManager = FileManager.default
+        
+        // Get the image path
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        // Get the image we took
+        let image = self.backgroundView.image
+        
+        // Get the png data for this image
+        let data = image?.pngData()
+        
+        // Store it in the document directory
+        fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
     }
 }
