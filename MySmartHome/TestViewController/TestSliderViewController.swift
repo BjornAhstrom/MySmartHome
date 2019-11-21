@@ -13,7 +13,7 @@ class TestSliderViewController: UIViewController {
     var viewController: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 15
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .lightGray
         
         return view
     }()

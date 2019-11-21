@@ -10,28 +10,30 @@ import UIKit
 
 class AllDevicesCollectionViewCell: UICollectionViewCell {
     
-        var sliderButton: UIButton = {
+    var sliderButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 7
-        button.setTitleColor(.darkGray, for: .normal)
-//        button.setImage(UIImage(named: "Slider"), for: .normal)
-//        button.imageView?.contentMode = .scaleAspectFit
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 0.5
+        button.layer.cornerRadius = 3
+        button.layer.masksToBounds = true
+        button.backgroundColor = .lightGray
+        button.setTitleColor(.white, for: .normal)
+        //        button.setImage(UIImage(named: "Slider"), for: .normal)
+        //        button.imageView?.contentMode = .scaleAspectFit
         
         return button
     }()
     
-    var slider: UISlider = {
-        let slider = UISlider()
-        slider.minimumTrackTintColor = .green
-        slider.maximumTrackTintColor = .red
-        slider.minimumValue = 0
-        slider.maximumValue = 254
-        slider.setValue(slider.maximumValue/2, animated: false)
-        
-        return slider
-    }()
+    //    var slider: UISlider = {
+    //        let slider = UISlider()
+    //        slider.minimumTrackTintColor = .green
+    //        slider.maximumTrackTintColor = .red
+    //        slider.minimumValue = 0
+    //        slider.maximumValue = 254
+    //        slider.setValue(slider.maximumValue/2, animated: false)
+    //
+    //        return slider
+    //    }()
     
     var imageView: UIImageView = {
         var image = UIImageView()
@@ -41,7 +43,7 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-   var textLabel: UILabel = {
+    var textLabel: UILabel = {
         let label = UILabel()
         label.layer.cornerRadius = 5
         label.font = .boldSystemFont(ofSize: 18)
@@ -64,12 +66,12 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         sliderButton.translatesAutoresizingMaskIntoConstraints = false
-//        slider.translatesAutoresizingMaskIntoConstraints = false
+        //        slider.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(sliderButton)
-//        addSubview(slider)
+        //        addSubview(slider)
         addSubview(imageView)
         addSubview(textLabel)
         
