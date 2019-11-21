@@ -26,6 +26,8 @@ class AllDevicesController: UIViewController {
         return view
     }()
     
+    var sliderValue: Float = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -78,15 +80,19 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         DeviceInfoOutput.instance.getDeviceInformation(id: device?.id ?? "", onCompletion: {(stateValue, deviceType)  in
             
             if deviceType == TelldusKeys.dimmableDeviceNr {
-                cell.slider.isHidden = false
+                cell.sliderButton.isHidden = false
                 cell.setConstraints(sliderIsOn: true)
                 
             } else {
-                cell.slider.isHidden = true
+                cell.sliderButton.isHidden = true
             }
         })
         
+        cell.sliderButton.addTarget(self, action: #selector(setSliderValue), for: .touchUpInside)
+        
         DeviceInfoOutput.instance.getHistory(id: device?.id ?? "", onCompletion: { (state, stateValue)  in
+            
+            cell.sliderButton.setTitle("% \(stateValue)", for: .normal)
             
             if state == 1 {
                 // Dvice is on
@@ -118,4 +124,13 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         
     }
     
+    @objc func setSliderValue() {
+        print("SliderButtonTouch")
+        
+        let popup = TestSliderViewController()
+        self.addChild(popup)
+        popup.view.frame = self.view.frame
+        self.view.addSubview(popup.view)
+        popup.didMove(toParent: self)
+    }
 }

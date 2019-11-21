@@ -10,6 +10,18 @@ import UIKit
 
 class AllDevicesCollectionViewCell: UICollectionViewCell {
     
+        var sliderButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 7
+        button.setTitleColor(.darkGray, for: .normal)
+//        button.setImage(UIImage(named: "Slider"), for: .normal)
+//        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }()
+    
     var slider: UISlider = {
         let slider = UISlider()
         slider.minimumTrackTintColor = .green
@@ -29,7 +41,7 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-    var textLabel: UILabel = {
+   var textLabel: UILabel = {
         let label = UILabel()
         label.layer.cornerRadius = 5
         label.font = .boldSystemFont(ofSize: 18)
@@ -51,11 +63,13 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        slider.translatesAutoresizingMaskIntoConstraints = false
+        sliderButton.translatesAutoresizingMaskIntoConstraints = false
+//        slider.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(slider)
+        addSubview(sliderButton)
+//        addSubview(slider)
         addSubview(imageView)
         addSubview(textLabel)
         
@@ -68,22 +82,18 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSliderValue(value: Float) {
-        slider.value = value
-    }
-    
     func setTextAndImageToCell(name: String, image: UIImage) {
         textLabel.text = name
         imageView.image = image
     }
     
     func setConstraints(sliderIsOn: Bool) {
-        // slider constraints
-        slider.widthAnchor.constraint(equalToConstant: contentView.frame.width/2).isActive = sliderIsOn
-        slider.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = sliderIsOn
-        slider.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = sliderIsOn
-        slider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = sliderIsOn
-        slider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = sliderIsOn
+        // sliderButton constraints
+        sliderButton.widthAnchor.constraint(equalToConstant: contentView.frame.width/2).isActive = sliderIsOn
+        sliderButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = sliderIsOn
+        sliderButton.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = sliderIsOn
+        sliderButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = sliderIsOn
+        sliderButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = sliderIsOn
         
         // imageView constraints
         imageView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = true
