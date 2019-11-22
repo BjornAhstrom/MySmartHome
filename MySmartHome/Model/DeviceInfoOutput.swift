@@ -151,6 +151,8 @@ class DeviceInfoOutput {
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
                 
+                print(device)
+                
                 if device.error == nil {
                     onCompletion(device.status ?? "")
                 } else {
@@ -165,8 +167,8 @@ class DeviceInfoOutput {
     }
     
     // The id from the group to remove group
-    func removeGroup(deviceId: String) {
-        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/remove?id=\(deviceId)") { result in
+    func removeGroup(groupId: String, onCompletion: @escaping (String, String) -> Void ) {
+        TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/remove?id=\(groupId)") { result in // gör en completionhandler och tillsätt på remove group button
             switch result {
             case.success(let response):
                 let dataString = response.string
@@ -175,7 +177,7 @@ class DeviceInfoOutput {
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(MessageFromTelldus.self, from: jsonData!)
                 
-                print("\(device)")
+                onCompletion(device.status ?? "", device.error ?? "")
                 
             case.failure(let error):
                 print(error.localizedDescription)

@@ -98,6 +98,39 @@ class DevicesInGroupViewController: UIViewController {
     // Remove group
     @objc func removeButtonPressed() {
         print("Remove button pressed")
+        deleteImage(ImageName: groupName)
+        DeviceInfoOutput.instance.removeGroup(groupId: groupId, onCompletion: {(success, error) in
+            print("\(success)")
+            print("\(error)")
+        })
+    }
+    
+    func getImage(imageName: String) {
+        let fileManager = FileManager.default
+        
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        if fileManager.fileExists(atPath: imagePath) {
+            self.backgroundView.image = UIImage(contentsOfFile: imagePath)
+        } else {
+            print("No image")
+        }
+    }
+    
+    func deleteImage(ImageName: String) {
+        let fileManager = FileManager.default
+        
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as
+            NSString).appendingPathComponent(ImageName)
+        
+        if fileManager.fileExists(atPath: imagePath) {
+            do {
+                try fileManager.removeItem(atPath: imagePath)
+            } catch {
+                print("Could not find image")
+            }
+            
+        }
     }
     
     func setConstraints() {
@@ -128,18 +161,6 @@ class DevicesInGroupViewController: UIViewController {
             removeGroupButton.heightAnchor.constraint(equalToConstant: 40),
             removeGroupButton.widthAnchor.constraint(equalToConstant: 150)
         ])
-    }
-    
-    func getImage(imageName: String) {
-        let fileManager = FileManager.default
-        
-        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-        
-        if fileManager.fileExists(atPath: imagePath) {
-            self.backgroundView.image = UIImage(contentsOfFile: imagePath)
-        } else {
-            print("No image")
-        }
     }
 }
 

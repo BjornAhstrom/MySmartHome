@@ -22,13 +22,6 @@ struct Deviceinfo: Codable {
     let deviceType: String?
 }
 
-//struct DeviceInforma: Codable {
-//    let id: String?
-//    let name: String?
-//    let state: String?
-//    let type: String?
-//}
-
 struct DeviceHistorys: Codable {
     let history: [DeviceHistory]?
 }

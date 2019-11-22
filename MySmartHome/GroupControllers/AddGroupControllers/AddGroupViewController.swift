@@ -127,8 +127,6 @@ class AddGroupViewController: UIViewController {
         super.viewWillAppear(true)
         print("Test")
         self.view.insertSubview(self.backgroundView, at: 0)
-        
-        
     }
     
     func setConstraints() {
@@ -192,7 +190,7 @@ class AddGroupViewController: UIViewController {
     
     @objc func addDeviceButtonPressed() {
         showAddGroupAlert()
-        saveImage(imageName: self.newGroupNameTextField.text ?? "")
+//        saveImage(imageName: self.newGroupNameTextField.text ?? "")
     }
     
     @objc func onPressedAddPhotoButton() {
@@ -217,6 +215,7 @@ class AddGroupViewController: UIViewController {
                 self.removeActivityIndicator()
             }
         })
+        
         if groupName != "" {
             self.goBackToViewControllerWhenOkButtonInAlertIsPressed()
         }

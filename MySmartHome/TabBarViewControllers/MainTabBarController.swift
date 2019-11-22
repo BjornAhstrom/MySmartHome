@@ -34,8 +34,17 @@ class MainTabBarController: UITabBarController {
         TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
         TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
         
-        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
-        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
+        DispatchQueue.main.async {
+            GetInfoAboutClient.instance.getClientInfo(url: "https://api.telldus.com/json/clients/list")
+        }
+        
+        DispatchQueue.main.async {
+            GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
+        }
+        
+        DispatchQueue.main.async {
+            GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
+        }
     }
 }
 

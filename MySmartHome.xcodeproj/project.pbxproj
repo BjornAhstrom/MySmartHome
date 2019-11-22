@@ -26,6 +26,8 @@
 		1E31BB4723859CDD000C91E5 /* TestSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31BB4623859CDD000C91E5 /* TestSliderViewController.swift */; };
 		1E52F1B92383093500B4C128 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0E556523702DDB00794DFF /* OAuthSwift.framework */; };
 		1E52F1BA2383093500B4C128 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0E556523702DDB00794DFF /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E972AE023870EAF003F6C9F /* GetInfoAboutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972ADF23870EAF003F6C9F /* GetInfoAboutClient.swift */; };
+		1E972AE823870F6A003F6C9F /* ClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972AE723870F6A003F6C9F /* ClientInfo.swift */; };
 		1E9C5FE5237C031400700C1B /* MessageFromTelldus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */; };
 		1E9C5FEE237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */; };
 		1E9C5FF0237D947500700C1B /* ButtonSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */; };
@@ -136,6 +138,8 @@
 		1E31BB3C23850C39000C91E5 /* AllDevicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesController.swift; sourceTree = "<group>"; };
 		1E31BB4423851728000C91E5 /* AllDevicesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesCollectionViewCell.swift; sourceTree = "<group>"; };
 		1E31BB4623859CDD000C91E5 /* TestSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSliderViewController.swift; sourceTree = "<group>"; };
+		1E972ADF23870EAF003F6C9F /* GetInfoAboutClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoAboutClient.swift; sourceTree = "<group>"; };
+		1E972AE723870F6A003F6C9F /* ClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfo.swift; sourceTree = "<group>"; };
 		1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFromTelldus.swift; sourceTree = "<group>"; };
 		1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInGroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSettingsViewController.swift; sourceTree = "<group>"; };
@@ -216,7 +220,9 @@
 			children = (
 				1EA0CC7A2375FADD00571C9B /* SelectedButtons.swift */,
 				1E0E557E23702F1800794DFF /* DeviceInfo.swift */,
+				1E972AE723870F6A003F6C9F /* ClientInfo.swift */,
 				1E2C9D3323702C3F00355398 /* TelldusKeys.swift */,
+				1E972ADF23870EAF003F6C9F /* GetInfoAboutClient.swift */,
 				1E0E558923703F2600794DFF /* GetInfoAboutAllDevices.swift */,
 				1E2C9D3123702C0B00355398 /* DeviceInfoOutput.swift */,
 				1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */,
@@ -479,6 +485,7 @@
 				1E0E5587237031A600794DFF /* DeviceTableViewCell.swift in Sources */,
 				1E0E559D2371530C00794DFF /* DeviceInfoViewController.swift in Sources */,
 				1E2C9D2B23701C6A00355398 /* ViewController.swift in Sources */,
+				1E972AE823870F6A003F6C9F /* ClientInfo.swift in Sources */,
 				1E31BB3D23850C39000C91E5 /* AllDevicesController.swift in Sources */,
 				1ECAD69F2366B73400FBA461 /* AppDelegate.swift in Sources */,
 				1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */,
@@ -491,6 +498,7 @@
 				1E9C5FEE237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift in Sources */,
 				1EA0CC83237A75F200571C9B /* DeviceInformation.swift in Sources */,
 				1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */,
+				1E972AE023870EAF003F6C9F /* GetInfoAboutClient.swift in Sources */,
 				1E2C9D3223702C0B00355398 /* DeviceInfoOutput.swift in Sources */,
 				1EA0CC87237A848000571C9B /* GetInfoAboutGroups.swift in Sources */,
 				1ECAD6A12366B73400FBA461 /* SceneDelegate.swift in Sources */,
