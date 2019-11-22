@@ -11,14 +11,12 @@ import UIKit
 class DevicesInGroupViewController: UIViewController {
     
     var backgroundView: UIImageView = {
-            let imageView = UIImageView()
-//            imageView.image = UIImage(named: "Background")
-            imageView.backgroundColor = .white
+        let imageView = UIImageView()
+        imageView.backgroundColor = .white
         imageView.contentMode =  .scaleAspectFill
-    //        imageView.clipsToBounds = true
-            
-            return imageView
-        }()
+        
+        return imageView
+    }()
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -84,6 +82,7 @@ class DevicesInGroupViewController: UIViewController {
         removeGroupLabel.translatesAutoresizingMaskIntoConstraints = false
         removeGroupButton.translatesAutoresizingMaskIntoConstraints = false
         
+        // Remove the (,) token and split the string and adds the seperated string to an array.
         devicesIds = devicesId.components(separatedBy: ",")
         
         view.addSubview(backgroundView)
@@ -95,7 +94,7 @@ class DevicesInGroupViewController: UIViewController {
         getImage(imageName: groupName)
     }
     
-    // Remove group
+    // Remove group from Telldus and image from the device
     @objc func removeButtonPressed() {
         print("Remove button pressed")
         deleteImage(ImageName: groupName)
@@ -105,6 +104,7 @@ class DevicesInGroupViewController: UIViewController {
         })
     }
     
+    // Get the image from the device document directory
     func getImage(imageName: String) {
         let fileManager = FileManager.default
         
@@ -117,6 +117,7 @@ class DevicesInGroupViewController: UIViewController {
         }
     }
     
+    // Delete the image from the device document directory
     func deleteImage(ImageName: String) {
         let fileManager = FileManager.default
         
@@ -129,7 +130,6 @@ class DevicesInGroupViewController: UIViewController {
             } catch {
                 print("Could not find image")
             }
-            
         }
     }
     

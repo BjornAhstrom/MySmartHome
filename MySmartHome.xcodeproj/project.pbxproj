@@ -23,7 +23,7 @@
 		1E2C9D3423702C3F00355398 /* TelldusKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D3323702C3F00355398 /* TelldusKeys.swift */; };
 		1E31BB3D23850C39000C91E5 /* AllDevicesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31BB3C23850C39000C91E5 /* AllDevicesController.swift */; };
 		1E31BB4523851728000C91E5 /* AllDevicesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31BB4423851728000C91E5 /* AllDevicesCollectionViewCell.swift */; };
-		1E31BB4723859CDD000C91E5 /* TestSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31BB4623859CDD000C91E5 /* TestSliderViewController.swift */; };
+		1E31BB4723859CDD000C91E5 /* PopupSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31BB4623859CDD000C91E5 /* PopupSliderViewController.swift */; };
 		1E52F1B92383093500B4C128 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0E556523702DDB00794DFF /* OAuthSwift.framework */; };
 		1E52F1BA2383093500B4C128 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0E556523702DDB00794DFF /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1E972AE023870EAF003F6C9F /* GetInfoAboutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972ADF23870EAF003F6C9F /* GetInfoAboutClient.swift */; };
@@ -137,7 +137,7 @@
 		1E2C9D3323702C3F00355398 /* TelldusKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelldusKeys.swift; sourceTree = "<group>"; };
 		1E31BB3C23850C39000C91E5 /* AllDevicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesController.swift; sourceTree = "<group>"; };
 		1E31BB4423851728000C91E5 /* AllDevicesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDevicesCollectionViewCell.swift; sourceTree = "<group>"; };
-		1E31BB4623859CDD000C91E5 /* TestSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSliderViewController.swift; sourceTree = "<group>"; };
+		1E31BB4623859CDD000C91E5 /* PopupSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSliderViewController.swift; sourceTree = "<group>"; };
 		1E972ADF23870EAF003F6C9F /* GetInfoAboutClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInfoAboutClient.swift; sourceTree = "<group>"; };
 		1E972AE723870F6A003F6C9F /* ClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfo.swift; sourceTree = "<group>"; };
 		1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFromTelldus.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 				1EA0CC82237A75F200571C9B /* DeviceInformation.swift */,
 				1EA0CC84237A792C00571C9B /* GroupInformation.swift */,
 				1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */,
-				1E31BB4623859CDD000C91E5 /* TestSliderViewController.swift */,
+				1E31BB4623859CDD000C91E5 /* PopupSliderViewController.swift */,
 			);
 			path = TestViewController;
 			sourceTree = "<group>";
@@ -474,7 +474,7 @@
 			files = (
 				1E0E558A23703F2600794DFF /* GetInfoAboutAllDevices.swift in Sources */,
 				1EBDF306237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift in Sources */,
-				1E31BB4723859CDD000C91E5 /* TestSliderViewController.swift in Sources */,
+				1E31BB4723859CDD000C91E5 /* PopupSliderViewController.swift in Sources */,
 				1E0E55A32373070600794DFF /* GroupButton.swift in Sources */,
 				1EA0CC6E237480EE00571C9B /* SettingsViewController.swift in Sources */,
 				1E0E55A523730D2D00794DFF /* GroupButtonTableViewCell.swift in Sources */,

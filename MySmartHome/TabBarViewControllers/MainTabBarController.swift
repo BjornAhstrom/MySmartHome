@@ -21,7 +21,7 @@ class MainTabBarController: UITabBarController {
         let startViewController = ViewController()
         startViewController.title = "Groups"
         
-        let scenariosViewController = TestSliderViewController() //ScenariosViewController()
+        let scenariosViewController = PopupSliderViewController() //ScenariosViewController()
         scenariosViewController.title = "Scenarios"
         
         let allDevicesViewController = AllDevicesController() //AllDevicesViewController()

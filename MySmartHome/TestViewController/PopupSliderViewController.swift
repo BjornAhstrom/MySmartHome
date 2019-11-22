@@ -1,5 +1,5 @@
 //
-//  TestSliderViewController.swift
+//  PopupSliderViewController.swift
 //  MySmartHome
 //
 //  Created by Björn Åhström on 2019-11-20.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TestSliderViewController: UIViewController {
+class PopupSliderViewController: UIViewController {
     
     var viewController: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 15
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .init(white: 0.3, alpha: 0.7)
         
         return view
     }()
@@ -38,38 +38,22 @@ class TestSliderViewController: UIViewController {
         slider.minimumTrackTintColor = .green
         slider.maximumTrackTintColor = .red
         slider.minimumValue = 0
-        slider.maximumValue = 254
+        slider.maximumValue = 100
         slider.setValue(slider.maximumValue/2, animated: false)
         slider.addTarget(self, action: #selector(setSliderValue), for: .valueChanged)
         
         return slider
     }()
     
-//    var cancelButton: UIButton = {
-//        let button = UIButton()
-//        button.layer.borderColor = UIColor.black.cgColor
-//        button.layer.borderWidth = 1
-//        button.layer.cornerRadius = 8
-//        button.backgroundColor = .white
-//        button.setTitleColor(.black, for: .normal)
-//        button.setTitleColor(.systemGray2, for: .highlighted)
-//        button.setTitle("Cancel", for: .normal)
-//        button.addTarget(self, action: #selector(onCancelButtonPressed), for: .touchUpInside)
-//
-//        return button
-//    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .init(white: 0, alpha: 0.0)
         
         self.slider.translatesAutoresizingMaskIntoConstraints = false
-//        self.cancelButton.translatesAutoresizingMaskIntoConstraints = false
         self.viewController.translatesAutoresizingMaskIntoConstraints = false
         self.sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.viewController.addSubview(self.slider)
-//        self.view.addSubview(self.cancelButton)
         self.view.addSubview(self.viewController)
         self.viewController.addSubview(self.sliderValueLabel)
         
@@ -110,13 +94,6 @@ class TestSliderViewController: UIViewController {
             self.sliderValueLabel.centerXAnchor.constraint(equalTo: self.viewController.centerXAnchor),
             self.sliderValueLabel.bottomAnchor.constraint(equalTo: slider.topAnchor, constant: -5)
         ])
-        
-//        NSLayoutConstraint.activate([
-//            cancelButton.widthAnchor.constraint(equalToConstant: 100),
-//            cancelButton.heightAnchor.constraint(equalToConstant: 40),
-//            cancelButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
-//            cancelButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -100)
-//        ])
     }
     
     @objc func onViewTouch() {

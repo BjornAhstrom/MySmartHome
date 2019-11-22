@@ -10,6 +10,15 @@ import UIKit
 
 class AllDevicesCollectionViewCell: UICollectionViewCell {
     
+    lazy var uiView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .init(white: 0, alpha: 0)
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+        
+        return view
+    }()
+    
     var sliderButton: UIButton = {
         let button = UIButton()
         button.layer.borderColor = UIColor.lightGray.cgColor
@@ -24,17 +33,6 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    //    var slider: UISlider = {
-    //        let slider = UISlider()
-    //        slider.minimumTrackTintColor = .green
-    //        slider.maximumTrackTintColor = .red
-    //        slider.minimumValue = 0
-    //        slider.maximumValue = 254
-    //        slider.setValue(slider.maximumValue/2, animated: false)
-    //
-    //        return slider
-    //    }()
-    
     var imageView: UIImageView = {
         var image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -43,12 +41,14 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-    var textLabel: UILabel = {
+    lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.layer.cornerRadius = 5
-        label.font = .boldSystemFont(ofSize: 18)
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
+//        label.layer.borderColor = UIColor.black.cgColor
+//        label.layer.borderWidth = 1
+//        label.layer.cornerRadius = 5
+        label.font = .boldSystemFont(ofSize: 15)
+//        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .left
         
         return label
     }()
@@ -65,19 +65,18 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         sliderButton.translatesAutoresizingMaskIntoConstraints = false
-        //        slider.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
+        uiView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(sliderButton)
-        //        addSubview(slider)
         addSubview(imageView)
-        addSubview(textLabel)
+        uiView.addSubview(textLabel)
+        addSubview(uiView)
         
         setConstraints(sliderIsOn: false)
-        
-        //        textLabelAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -90,6 +89,23 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     }
     
     func setConstraints(sliderIsOn: Bool) {
+        // uiView constraints
+        NSLayoutConstraint.activate([
+            uiView.heightAnchor.constraint(equalToConstant: 20),
+            uiView.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
+            uiView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            uiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            uiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ])
+        
+        // texLabel constraints
+        NSLayoutConstraint.activate([
+            textLabel.heightAnchor.constraint(equalToConstant: 20),
+            textLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
+            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15)
+        ])
+        
         // sliderButton constraints
         sliderButton.widthAnchor.constraint(equalToConstant: contentView.frame.width/2).isActive = sliderIsOn
         sliderButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = sliderIsOn
@@ -102,25 +118,5 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -5).isActive = true
         imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
-        
-        // texLabel constraints
-        NSLayoutConstraint.activate([
-            textLabel.heightAnchor.constraint(equalToConstant: 20),
-            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            textLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
-        ])
-    }
-    
-    func textLabelAnimation() {
-        
-        DispatchQueue.main.async(execute: {
-            
-            UIView.animate(withDuration: 10.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
-                
-                self.textLabel.center = CGPoint(x: 0 - self.textLabel.bounds.size.width / 2, y: self.textLabel.center.y)
-                
-            }, completion:  nil)
-        })
     }
 }

@@ -12,9 +12,21 @@ class AllDevicesController: UIViewController {
     
     var backgroundView: UIImageView = {
         let image = UIImageView()
+        image.backgroundColor = .white
+        image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "Background")
         
         return image
+    }()
+    
+    var viewLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textAlignment = .center
+        label.text = "Your devices"
+        
+        return label
     }()
     
     lazy var flowLayout:UICollectionViewFlowLayout = {
@@ -38,16 +50,16 @@ class AllDevicesController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .lightGray
-        
         
         collectionView.delegate = self
         collectionView.dataSource = self
         
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        viewLabel.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(backgroundView)
+        view.addSubview(viewLabel)
         view.addSubview(collectionView)
         
         setConstraints()
@@ -59,20 +71,23 @@ class AllDevicesController: UIViewController {
             self.collectionView.reloadData()
         }
         
-        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(gesture:)))
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(sender:)))
         
         collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
     }
     
-    @objc func handleLongPressGesture(gesture: UILongPressGestureRecognizer) {
-        switch gesture.state {
+    @objc func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
+        
+        let point = sender.location(in: collectionView)
+        
+        switch sender.state {
         case .began:
-            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+            guard let indexPath = collectionView.indexPathForItem(at: point) else {
                 break
             }
-            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+            collectionView.beginInteractiveMovementForItem(at: indexPath)
         case .changed:
-            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
+            collectionView.updateInteractiveMovementTargetPosition(point)
         case .ended:
             collectionView.endInteractiveMovement()
         default:
@@ -82,6 +97,13 @@ class AllDevicesController: UIViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
+            viewLabel.heightAnchor.constraint(equalToConstant: 50),
+            viewLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            viewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            viewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -89,7 +111,7 @@ class AllDevicesController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            collectionView.topAnchor.constraint(equalTo: viewLabel.bottomAnchor, constant: 30),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
@@ -109,9 +131,7 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         cell.layer.masksToBounds = true
-        //        cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
-        //        cell.layer.borderWidth = 1
                 cell.layer.cornerRadius = 5
         
         DispatchQueue.main.async {
@@ -145,7 +165,19 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
                            cell.imageView.image = UIImage(named: "LampOff")
                        }
                    })
+            
+            let textLength = Double(cell.textLabel.text?.count ?? 0)
+            
+                DispatchQueue.main.async(execute: {
+                    
+                    UIView.animate(withDuration: 10, delay: 1.3, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+                        
+                        cell.textLabel.transform = CGAffineTransform(translationX: cell.textLabel.bounds.origin.x - 200, y: cell.textLabel.bounds.origin.y)
+                        
+                    }, completion:  nil)
+                })
         }
+        
         return cell
     }
     
@@ -171,12 +203,14 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let device = GetInfoAboutAllDevices.instance.devices.remove(at: sourceIndexPath.item)
+        GetInfoAboutAllDevices.instance.devices.insert(device, at: destinationIndexPath.item)
     }
     
     @objc func setSliderValue() {
         print("SliderButtonTouch")
         
-        let popup = TestSliderViewController()
+        let popup = PopupSliderViewController()
         self.addChild(popup)
         popup.view.frame = self.view.frame
         self.view.addSubview(popup.view)
