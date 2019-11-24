@@ -10,6 +10,15 @@ import UIKit
 
 class ViewController: UIViewController, UINavigationBarDelegate {
     
+    var backgroundView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .white
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage(named: "Background")
+        
+        return view
+    }()
+    
     var appNameLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = .boldSystemFont(ofSize: 30)
@@ -20,27 +29,22 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         return textLabel
     }()
     
-    var allDevicesButton: UIButton = {
+        var allDevicesButton: UIButton = {
         let button = UIButton()
         button.setTitle("Off", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
         
         return button
     }()
     
-    var settingButton: UIButton = {
+        var settingButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.setTitle("°°°", for: .normal)
-        button.setTitleColor(.darkGray, for: .normal)
-        button.backgroundColor = .white
         button.addTarget(self, action: #selector(settingsButtonForAllDevicesButtonPressed), for: .touchUpInside)
         
         return button
@@ -61,30 +65,40 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     var tableView: UITableView = {
         let tView = UITableView()
-        tView.backgroundColor = .white
+        tView.backgroundColor = .init(white: 0.3, alpha: 0.7)
+        tView.layer.cornerRadius = 8
+        tView.layer.masksToBounds = true
+        tView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
         
         return tView
     }()
     
     let deviceIdKey = "DeviceId"
+    let activityIndicator = UIActivityIndicatorView()
+    let lightningColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7)//UIColor(displayP3Red: 143/255, green: 184/255, blue: 255/255, alpha: 0.7)//UIColor(displayP3Red: 174/255, green: 234/255, blue: 255/255, alpha: 0.7)
     
     var isOn = false
-    var groupId: String = ""
+    var groupId: String?
     var test: Int = 0
     var devicesIds: [String] = [] // split string from deviceId in to this array
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
         settingButton.translatesAutoresizingMaskIntoConstraints = false
         addGroupButton.translatesAutoresizingMaskIntoConstraints = false
         allDevicesButton.translatesAutoresizingMaskIntoConstraints = false
         
-        configureTableView()
         
+        view.addSubview(backgroundView)
         view.addSubview(tableView)
         view.addSubview(appNameLabel)
         view.addSubview(addGroupButton)
@@ -93,20 +107,21 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         
         setupConstraints()
         setValue()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
-            self.tableView.reloadData()
-            self.getDeviceInfo()
-        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        tableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.getDeviceInfo()
+            self.tableView.reloadData()
+        }
     }
     
     func getDeviceInfo() {
-        DeviceInfoOutput.instance.getGroupDevicesId(id: groupId, onCompletion: {(response) in
+        self.startActivityIndicator(activityIndicator: activityIndicator)
+        
+        DeviceInfoOutput.instance.getGroupDevicesId(id: groupId ?? "No id", onCompletion: {(response) in
             
             // Strängen som kommer från responsen är en sträng med flera id som är komma (,) separerade ex (12345,54321,34567)
             // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
@@ -115,30 +130,66 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             for id in self.devicesIds {
                 DeviceInfoOutput.instance.getHistory(id: id, onCompletion: {(state, stateValue)  in
                     
-                    if state == 1 {
-                        self.isOn = true
-                        self.allDevicesButton.setTitleColor(.white, for: .normal)
-                        self.allDevicesButton.setTitle("On", for: .normal)
-                        self.allDevicesButton.backgroundColor = .darkGray
-                    }
-                    else if state == 2 {
-                        self.isOn = false
-                        self.allDevicesButton.setTitleColor(.darkGray, for: .normal)
-                        self.allDevicesButton.setTitle("Off", for: .normal)
-                        self.allDevicesButton.backgroundColor = .clear
+                    DispatchQueue.main.async {
+                        if state == 1 {
+                            self.isOn = true
+                            self.lampIsOn()
+                            self.tableView.reloadData()                        }
+                        else if state == 2 {
+                            self.isOn = false
+                            self.lampIsOff()
+                            self.tableView.reloadData()
+                        }
                     }
                 })
             }
         })
+        self.stopActivityIndicator(activityIndicator: activityIndicator)
     }
     
-    func configureTableView() {
-        tableView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
-        tableView.delegate = self
-        tableView.dataSource = self
+    func lampIsOn() {
+        self.allDevicesButton.setTitleColor(self.lightningColor, for: .normal)
+        self.allDevicesButton.setTitle("On", for: .normal)
+        self.allDevicesButton.backgroundColor = .init(white: 0.7, alpha: 0.4)
+        self.allDevicesButton.layer.borderColor = self.lightningColor.cgColor
+        self.allDevicesButton.layer.borderWidth = 5
+        
+        self.allDevicesButton.layer.shadowColor = self.lightningColor.cgColor
+        self.allDevicesButton.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        self.allDevicesButton.layer.shadowOpacity = 1
+        self.allDevicesButton.layer.shadowRadius = 15
+        
+        // Change settingbutton when lamps is on
+        self.settingButton.layer.borderColor = self.lightningColor.cgColor
+        self.settingButton.setTitleColor(self.lightningColor, for: .normal)
+        self.settingButton.backgroundColor = .init(white: 0.7, alpha: 0.4)
+    }
+    
+    func lampIsOff() {
+        self.allDevicesButton.setTitleColor(.darkGray, for: .normal)
+        self.allDevicesButton.setTitle("Off", for: .normal)
+        self.allDevicesButton.backgroundColor = .init(white: 0.3, alpha: 0.4)
+        self.allDevicesButton.layer.borderColor = UIColor.gray.cgColor
+        self.allDevicesButton.layer.borderWidth = 5
+        
+        self.allDevicesButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.allDevicesButton.layer.shadowOpacity = 0
+        
+        // Change settingButton when lamps is off
+        self.settingButton.layer.borderColor = UIColor.gray.cgColor
+        self.settingButton.setTitleColor(.darkGray, for: .normal)
+        self.settingButton.backgroundColor = .init(white: 0.3, alpha: 0.4)
     }
     
     func setupConstraints() {
+        // backgroundView constraints
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
         // tableView constraints
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: addGroupButton.bottomAnchor, constant: 30),
@@ -173,8 +224,8 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         
         // settingsButton
         NSLayoutConstraint.activate([
-            settingButton.topAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: 5),
-            settingButton.trailingAnchor.constraint(equalTo: allDevicesButton.trailingAnchor, constant: -5),
+            settingButton.topAnchor.constraint(equalTo: allDevicesButton.topAnchor, constant: 10),
+            settingButton.trailingAnchor.constraint(equalTo: allDevicesButton.trailingAnchor, constant: -10),
             settingButton.widthAnchor.constraint(equalToConstant: 30),
             settingButton.heightAnchor.constraint(equalToConstant: 30)
         ])
@@ -205,12 +256,13 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     func turnLampOnOrOff(bool: Bool) {
         isOn = bool
+        bool ? self.lampIsOn() : self.lampIsOff()
         bool ? allDevicesButton.setTitle("On", for: .normal) : allDevicesButton.setTitle("Off", for: .normal)
-        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId) : DeviceInfoOutput.instance.turnOffDevice(id: groupId)
+        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId ?? "No id") : DeviceInfoOutput.instance.turnOffDevice(id: groupId ?? "No id")
     }
 }
 
-// TableView
+// MARK: TableView for groups
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -223,14 +275,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("The deque cell is not an instace of GroupButtonTableViewCell.")
         }
         
+        cell.backgroundColor = .init(white: 0, alpha: 0)
+        
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         cell.groupOnOrOffButton.deviceId = device?.id ?? ""
         cell.setTextToLabel(name: device?.name ?? "No group")
-        
-        
-        cell.backgroundColor = .white
-        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         return cell
     }
@@ -248,6 +298,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func whenTableViewCellIsSelectedGoToNextView(groupName: String, id: String, devicesId: String) {
+                
         let groupViewController = DevicesInGroupViewController()
         groupViewController.title = groupName
         groupViewController.groupName = groupName

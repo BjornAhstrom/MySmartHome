@@ -12,7 +12,7 @@ class GroupButtonTableViewCell: UITableViewCell {
 
     var groupDevicesLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = .boldSystemFont(ofSize: 20)
         label.adjustsFontSizeToFitWidth = true
         
@@ -35,7 +35,7 @@ class GroupButtonTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .init(white: 0, alpha: 0)
         
         groupDevicesLabel.translatesAutoresizingMaskIntoConstraints = false
         groupOnOrOffButton.translatesAutoresizingMaskIntoConstraints = false

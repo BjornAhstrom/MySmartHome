@@ -34,17 +34,8 @@ class MainTabBarController: UITabBarController {
         TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
         TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
         
-        DispatchQueue.main.async {
-            GetInfoAboutClient.instance.getClientInfo(url: "https://api.telldus.com/json/clients/list")
-        }
-        
-        DispatchQueue.main.async {
-            GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
-        }
-        
-        DispatchQueue.main.async {
-            GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
-        }
+        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
+        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
     }
 }
 
@@ -59,5 +50,21 @@ extension UIViewController {
     
     @objc func dissmissKeyboard() {
         view.endEditing(true)
+    }
+    
+    // MARK: Start activity indicator
+    func startActivityIndicator(activityIndicator: UIActivityIndicatorView ) {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
+    }
+    
+    // MARK: Stop activity indicator
+    func stopActivityIndicator(activityIndicator: UIActivityIndicatorView ) {
+        activityIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
     }
 }

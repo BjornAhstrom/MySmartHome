@@ -9,6 +9,7 @@
 import UIKit
 
 struct MessageFromTelldus: Codable {
+    let id: Int?
     let error: String?
     let status: String?
     let state: String?

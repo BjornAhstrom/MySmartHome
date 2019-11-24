@@ -22,8 +22,8 @@ class GroupCollectionViewCell: UICollectionViewCell {
     
     var textLabel: UILabel = {
        let label = UILabel()
-        label.layer.borderColor = UIColor.darkGray.cgColor
-        label.layer.borderWidth = 1
+//        label.layer.borderColor = UIColor.darkGray.cgColor
+//        label.layer.borderWidth = 1
         label.layer.cornerRadius = 5
         label.font = .boldSystemFont(ofSize: 18)
         label.adjustsFontSizeToFitWidth = true
@@ -34,10 +34,10 @@ class GroupCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(imageView)
+//        addSubview(imageView)
         addSubview(textLabel)
         
         setConstraints()
@@ -49,26 +49,25 @@ class GroupCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTextAndImageToCell(name: String, image: UIImage) {
+    func setTextAndImageToCell(name: String) {
         textLabel.text = name
-        imageView.image = image
     }
     
     func setConstraints() {
          // imageView constraints
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+//            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+//            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//        ])
         
         // texLabel constraints
         NSLayoutConstraint.activate([
             textLabel.heightAnchor.constraint(equalToConstant: 20),
-            textLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 5),
-            textLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 5),
-            textLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -5)
+            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            textLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
     }
     

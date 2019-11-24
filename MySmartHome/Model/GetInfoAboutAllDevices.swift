@@ -32,7 +32,6 @@ class GetInfoAboutAllDevices {
                 let devi = device.device
                 for dev in devi ?? [] {
                     self.devices.append(dev)
-                    print(dev)
                 }
                 
             case.failure(let error):

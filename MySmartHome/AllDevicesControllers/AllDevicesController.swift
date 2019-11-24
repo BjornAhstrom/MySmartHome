@@ -67,9 +67,7 @@ class AllDevicesController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        self.collectionView.reloadData()
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(sender:)))
         
@@ -127,56 +125,52 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? AllDevicesCollectionViewCell else {
-            fatalError("Something went wrong to the cell")
+            fatalError("Something went wrong with the cell")
         }
         
         cell.layer.masksToBounds = true
         cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
-                cell.layer.cornerRadius = 5
+        cell.layer.cornerRadius = 5
         
-        DispatchQueue.main.async {
-             let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-                   
-                   cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "") ?? UIImage())
-                   
-                   DeviceInfoOutput.instance.getDeviceInformation(id: device?.id ?? "", onCompletion: {(stateValue, deviceType)  in
-                       
-                       if deviceType == TelldusKeys.dimmableDeviceNr {
-                           cell.sliderButton.isHidden = false
-                           cell.setConstraints(sliderIsOn: true)
-                           
-                       } else {
-                           cell.sliderButton.isHidden = true
-                       }
-                   })
-                   
-            cell.sliderButton.addTarget(self, action: #selector(self.setSliderValue), for: .touchUpInside)
-                   
-                   DeviceInfoOutput.instance.getHistory(id: device?.id ?? "", onCompletion: { (state, stateValue)  in
-                       
-                       cell.sliderButton.setTitle("% \(stateValue)", for: .normal)
-                       
-                       if state == 1 {
-                           // Dvice is on
-                           cell.imageView.image = UIImage(named: "LampOn")
-                       }
-                       else if state == 2  {
-                           // Device is off
-                           cell.imageView.image = UIImage(named: "LampOff")
-                       }
-                   })
-            
-            let textLength = Double(cell.textLabel.text?.count ?? 0)
-            
-                DispatchQueue.main.async(execute: {
-                    
-                    UIView.animate(withDuration: 10, delay: 1.3, options: ([.curveLinear, .repeat]), animations: {() -> Void in
-                        
-                        cell.textLabel.transform = CGAffineTransform(translationX: cell.textLabel.bounds.origin.x - 200, y: cell.textLabel.bounds.origin.y)
-                        
-                    }, completion:  nil)
-                })
+        guard let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row) else {
+            fatalError("No deviceinfo")
         }
+        
+        DeviceInfoOutput.instance.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
+            
+            DispatchQueue.main.async {
+                if deviceType == TelldusKeys.dimmableDeviceNr {
+                    cell.sliderButton.isHidden = false
+                    cell.setConstraints(sliderIsOn: true)
+                    
+                } else {
+                    cell.sliderButton.isHidden = true
+                }
+            }
+        })
+        
+        DeviceInfoOutput.instance.getHistory(id: device.id ?? "", onCompletion: { (state, stateValue)  in
+            
+            DispatchQueue.main.async {
+                cell.sliderButton.setTitle("% \(stateValue)", for: .normal)
+                
+                if state == 1 {
+                    // Dvice is on
+                    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+                    guard let lampOnImage = UIImage(named: "LampOn") else { return }
+                    cell.imageView.image = lampOnImage
+                }
+                else if state == 2  {
+                    // Device is off
+                    collectionView.deselectItem(at: indexPath, animated: true)
+                    guard let lampOffImage = UIImage(named: "LampOff") else { return }
+                    cell.imageView.image = lampOffImage
+                }
+            }
+        })
+        cell.setTextAndImageToCell(name: device.name ?? "")
+        
+        cell.sliderButton.addTarget(self, action: #selector(self.setSliderValue), for: .touchUpInside)
         
         return cell
     }
@@ -186,8 +180,9 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        print(device?.id ?? "")
-        DeviceInfoOutput.instance.turnOnDevice(id: device?.id ?? "")
+        DispatchQueue.main.async {
+            DeviceInfoOutput.instance.turnOnDevice(id: device?.id ?? "")
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -195,7 +190,9 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        DeviceInfoOutput.instance.turnOffDevice(id: device?.id ?? "")
+        DispatchQueue.main.async {
+            DeviceInfoOutput.instance.turnOffDevice(id: device?.id ?? "")
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {

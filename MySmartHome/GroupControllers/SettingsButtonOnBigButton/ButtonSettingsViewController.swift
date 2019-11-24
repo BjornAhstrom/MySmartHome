@@ -79,7 +79,7 @@ class ButtonSettingsViewController: UIViewController {
         return button
     }()
     
-    let deviceIdKey = ""
+    let deviceIdKey = "DeviceId"
     
     var selectedDeviceId: String = ""
     var mainViewController: ViewController?

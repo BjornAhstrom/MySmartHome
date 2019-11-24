@@ -29,7 +29,7 @@ class DevicesInGroupViewController: UIViewController {
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
         view.register(DevicesInGroupCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
-        view.backgroundColor = UIColor.systemBackground
+        view.backgroundColor = .init(white: 0, alpha: 0.0)
         view.allowsMultipleSelection = true
         view.reloadData()
         
@@ -59,6 +59,8 @@ class DevicesInGroupViewController: UIViewController {
         return button
     }()
     
+    let pickerController = UIImagePickerController()
+    
     var buttons: [GroupButton] = []
     var selectedButtons: [ListOfSelectedButtons] = []
     
@@ -74,6 +76,7 @@ class DevicesInGroupViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        pickerController.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -91,7 +94,17 @@ class DevicesInGroupViewController: UIViewController {
         view.addSubview(removeGroupButton)
         
         setConstraints()
-        getImage(imageName: groupName)
+        getImage(imageName: groupId)
+        
+        let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(onCameraPressed))
+        
+        cameraButton.tintColor = .darkGray
+        
+        self.navigationItem.setRightBarButton(cameraButton, animated: true)
+    }
+    
+    @objc func onCameraPressed() {
+        openCameraOrPhotoLibraryAlert()
     }
     
     // Remove group from Telldus and image from the device
@@ -99,9 +112,44 @@ class DevicesInGroupViewController: UIViewController {
         print("Remove button pressed")
         deleteImage(ImageName: groupName)
         DeviceInfoOutput.instance.removeGroup(groupId: groupId, onCompletion: {(success, error) in
+            
             print("\(success)")
+            
+            // Gör en alertController som talar om för användaren om det inte går att ta bort en grupp
             print("\(error)")
+            
+            DispatchQueue.main.async {
+                self.goBackToViewController()
+            }
         })
+    }
+    
+    func goBackToViewController() {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Öppna camera eller foto albumet för att lägga till bild
+    
+    // Save image to document directory
+    func saveImage(imageName: String) {
+        // Create an instance of the fileManager
+        let fileManager = FileManager.default
+        
+        // Get the image path
+        let imagePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
+        
+        // Get the image we took
+        let image = self.backgroundView.image
+        
+        // Get the png data for this image
+        let data = image?.pngData()
+        
+        // Store it in the document directory
+        fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+        
+        // When the image is saved, go back to viewController
+        //        self.goBackToViewController()
     }
     
     // Get the image from the device document directory
@@ -164,7 +212,7 @@ class DevicesInGroupViewController: UIViewController {
     }
 }
 
-// CollectionView
+// MARK: CollectionView for all devices in group
 extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -180,22 +228,29 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         
         DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { (devName) in
             
-            cell.setDeviceNameToLabel(name: devName, image: UIImage(named: "") ?? UIImage())
+            cell.setDeviceNameToLabel(name: devName)
         })
+        
+        cell.layer.masksToBounds = true
+        cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
+        cell.layer.cornerRadius = 5
         
         DeviceInfoOutput.instance.getHistory(id: devId, onCompletion: { (state, stateValue)  in
             
-            if state == 1 {
-                // Dvice is on
-                collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-                cell.backgroundColor = UIColor.clear
-                cell.layer.cornerRadius = 10
-            }
-            else if state == 2 {
-                // Device is off
-                collectionView.deselectItem(at: indexPath, animated: true)
-                cell.backgroundColor = UIColor(displayP3Red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
-                cell.layer.cornerRadius = 10
+            DispatchQueue.main.async {
+                
+                if state == 1 {
+                    // Dvice is on
+                    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+                    cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
+                    cell.layer.cornerRadius = 10
+                }
+                else if state == 2 {
+                    // Device is off
+                    collectionView.deselectItem(at: indexPath, animated: true)
+                    cell.backgroundColor = .init(white: 0.3, alpha: 0.7)
+                    cell.layer.cornerRadius = 10
+                }
             }
         })
         
@@ -207,7 +262,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         
         let cell = collectionView.cellForItem(at: indexPath)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-        cell?.backgroundColor = UIColor.clear
+        cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell?.layer.cornerRadius = 10
         
         DeviceInfoOutput.instance.turnOnDevice(id: devId)
@@ -218,10 +273,82 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         
         collectionView.deselectItem(at: indexPath, animated: true)
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor(displayP3Red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
+        cell?.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell?.layer.cornerRadius = 10
         
         DeviceInfoOutput.instance.turnOffDevice(id: devId)
+    }
+}
+
+// MARK: Camera, Open camera or photo library to set background when user will create an group
+extension DevicesInGroupViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func openCameraOrPhotoLibraryAlert() {
+        let alert = UIAlertController(title: "Choose", message: "Camera or photo library", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {(_) in
+            self.openCamera()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Photo library", style: .default, handler: {(_) in
+            self.openPhotoLibrary()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in
+            print("Cancel")
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // open camera if the device have a camera, or an alert sign will show up and tell to user that the user doesn't have a camera
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            self.pickerController.sourceType = .camera
+            self.pickerController.allowsEditing = true
+            present(self.pickerController, animated: true)
+        } else {
+            self.alertWhenNoCamera()
+        }
+    }
+    
+    func openPhotoLibrary() {
+        print("Open library and id: \(groupId)")
+        self.pickerController.sourceType = .photoLibrary
+        self.pickerController.allowsEditing = true
+        present(self.pickerController, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+        
+        self.deleteImage(ImageName: self.groupId)
+        
+        DispatchQueue.main.async {
+            self.backgroundView.image = image
+        }
+        
+        DispatchQueue.main.async {
+            self.saveImage(imageName: self.groupId)
+        }
+        
+        picker.dismiss(animated: true)
+    }
+    
+    func alertWhenNoCamera() {
+        let alert = UIAlertController(title: "No camera", message: "Your device doesn't have a camera", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: {(_) in }))
+        
+        present(alert, animated: true)
     }
 }
 

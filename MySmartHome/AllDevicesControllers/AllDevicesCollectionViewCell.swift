@@ -43,12 +43,9 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     
     lazy var textLabel: UILabel = {
         let label = UILabel()
-//        label.layer.borderColor = UIColor.black.cgColor
-//        label.layer.borderWidth = 1
-//        label.layer.cornerRadius = 5
         label.font = .boldSystemFont(ofSize: 15)
-//        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .left
+        label.textAlignment = .right
+        label.textColor = .white
         
         return label
     }()
@@ -77,15 +74,16 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         addSubview(uiView)
         
         setConstraints(sliderIsOn: false)
+//        slideTexToLeft()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTextAndImageToCell(name: String, image: UIImage) {
+    func setTextAndImageToCell(name: String) {  //, image: UIImage) {
         textLabel.text = name
-        imageView.image = image
+//        imageView.image = image
     }
     
     func setConstraints(sliderIsOn: Bool) {
@@ -118,5 +116,16 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -5).isActive = true
         imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+    }
+    
+    func slideTexToLeft() {
+        DispatchQueue.main.async(execute: {
+
+            UIView.animate(withDuration: 10, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+
+                self.textLabel.transform = CGAffineTransform(translationX: self.textLabel.bounds.origin.x - 200, y: self.textLabel.bounds.origin.y)
+
+            }, completion:  nil)
+        })
     }
 }

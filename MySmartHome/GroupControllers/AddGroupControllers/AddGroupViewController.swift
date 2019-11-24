@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
 class AddGroupViewController: UIViewController {
     
     var backgroundView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "Background")
+        imageView.image = UIImage(named: "Background")
         imageView.backgroundColor = .white
         imageView.contentMode =  .scaleAspectFill
 //        imageView.clipsToBounds = true
@@ -45,19 +46,19 @@ class AddGroupViewController: UIViewController {
         return label
     }()
     
-    var addPhotoButton: UIButton = {
-        let button = UIButton()
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 8
-        button.backgroundColor = .white
-        button.setTitle("Add photo", for: .normal)
-        button.setTitleColor(.darkGray, for: .normal)
-        button.setTitleColor(.systemGray2, for: .highlighted)
-        button.addTarget(self, action: #selector(onPressedAddPhotoButton), for: .touchUpInside)
-        
-        return button
-    }()
+//    var addPhotoButton: UIButton = {
+//        let button = UIButton()
+//        button.layer.borderColor = UIColor.darkGray.cgColor
+//        button.layer.borderWidth = 1
+//        button.layer.cornerRadius = 8
+//        button.backgroundColor = .white
+//        button.setTitle("Add photo", for: .normal)
+//        button.setTitleColor(.darkGray, for: .normal)
+//        button.setTitleColor(.systemGray2, for: .highlighted)
+//        button.addTarget(self, action: #selector(onPressedAddPhotoButton), for: .touchUpInside)
+//
+//        return button
+//    }()
     
     var addDevicesButton: UIButton = {
         let button = UIButton()
@@ -67,7 +68,7 @@ class AddGroupViewController: UIViewController {
         button.setTitle("Add", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
-        button.addTarget(self, action: #selector(addDeviceButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveGroupButtonPressed), for: .touchUpInside)
         
         return button
     }()
@@ -91,6 +92,7 @@ class AddGroupViewController: UIViewController {
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     let pickerController = UIImagePickerController()
+    var thisGroupId: Int?
     var devicesId: [String: Int] = [:]
     
     override func viewDidLoad() {
@@ -104,14 +106,14 @@ class AddGroupViewController: UIViewController {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         devicesLabel.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
+//        addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
         addDevicesButton.translatesAutoresizingMaskIntoConstraints = false
         newGroupNameTextField.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(backgroundView)
         self.view.addSubview(devicesLabel)
         self.view.addSubview(collectionView)
-        self.view.addSubview(addPhotoButton)
+//        self.view.addSubview(addPhotoButton)
         self.view.addSubview(addDevicesButton)
         self.view.addSubview(activityIndicator)
         self.view.addSubview(newGroupNameTextField)
@@ -125,7 +127,6 @@ class AddGroupViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print("Test")
         self.view.insertSubview(self.backgroundView, at: 0)
     }
     
@@ -150,17 +151,17 @@ class AddGroupViewController: UIViewController {
             devicesLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
         
-        NSLayoutConstraint.activate([
-            addPhotoButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
-            addPhotoButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
-            addPhotoButton.topAnchor.constraint(equalTo: self.devicesLabel.bottomAnchor, constant: 20),
-            addPhotoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-        ])
+//        NSLayoutConstraint.activate([
+//            addPhotoButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
+//            addPhotoButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+//            addPhotoButton.topAnchor.constraint(equalTo: self.devicesLabel.bottomAnchor, constant: 20),
+//            addPhotoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+//        ])
         
         NSLayoutConstraint.activate([
             addDevicesButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
             addDevicesButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
-            addDevicesButton.topAnchor.constraint(equalTo: self.addPhotoButton.bottomAnchor, constant: 20),
+            addDevicesButton.topAnchor.constraint(equalTo: self.devicesLabel.bottomAnchor, constant: 20),
             addDevicesButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
         
@@ -188,9 +189,8 @@ class AddGroupViewController: UIViewController {
         }
     }
     
-    @objc func addDeviceButtonPressed() {
-        showAddGroupAlert()
-//        saveImage(imageName: self.newGroupNameTextField.text ?? "")
+    @objc func saveGroupButtonPressed() {
+        showConfirmGroupAlert()
     }
     
     @objc func onPressedAddPhotoButton() {
@@ -198,27 +198,27 @@ class AddGroupViewController: UIViewController {
         openCameraOrPhotoLibraryAlert()
     }
     
-    func addNewGroup() {
+    func saveNewGroup() {
         loadActivityIndicator()
         let text = devicesLabel.text
-        let groupName = newGroupNameTextField.text
         let str = text?.dropLast()
+        let groupName = newGroupNameTextField.text
         
         // clientId 75884
-        DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { response in
+        DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { (response, id) in
             
-            if groupName != "" {
-                self.showAlertWhenNewGroupName(groupName: groupName ?? "", alertMessage: response)
-                self.removeActivityIndicator()
-            } else {
-                self.showAlertWhenNoGroupName(alertMessage: response)
-                self.removeActivityIndicator()
+            DispatchQueue.main.async {
+                if groupName != "" {
+                    self.thisGroupId = id
+//                    self.showAlertWhenNewGroupName(groupName: groupName ?? "", alertMessage: response)
+//                    self.removeActivityIndicator()
+                    self.addPhotoNowOrLater()
+                } else {
+                    self.showAlertWhenNoGroupName(alertMessage: response)
+                    self.removeActivityIndicator()
+                }
             }
         })
-        
-        if groupName != "" {
-            self.goBackToViewControllerWhenOkButtonInAlertIsPressed()
-        }
     }
     
     // ActivityIndicator
@@ -231,7 +231,8 @@ class AddGroupViewController: UIViewController {
         activityIndicator.removeFromSuperview()
     }
     
-    func goBackToViewControllerWhenOkButtonInAlertIsPressed() {
+    func goBackToViewController() {
+        removeActivityIndicator()
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
@@ -249,12 +250,12 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         }
         
         cell.layer.masksToBounds = true
-        cell.backgroundColor = .init(white: 0.7, alpha: 0.5)
-        cell.layer.cornerRadius = 10
+        cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
+        cell.layer.cornerRadius = 5
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        cell.setTextAndImageToCell(name: device?.name ?? "", image: UIImage(named: "") ?? UIImage())
+        cell.setTextAndImageToCell(name: device?.name ?? "")
         
         return cell
     }
@@ -264,8 +265,8 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
         
         cell?.layer.masksToBounds = true
-        cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
-        cell?.layer.cornerRadius = 10
+        cell?.backgroundColor = .init(white: 0.3, alpha: 0.7)
+        cell?.layer.cornerRadius = 5
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
@@ -277,8 +278,9 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = UIColor.clear
-        cell?.layer.cornerRadius = 10
+        cell?.layer.masksToBounds = true
+        cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
+        cell?.layer.cornerRadius = 5
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
@@ -294,19 +296,23 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let device = GetInfoAboutAllDevices.instance.devices.remove(at: sourceIndexPath.item)
+        GetInfoAboutAllDevices.instance.devices.insert(device, at: destinationIndexPath.item)
     }
 }
 
-// Alert popup controllers
+// MARK: Alert,  popup controllers
 extension AddGroupViewController {
     
-    public func showAddGroupAlert() {
+    // Display this warning if the user want to confirm or dissmis the new group
+    public func showConfirmGroupAlert() {
         let newGroup = newGroupNameTextField.text
         let alert = UIAlertController(title: "Add group", message: newGroup, preferredStyle: .alert)
         
         let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { (error) in
             print(error)
-            self.addNewGroup()
+            self.saveNewGroup()
+            self.removeActivityIndicator()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in })
@@ -317,6 +323,7 @@ extension AddGroupViewController {
         self.present(alert, animated: true)
     }
     
+    // Display this warning if the user has not entered a group name
     func showAlertWhenNoGroupName(alertMessage: String) {
         
         let alert = UIAlertController(title: "No group name", message: alertMessage, preferredStyle: .alert)
@@ -328,6 +335,7 @@ extension AddGroupViewController {
         self.present(alert, animated: true)
     }
     
+    // Diplay this alert if the new group is an success
     func showAlertWhenNewGroupName(groupName: String, alertMessage: String) {
         
         let alert = UIAlertController(title: groupName, message: alertMessage, preferredStyle: .alert)
@@ -338,9 +346,29 @@ extension AddGroupViewController {
         
         self.present(alert, animated: true)
     }
+    
+    // Ask user if the user want to add a background photo now or later
+    func addPhotoNowOrLater() {
+        let alert = UIAlertController(title: "Add photo", message: "You can do it later", preferredStyle: .alert)
+        
+        let now = UIAlertAction(title: "Add now", style: .default, handler: {(_) in
+            // Open camera
+            self.openCameraOrPhotoLibraryAlert()
+        })
+        
+        let later = UIAlertAction(title: "Later", style: .cancel, handler: {(_) in
+            // Go back to ViewController
+            self.goBackToViewController()
+        })
+        
+        alert.addAction(now)
+        alert.addAction(later)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
-// Open camera or photo library to set background when user will create an group
+// MARK: Camera, Open camera or photo library to set background when user will create an group
 extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
         func openCameraOrPhotoLibraryAlert() {
@@ -386,6 +414,9 @@ extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerC
             return
         }
         backgroundView.image = image
+        
+        let groupId = "\(self.thisGroupId ?? 0)"
+        self.saveImage(imageName: groupId)
     }
     
     func alertWhenNoCamera() {
@@ -411,5 +442,8 @@ extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerC
         
         // Store it in the document directory
         fileManager.createFile(atPath: imagePath as String, contents: data, attributes: nil)
+        
+        // When the image is saved, go back to viewController
+        self.goBackToViewController()
     }
 }
