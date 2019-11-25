@@ -12,7 +12,7 @@ class ButtonSettingsCollectionViewCell: UICollectionViewCell {
     
     var deviceNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.font = .boldSystemFont(ofSize: 10)

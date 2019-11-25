@@ -18,6 +18,15 @@ class DevicesInGroupViewController: UIViewController {
         return imageView
     }()
     
+    var topView: UIImageView = {
+        let view = UIImageView()
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .init(white: 0.3, alpha: 0.7)
+        
+        return view
+    }()
+    
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 10, right: 20)
@@ -38,7 +47,10 @@ class DevicesInGroupViewController: UIViewController {
     
     var removeGroupLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+//        label.layer.masksToBounds = true
+//        label.layer.cornerRadius = 8
+//        label.backgroundColor = .init(white: 0.3, alpha: 0.7)
+        label.textColor = .white
         label.font = .boldSystemFont(ofSize: 20)
         label.text = "Remove group"
         
@@ -47,11 +59,17 @@ class DevicesInGroupViewController: UIViewController {
     
     var removeGroupButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3
         button.layer.cornerRadius = 8
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
+        
+        button.layer.shadowColor = UIColor.white.cgColor
+        button.layer.shadowRadius = 8
+        button.layer.shadowOpacity = 1
+        button.layer.shadowOffset = CGSize(width: 0, height: 10)
+        
         button.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
         
         button.setTitle("Remove group", for: .normal)
@@ -80,6 +98,7 @@ class DevicesInGroupViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        topView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         removeGroupLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +108,7 @@ class DevicesInGroupViewController: UIViewController {
         devicesIds = devicesId.components(separatedBy: ",")
         
         view.addSubview(backgroundView)
+        view.addSubview(topView)
         view.addSubview(collectionView)
         view.addSubview(removeGroupLabel)
         view.addSubview(removeGroupButton)
@@ -183,6 +203,13 @@ class DevicesInGroupViewController: UIViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
+            topView.heightAnchor.constraint(equalToConstant: 50),
+            topView.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -190,24 +217,27 @@ class DevicesInGroupViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            removeGroupLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
-            removeGroupLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            removeGroupLabel.heightAnchor.constraint(equalToConstant: 40)
+            removeGroupLabel.heightAnchor.constraint(equalToConstant: 40),
+            removeGroupLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 5),
+            removeGroupLabel.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 7),
+            removeGroupLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: removeGroupLabel.bottomAnchor, constant: 60),
+            removeGroupButton.heightAnchor.constraint(equalToConstant: 40),
+            removeGroupButton.widthAnchor.constraint(equalToConstant: 150),
+            removeGroupButton.topAnchor.constraint(equalTo: topView.topAnchor, constant: 5),
+            removeGroupButton.leadingAnchor.constraint(greaterThanOrEqualTo: removeGroupLabel.trailingAnchor, constant: 20),
+            removeGroupButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -7),
+            removeGroupButton.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: -5)
+            
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 60),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12)
-        ])
-        
-        NSLayoutConstraint.activate([
-            removeGroupButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
-            removeGroupButton.leadingAnchor.constraint(greaterThanOrEqualTo: removeGroupLabel.trailingAnchor, constant: 20),
-            removeGroupButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
-            removeGroupButton.heightAnchor.constraint(equalToConstant: 40),
-            removeGroupButton.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
 }

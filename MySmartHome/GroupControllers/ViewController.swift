@@ -32,7 +32,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         var allDevicesButton: UIButton = {
         let button = UIButton()
         button.setTitle("Off", for: .normal)
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.gray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(allDevicesButtonPressed), for: .touchUpInside)
@@ -44,7 +44,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         let button = UIButton()
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
-        button.setTitle("°°°", for: .normal)
+        button.setTitle("•••", for: .normal)
         button.addTarget(self, action: #selector(settingsButtonForAllDevicesButtonPressed), for: .touchUpInside)
         
         return button
@@ -52,11 +52,13 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     var addGroupButton: UIButton = {
         let button = UIButton()
+        button.layer.masksToBounds = true
         button.layer.borderColor = UIColor.darkGray.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 2
         button.layer.cornerRadius = 25
+        button.backgroundColor = .init(white: 0.3, alpha: 0.7)
         button.setTitle("Add group", for: .normal)
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.addTarget(self, action: #selector(addGroupButtonPressed), for: .touchUpInside)
         
@@ -147,6 +149,32 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         self.stopActivityIndicator(activityIndicator: activityIndicator)
     }
     
+    @objc func settingsButtonForAllDevicesButtonPressed() {
+        let popup = ButtonSettingsViewController()
+        self.addChild(popup)
+        popup.view.frame = self.view.frame
+        self.view.addSubview(popup.view)
+        popup.didMove(toParent: self)
+    }
+    
+    @objc func addGroupButtonPressed() {
+        let addGroupViewController = AddGroupViewController()
+        addGroupViewController.title = "Add new group"
+        self.navigationController?.pushViewController(addGroupViewController, animated: true)
+    }
+    
+    @objc func allDevicesButtonPressed() {
+        setValue()
+        turnLampOnOrOff(bool: !isOn)
+    }
+    
+    func turnLampOnOrOff(bool: Bool) {
+        isOn = bool
+        bool ? self.lampIsOn() : self.lampIsOff()
+        bool ? allDevicesButton.setTitle("On", for: .normal) : allDevicesButton.setTitle("Off", for: .normal)
+        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId ?? "No id") : DeviceInfoOutput.instance.turnOffDevice(id: groupId ?? "No id")
+    }
+    
     func lampIsOn() {
         self.allDevicesButton.setTitleColor(self.lightningColor, for: .normal)
         self.allDevicesButton.setTitle("On", for: .normal)
@@ -162,13 +190,13 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         // Change settingbutton when lamps is on
         self.settingButton.layer.borderColor = self.lightningColor.cgColor
         self.settingButton.setTitleColor(self.lightningColor, for: .normal)
-        self.settingButton.backgroundColor = .init(white: 0.7, alpha: 0.4)
+        self.settingButton.backgroundColor = .init(white: 0.0, alpha: 0.0)
     }
     
     func lampIsOff() {
-        self.allDevicesButton.setTitleColor(.darkGray, for: .normal)
+        self.allDevicesButton.setTitleColor(.gray, for: .normal)
         self.allDevicesButton.setTitle("Off", for: .normal)
-        self.allDevicesButton.backgroundColor = .init(white: 0.3, alpha: 0.4)
+        self.allDevicesButton.backgroundColor = .init(white: 0.3, alpha: 0.7)
         self.allDevicesButton.layer.borderColor = UIColor.gray.cgColor
         self.allDevicesButton.layer.borderWidth = 5
         
@@ -177,8 +205,12 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         
         // Change settingButton when lamps is off
         self.settingButton.layer.borderColor = UIColor.gray.cgColor
-        self.settingButton.setTitleColor(.darkGray, for: .normal)
-        self.settingButton.backgroundColor = .init(white: 0.3, alpha: 0.4)
+        self.settingButton.setTitleColor(.gray, for: .normal)
+        self.settingButton.backgroundColor = .init(white: 0.0, alpha: 0.0)
+    }
+    
+    public func setValue() {
+        groupId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
     }
     
     func setupConstraints() {
@@ -229,36 +261,6 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             settingButton.widthAnchor.constraint(equalToConstant: 30),
             settingButton.heightAnchor.constraint(equalToConstant: 30)
         ])
-    }
-    
-    public func setValue() {
-        groupId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
-    }
-    
-    @objc func settingsButtonForAllDevicesButtonPressed() {
-        let popup = ButtonSettingsViewController()
-        self.addChild(popup)
-        popup.view.frame = self.view.frame
-        self.view.addSubview(popup.view)
-        popup.didMove(toParent: self)
-    }
-    
-    @objc func addGroupButtonPressed() {
-        let addGroupViewController = AddGroupViewController()
-        addGroupViewController.title = "Add new group"
-        self.navigationController?.pushViewController(addGroupViewController, animated: true)
-    }
-    
-    @objc func allDevicesButtonPressed() {
-        setValue()
-        turnLampOnOrOff(bool: !isOn)
-    }
-    
-    func turnLampOnOrOff(bool: Bool) {
-        isOn = bool
-        bool ? self.lampIsOn() : self.lampIsOff()
-        bool ? allDevicesButton.setTitle("On", for: .normal) : allDevicesButton.setTitle("Off", for: .normal)
-        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId ?? "No id") : DeviceInfoOutput.instance.turnOffDevice(id: groupId ?? "No id")
     }
 }
 

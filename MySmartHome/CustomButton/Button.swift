@@ -45,7 +45,7 @@ class Button: UIButton {
         
         bool ? lampIsOn() : lampIsOff()
 //        let color = bool ? UIColor.darkGray : .clear
-        let title = bool ? "On" : "Off"
+//        let title = bool ? "On" : "Off"
 //        let titleColor = bool ? .white : UIColor.darkGray
         
         bool ? DeviceInfoOutput.instance.turnOnDevice(id: self.deviceId) : DeviceInfoOutput.instance.turnOffDevice(id: self.deviceId)
@@ -93,7 +93,7 @@ class Button: UIButton {
     }
     
     func lampIsOff() {
-        self.setTitleColor(.darkGray, for: .normal)
+        self.setTitleColor(.gray, for: .normal)
         self.setTitle("Off", for: .normal)
         self.backgroundColor = .init(white: 0.3, alpha: 0.4)
         self.layer.borderColor = UIColor.gray.cgColor

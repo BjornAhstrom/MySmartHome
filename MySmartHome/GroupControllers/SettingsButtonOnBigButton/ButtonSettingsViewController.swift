@@ -10,6 +10,14 @@ import UIKit
 
 class ButtonSettingsViewController: UIViewController {
     
+    var viewController: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 15
+        view.backgroundColor = .init(white: 0.3, alpha: 1)
+        
+        return view
+    }()
+    
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -21,8 +29,8 @@ class ButtonSettingsViewController: UIViewController {
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
         view.register(ButtonSettingsCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.darkGray.cgColor
+        view.backgroundColor = .init(white: 0, alpha: 0)
+        view.layer.borderColor = UIColor.gray.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 10
         view.allowsMultipleSelection = false
@@ -33,7 +41,7 @@ class ButtonSettingsViewController: UIViewController {
     
     var upperTextLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
         label.font = .boldSystemFont(ofSize: 25)
         label.numberOfLines = 0
@@ -43,21 +51,13 @@ class ButtonSettingsViewController: UIViewController {
         return label
     }()
     
-    var viewController: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 15
-        view.backgroundColor = .white
-        
-        return view
-    }()
-    
     var okButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3
         button.layer.cornerRadius = 8
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .gray
+        button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.setTitle("Ok", for: .normal)
         button.addTarget(self, action: #selector(onOkButtonPressed), for: .touchUpInside)
@@ -67,11 +67,11 @@ class ButtonSettingsViewController: UIViewController {
     
     var cancelButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3
         button.layer.cornerRadius = 8
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .gray
+        button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.setTitle("Cancel", for: .normal)
         button.addTarget(self, action: #selector(onCancelButtonPressed), for: .touchUpInside)
@@ -90,17 +90,17 @@ class ButtonSettingsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        okButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        upperTextLabel.translatesAutoresizingMaskIntoConstraints = false
         viewController.translatesAutoresizingMaskIntoConstraints = false
+        upperTextLabel.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        okButton.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(viewController)
-        viewController.addSubview(okButton)
-        viewController.addSubview(cancelButton)
         viewController.addSubview(upperTextLabel)
         viewController.addSubview(collectionView)
+        viewController.addSubview(cancelButton)
+        viewController.addSubview(okButton)
         
         view.backgroundColor = .init(white: 0, alpha: 0.5)
         
@@ -109,13 +109,6 @@ class ButtonSettingsViewController: UIViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            upperTextLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
-            upperTextLabel.topAnchor.constraint(equalTo: viewController.topAnchor, constant: 10),
-            upperTextLabel.leadingAnchor.constraint(equalTo: viewController.leadingAnchor, constant: 10),
-            upperTextLabel.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -10)
-        ])
-        
-        NSLayoutConstraint.activate([
             viewController.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewController.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             viewController.widthAnchor.constraint(equalToConstant: 300),
@@ -123,11 +116,17 @@ class ButtonSettingsViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            okButton.widthAnchor.constraint(equalToConstant: 100),
-            okButton.heightAnchor.constraint(equalToConstant: 40),
-            okButton.leadingAnchor.constraint(greaterThanOrEqualTo: cancelButton.trailingAnchor),
-            okButton.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -10),
-            okButton.bottomAnchor.constraint(equalTo: viewController.bottomAnchor, constant: -10)
+            upperTextLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            upperTextLabel.topAnchor.constraint(equalTo: viewController.topAnchor, constant: 10),
+            upperTextLabel.leadingAnchor.constraint(equalTo: viewController.leadingAnchor, constant: 10),
+            upperTextLabel.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: upperTextLabel.bottomAnchor, constant: 40),
+            collectionView.leadingAnchor.constraint(equalTo: viewController.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -40)
         ])
         
         NSLayoutConstraint.activate([
@@ -138,10 +137,11 @@ class ButtonSettingsViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: upperTextLabel.bottomAnchor, constant: 40),
-            collectionView.leadingAnchor.constraint(equalTo: viewController.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -40)
+            okButton.widthAnchor.constraint(equalToConstant: 100),
+            okButton.heightAnchor.constraint(equalToConstant: 40),
+            okButton.leadingAnchor.constraint(greaterThanOrEqualTo: cancelButton.trailingAnchor),
+            okButton.trailingAnchor.constraint(equalTo: viewController.trailingAnchor, constant: -10),
+            okButton.bottomAnchor.constraint(equalTo: viewController.bottomAnchor, constant: -10)
         ])
     }
     
@@ -160,7 +160,7 @@ class ButtonSettingsViewController: UIViewController {
     }
 }
 
-// Collection view
+// MARK: Collection view
 extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return GetInfoAboutAllDevices.instance.devices.count
@@ -173,7 +173,7 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
         
         let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        cell.layer.borderColor = UIColor.darkGray.cgColor
+        cell.layer.borderColor = UIColor.white.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
         cell.setNameToLabel(name: device?.name ?? "")
