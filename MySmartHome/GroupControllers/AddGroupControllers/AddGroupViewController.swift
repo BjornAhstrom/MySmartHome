@@ -238,7 +238,7 @@ class AddGroupViewController: UIViewController {
     }
 }
 
-// CollectionView
+// MARK: CollectionView
 extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return GetInfoAboutAllDevices.instance.deviceCount

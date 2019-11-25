@@ -45,22 +45,41 @@ class PopupSliderViewController: UIViewController {
         return slider
     }()
     
+    var xAndYValueSlider = CGRect()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .init(white: 0, alpha: 0.0)
         
         self.slider.translatesAutoresizingMaskIntoConstraints = false
-        self.viewController.translatesAutoresizingMaskIntoConstraints = false
+//        self.viewController.translatesAutoresizingMaskIntoConstraints = false
         self.sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        self.viewController.addSubview(self.slider)
         self.view.addSubview(self.viewController)
-        self.viewController.addSubview(self.sliderValueLabel)
-        
+        self.view.addSubview(self.sliderValueLabel)
+        self.view.addSubview(self.slider)
+                
         self.sliderValueLabel.text = "\(String(Int(self.slider.value))) %"
         
         setConstraints()
         touchToRemoveFromSuperView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        setXAndYCoordinatesToViewController()
+    }
+    
+    func setXAndYCoordinatesToViewController() {
+        viewController.frame = CGRect(x: xAndYValueSlider.origin.x, y: xAndYValueSlider.origin.y+130, width: 206, height: 46)
+
+        if viewController.frame.maxX >= self.view.frame.maxX {
+            viewController.frame = CGRect(x: xAndYValueSlider.origin.x-30, y: xAndYValueSlider.origin.y+130, width: 206, height: 46)
+        }
+        else if viewController.frame.minX <= self.view.frame.minX {
+            viewController.frame = CGRect(x: xAndYValueSlider.origin.x+30, y: xAndYValueSlider.origin.y+130, width: 206, height: 46)
+        }
     }
     
     func touchToRemoveFromSuperView() {
@@ -74,12 +93,12 @@ class PopupSliderViewController: UIViewController {
     }
     
     func setConstraints() {
-        NSLayoutConstraint.activate([
-            self.viewController.widthAnchor.constraint(equalToConstant: 206),
-            self.viewController.heightAnchor.constraint(equalToConstant: 46),
-            self.viewController.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            self.viewController.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            self.viewController.widthAnchor.constraint(equalToConstant: 206),
+//            self.viewController.heightAnchor.constraint(equalToConstant: 46),
+//            self.viewController.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: xAndYValueSlider.origin.y),
+//            self.viewController.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: xAndYValueSlider.origin.x*0.20)
+//        ])
         
         NSLayoutConstraint.activate([
             self.slider.widthAnchor.constraint(equalToConstant: 200),

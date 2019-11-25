@@ -33,6 +33,12 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    var onOffButton: Button = {
+        let button = Button()
+        
+        return button
+    }()
+    
     var imageView: UIImageView = {
         var image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -64,17 +70,19 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         sliderButton.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        onOffButton.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         uiView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(sliderButton)
-        addSubview(imageView)
+        addSubview(onOffButton)
+//        addSubview(imageView)
         uiView.addSubview(textLabel)
         addSubview(uiView)
         
         setConstraints(sliderIsOn: false)
-//        slideTexToLeft()
+        slideTexToLeft()
     }
     
     required init?(coder: NSCoder) {
@@ -107,15 +115,24 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         // sliderButton constraints
         sliderButton.widthAnchor.constraint(equalToConstant: contentView.frame.width/2).isActive = sliderIsOn
         sliderButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = sliderIsOn
-        sliderButton.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = sliderIsOn
+        sliderButton.leadingAnchor.constraint(equalTo: onOffButton.trailingAnchor, constant: 5).isActive = sliderIsOn
         sliderButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = sliderIsOn
         sliderButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = sliderIsOn
         
+        // onOffButton constraints
+        NSLayoutConstraint.activate([
+            onOffButton.widthAnchor.constraint(greaterThanOrEqualToConstant: contentView.frame.width/3), //.isActive = true
+            onOffButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5), //.isActive = true
+            onOffButton.centerXAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor), //.isActive = true
+            onOffButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5) //.isActive = true
+        ])
+        
+        
         // imageView constraints
-        imageView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
-        imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -5).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+//        imageView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 5).isActive = true
+//        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
+//        imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -5).isActive = true
+//        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
     }
     
     func slideTexToLeft() {

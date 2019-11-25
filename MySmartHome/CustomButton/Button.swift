@@ -80,13 +80,13 @@ class Button: UIButton {
     }
     
     func lampIsOn() {
-        self.setTitleColor(Colors.lightningWhiteColor, for: .normal)
+        self.setTitleColor(ButtonColors.lightningWhiteColor, for: .normal)
         self.setTitle("On", for: .normal)
         self.backgroundColor = .init(white: 0.7, alpha: 0.4)
-        self.layer.borderColor = Colors.lightningWhiteColor.cgColor
+        self.layer.borderColor = ButtonColors.lightningWhiteColor.cgColor
         self.layer.borderWidth = 5
         
-        self.layer.shadowColor = Colors.lightningWhiteColor.cgColor
+        self.layer.shadowColor = ButtonColors.lightningWhiteColor.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 1.0)
         self.layer.shadowOpacity = 1
         self.layer.shadowRadius = 15
@@ -104,9 +104,7 @@ class Button: UIButton {
     }
 }
 
-
-
-struct Colors {
+struct ButtonColors {
     static let lightningWhiteColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7)
     static let lightningBlue = UIColor(displayP3Red: 143/255, green: 184/255, blue: 255/255, alpha: 0.7)
     static let lightningLightBlue = UIColor(displayP3Red: 174/255, green: 234/255, blue: 255/255, alpha: 0.7)

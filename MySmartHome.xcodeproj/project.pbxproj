@@ -212,7 +212,6 @@
 				1EA0CC82237A75F200571C9B /* DeviceInformation.swift */,
 				1EA0CC84237A792C00571C9B /* GroupInformation.swift */,
 				1EA0CC86237A848000571C9B /* GetInfoAboutGroups.swift */,
-				1E31BB4623859CDD000C91E5 /* PopupSliderViewController.swift */,
 			);
 			path = TestViewController;
 			sourceTree = "<group>";
@@ -267,6 +266,14 @@
 			path = DevicesControllers;
 			sourceTree = "<group>";
 		};
+		1E972AF2238BC665003F6C9F /* SliderController */ = {
+			isa = PBXGroup;
+			children = (
+				1E31BB4623859CDD000C91E5 /* PopupSliderViewController.swift */,
+			);
+			path = SliderController;
+			sourceTree = "<group>";
+		};
 		1EA0CC66237480A500571C9B /* SettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,8 +287,8 @@
 			children = (
 				1E2C9D2A23701C6A00355398 /* ViewController.swift */,
 				1E0E55A423730D2D00794DFF /* GroupButtonTableViewCell.swift */,
-				1E52F1BC238407E300B4C128 /* AddGroupControllers */,
 				1E52F1BE238408AD00B4C128 /* DevicesControllers */,
+				1E52F1BC238407E300B4C128 /* AddGroupControllers */,
 				1E52F1BD2384084000B4C128 /* SettingsButtonOnBigButton */,
 			);
 			path = GroupControllers;
@@ -302,6 +309,7 @@
 				1E31BB4423851728000C91E5 /* AllDevicesCollectionViewCell.swift */,
 				1E2C9D2E237027B500355398 /* AllDevicesViewController.swift */,
 				1E0E5586237031A600794DFF /* DeviceTableViewCell.swift */,
+				1E972AF2238BC665003F6C9F /* SliderController */,
 			);
 			path = AllDevicesControllers;
 			sourceTree = "<group>";
