@@ -82,7 +82,7 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         addSubview(uiView)
         
         setConstraints(sliderIsOn: false)
-        slideTexToLeft()
+//        slideTexToLeft()
     }
     
     required init?(coder: NSCoder) {
@@ -135,14 +135,14 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
 //        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
     }
     
-    func slideTexToLeft() {
-        DispatchQueue.main.async(execute: {
+    func slideTexToLeft(duration: Double, delay: Double) {
+//        DispatchQueue.main.async(execute: {
 
-            UIView.animate(withDuration: 10, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+            UIView.animate(withDuration: duration, delay: delay, options: ([.curveLinear, .repeat]), animations: {() -> Void in
 
                 self.textLabel.transform = CGAffineTransform(translationX: self.textLabel.bounds.origin.x - 200, y: self.textLabel.bounds.origin.y)
 
             }, completion:  nil)
-        })
+//        })
     }
 }

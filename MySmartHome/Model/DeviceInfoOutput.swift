@@ -13,7 +13,6 @@ class DeviceInfoOutput {
     private init() {}
     static let instance = DeviceInfoOutput()
     
-    
     var devices: [Deviceinfo] = []
     var deviceStatus: [DeviceHistory] = []
     var deviceInfo: [Deviceinfo] = []
@@ -52,8 +51,8 @@ class DeviceInfoOutput {
         }
     }
     
-    // The id of the device to dim lamp
-    func dimmableLamp(id: String, dimValue: Float) {
+    // MARK: Dimmable: The id of the device to dim lamp
+    func dimmableLamp(id: String, dimValue: Int) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/dim?id=\(id)&level=\(dimValue)") { result in
             switch result {
             case.success(let response):
@@ -67,7 +66,7 @@ class DeviceInfoOutput {
         }
     }
     
-    // The id of the device to get info
+    // MARK: Device Information: The id of the device to get info
     func getDeviceInformation(id: String, onCompletion: @escaping (String, String) -> Void ) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
             switch result {
@@ -200,8 +199,8 @@ class DeviceInfoOutput {
         }
     }
     
-    // The id of the device to find history from a specific device to get the state value
-    func getHistory(id: String, onCompletion: @escaping (Int, Int) -> Void ) {
+    // MARK: getHistory, The id of the device to find history from a specific device to get the state value
+    func getHistory(id: String, onCompletion: @escaping (_ state: Int, _ stateValue:Int) -> Void ) {
         
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/history?id=\(id)") { result in
             switch result {

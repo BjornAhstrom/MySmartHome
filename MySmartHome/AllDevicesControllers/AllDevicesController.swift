@@ -48,6 +48,10 @@ class AllDevicesController: UIViewController {
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
     var sliderValue: Float = 0.0
     var xAndYValueFromCellWithSlider = CGRect()
+    var deviceId: String = ""
+    
+    var devices: [Deviceinfo] = []
+    var deviceInfo: [Deviceinfo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,12 +75,10 @@ class AllDevicesController: UIViewController {
         self.collectionView.reloadData()
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(sender:)))
-        
         collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
     }
     
     @objc func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
-        
         let point = sender.location(in: collectionView)
         
         switch sender.state {
@@ -133,50 +135,37 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.layer.masksToBounds = true
         cell.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell.layer.cornerRadius = 5
+        cell.slideTexToLeft(duration: 10, delay: 1)
+        
         
         guard let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row) else {
             fatalError("No deviceinfo")
         }
         
         DeviceInfoOutput.instance.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
-            
+        
             DispatchQueue.main.async {
                 if deviceType == TelldusKeys.dimmableDeviceNr {
                     cell.sliderButton.isHidden = false
                     cell.setConstraints(sliderIsOn: true)
-                    print("X: \(cell.frame.origin.x),  Y: \(cell.frame.origin.y)")
                     self.xAndYValueFromCellWithSlider = CGRect(x: cell.frame.origin.x, y: cell.frame.origin.y, width: 0, height: 0)
+                    self.deviceId = device.id ?? ""
                     
                 } else {
                     cell.sliderButton.isHidden = true
-                    
-                    
                 }
             }
         })
         
         DeviceInfoOutput.instance.getHistory(id: device.id ?? "", onCompletion: { (state, stateValue)  in
-            
+            let stValue = Double(stateValue)/2.55
+
             DispatchQueue.main.async {
-                cell.sliderButton.setTitle("% \(stateValue)", for: .normal)
+                cell.sliderButton.setTitle("% \(Int(stValue))", for: .normal)
                 cell.onOffButton.deviceId = device.id ?? ""
-//                if state == 1 {
-//                    // Dvice is on
-//                    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-////                    guard let lampOnImage = UIImage(named: "LampOn") else { return }
-////                    cell.imageView.image = lampOnImage
-//
-//                    cell.onOffButton.deviceId = device.id ?? ""
-//                }
-//                else if state == 2  {
-//                    // Device is off
-//                    collectionView.deselectItem(at: indexPath, animated: true)
-////                    guard let lampOffImage = UIImage(named: "LampOff") else { return }
-////                    cell.imageView.image = lampOffImage
-//                    cell.onOffButton.deviceId = device.id ?? ""
-//                }
             }
         })
+        
         cell.setTextAndImageToCell(name: device.name ?? "")
         
         cell.sliderButton.addTarget(self, action: #selector(self.setSliderValue), for: .touchUpInside)
@@ -185,26 +174,6 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-//
-//        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-//
-//        DispatchQueue.main.async {
-//            DeviceInfoOutput.instance.turnOnDevice(id: device?.id ?? "")
-//        }
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        collectionView.deselectItem(at: indexPath, animated: true)
-//
-//        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-//
-//        DispatchQueue.main.async {
-//            DeviceInfoOutput.instance.turnOffDevice(id: device?.id ?? "")
-//        }
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -212,32 +181,15 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let device = GetInfoAboutAllDevices.instance.devices.remove(at: sourceIndexPath.item)
         GetInfoAboutAllDevices.instance.devices.insert(device, at: destinationIndexPath.item)
-        
-//        DeviceInfoOutput.instance.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
-//            
-//            DispatchQueue.main.async {
-//                if deviceType == TelldusKeys.dimmableDeviceNr {
-//                    
-//                    print("Source index: \(sourceIndexPath)")
-//                    print("Destination index: \(destinationIndexPath)")
-//                    
-//                }
-//            }
-//        })
     }
     
     @objc func setSliderValue() {
-        print("SliderButtonTouch")
-        
         let popup = PopupSliderViewController()
         self.addChild(popup)
         popup.xAndYValueSlider = xAndYValueFromCellWithSlider
+        popup.deviceId = deviceId
         popup.view.frame = self.view.frame
         self.view.addSubview(popup.view)
         popup.didMove(toParent: self)
-    }
-    
-    func setValueToCell(cell: UICollectionViewCell) {
-        
     }
 }

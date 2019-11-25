@@ -33,6 +33,7 @@ class Button: UIButton {
         layer.borderColor = UIColor.darkGray.cgColor
         layer.cornerRadius = 15
         setTitleColor(UIColor.darkGray, for: .normal)
+        lampIsOff()
         addTarget(self, action: #selector(Button.buttonPressed), for: .touchUpInside)
     }
     
@@ -44,34 +45,20 @@ class Button: UIButton {
         isOn = bool
         
         bool ? lampIsOn() : lampIsOff()
-//        let color = bool ? UIColor.darkGray : .clear
-//        let title = bool ? "On" : "Off"
-//        let titleColor = bool ? .white : UIColor.darkGray
-        
         bool ? DeviceInfoOutput.instance.turnOnDevice(id: self.deviceId) : DeviceInfoOutput.instance.turnOffDevice(id: self.deviceId)
-        
-//        setTitle(title, for: .normal)
-//        setTitleColor(titleColor, for: .normal)
-//        backgroundColor = color
     }
     
     func getStateFromDevice() {
         
-//        isOn ? DeviceInfoOutput.instance.turnOffDevice(id: deviceId) : DeviceInfoOutput.instance.turnOnDevice(id: deviceId)
-        
         DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
-            if state == 1 {
+            if state == 1 || stateValue > 0 {
                 self.isOn = true
-//                self.setTitleColor(.white, for: .normal)
-//                self.backgroundColor = .darkGray
                 self.lampIsOn()
                 self.setTitle("On", for: .normal)
                 
             }
             else if state == 2 {
                 self.isOn = false
-//                self.setTitleColor(.darkGray, for: .normal)
-//                self.backgroundColor = .clear
                 self.lampIsOff()
                 self.setTitle("Off", for: .normal)
                 

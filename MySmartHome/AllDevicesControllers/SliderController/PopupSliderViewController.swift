@@ -20,12 +20,7 @@ class PopupSliderViewController: UIViewController {
     
     var sliderValueLabel: UILabel = {
         let label = UILabel()
-//        label.layer.borderColor = UIColor.black.cgColor
-//        label.layer.borderWidth = 1
-//        label.layer.cornerRadius = 10
-//        label.layer.masksToBounds = true
         label.numberOfLines = 0
-//        label.backgroundColor = .black
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 10)
         label.textAlignment = .center
@@ -38,28 +33,28 @@ class PopupSliderViewController: UIViewController {
         slider.minimumTrackTintColor = .green
         slider.maximumTrackTintColor = .red
         slider.minimumValue = 0
-        slider.maximumValue = 100
-        slider.setValue(slider.maximumValue/2, animated: false)
-        slider.addTarget(self, action: #selector(setSliderValue), for: .valueChanged)
+        slider.maximumValue = 255
+//        slider.setValue(slider.maximumValue/2, animated: false)
+        slider.addTarget(self, action: #selector(setSliderValue), for: .touchCancel)
         
         return slider
     }()
     
     var xAndYValueSlider = CGRect()
+    var deviceId: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .init(white: 0, alpha: 0.0)
         
         self.slider.translatesAutoresizingMaskIntoConstraints = false
-//        self.viewController.translatesAutoresizingMaskIntoConstraints = false
         self.sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(self.viewController)
         self.view.addSubview(self.sliderValueLabel)
         self.view.addSubview(self.slider)
                 
-        self.sliderValueLabel.text = "\(String(Int(self.slider.value))) %"
+        
         
         setConstraints()
         touchToRemoveFromSuperView()
@@ -69,6 +64,18 @@ class PopupSliderViewController: UIViewController {
         super.viewWillAppear(true)
         
         setXAndYCoordinatesToViewController()
+        getSliderValueFromTelldus()
+    }
+    
+    func getSliderValueFromTelldus(){
+        DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
+            let value = Double(stateValue)/2.55
+            
+            self.sliderValueLabel.text = "\(String(Int(value))) %"
+            self.slider.value = Float(stateValue)
+        })
+        
+        
     }
     
     func setXAndYCoordinatesToViewController() {
@@ -90,16 +97,14 @@ class PopupSliderViewController: UIViewController {
     
     @objc func setSliderValue() {
         self.sliderValueLabel.text = "\(String(Int(self.slider.value))) %"
+        
+        let value = Int(self.slider.value)
+        
+        print("\(String(value)) %")
+        DeviceInfoOutput.instance.dimmableLamp(id: deviceId, dimValue: value)
     }
     
     func setConstraints() {
-//        NSLayoutConstraint.activate([
-//            self.viewController.widthAnchor.constraint(equalToConstant: 206),
-//            self.viewController.heightAnchor.constraint(equalToConstant: 46),
-//            self.viewController.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: xAndYValueSlider.origin.y),
-//            self.viewController.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: xAndYValueSlider.origin.x*0.20)
-//        ])
-        
         NSLayoutConstraint.activate([
             self.slider.widthAnchor.constraint(equalToConstant: 200),
             self.slider.heightAnchor.constraint(equalToConstant: 20),
