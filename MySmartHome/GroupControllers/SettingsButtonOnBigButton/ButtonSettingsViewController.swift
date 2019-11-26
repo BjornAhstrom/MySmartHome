@@ -83,6 +83,7 @@ class ButtonSettingsViewController: UIViewController {
     
     var selectedDeviceId: String = ""
     var mainViewController: ViewController?
+    var devices = [Deviceinfo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +107,24 @@ class ButtonSettingsViewController: UIViewController {
         
         setConstraints()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        apiRequest()
+    }
+    
+    func apiRequest() {
+           devices = []
+           
+           ApiManager.getAlldevicesRequest(onCompletion: { response in
+               
+               for dev in response.device ?? [] {
+                   self.devices.append(dev)
+               }
+               self.collectionView.reloadData()
+           })
+       }
     
     func setConstraints() {
         NSLayoutConstraint.activate([
@@ -163,7 +182,7 @@ class ButtonSettingsViewController: UIViewController {
 // MARK: Collection view
 extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GetInfoAboutAllDevices.instance.devices.count
+        return devices.count //GetInfoAboutAllDevices.instance.devices.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -171,12 +190,12 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
             fatalError()
         }
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        let device = devices[indexPath.row] //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
         cell.layer.borderColor = UIColor.white.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
-        cell.setNameToLabel(name: device?.name ?? "")
+        cell.setNameToLabel(name: device.name ?? "")
         
         return cell
     }
@@ -188,9 +207,9 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
         cell?.backgroundColor = UIColor(displayP3Red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
         cell?.layer.cornerRadius = 8
         
-        let deviceId = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        let deviceId = devices[indexPath.row] //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        selectedDeviceId = deviceId?.id ?? ""
+        selectedDeviceId = deviceId.id ?? ""
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

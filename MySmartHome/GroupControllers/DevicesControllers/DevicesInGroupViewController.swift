@@ -80,7 +80,6 @@ class DevicesInGroupViewController: UIViewController {
     let pickerController = UIImagePickerController()
     
     var buttons: [GroupButton] = []
-    var selectedButtons: [ListOfSelectedButtons] = []
     
     var groupId: String = "" // group id
     var devicesId: String = "" // all ids from the group
@@ -131,7 +130,7 @@ class DevicesInGroupViewController: UIViewController {
     @objc func removeButtonPressed() {
         print("Remove button pressed")
         deleteImage(ImageName: groupName)
-        DeviceInfoOutput.instance.removeGroup(groupId: groupId, onCompletion: {(success, error) in
+        ApiManager.removeGroup(groupId: groupId, onCompletion: {(success, error) in
             
             print("\(success)")
             
@@ -256,7 +255,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         }
         let devId = devicesIds[indexPath.row]
         
-        DeviceInfoOutput.instance.getGroupInformation(id: devId, onCompletion: { (devName) in
+        ApiManager.getGroupInformation(id: devId, onCompletion: { (devName) in
             
             cell.setDeviceNameToLabel(name: devName)
         })
@@ -265,7 +264,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell.layer.cornerRadius = 5
         
-        DeviceInfoOutput.instance.getHistory(id: devId, onCompletion: { (state, stateValue)  in
+        ApiManager.getHistory(id: devId, onCompletion: { (state, stateValue)  in
             
             DispatchQueue.main.async {
                 
@@ -295,7 +294,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell?.layer.cornerRadius = 10
         
-        DeviceInfoOutput.instance.turnOnDevice(id: devId)
+        ApiManager.turnOnDevice(id: devId)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -306,7 +305,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
         cell?.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell?.layer.cornerRadius = 10
         
-        DeviceInfoOutput.instance.turnOffDevice(id: devId)
+        ApiManager.turnOffDevice(id: devId)
     }
 }
 

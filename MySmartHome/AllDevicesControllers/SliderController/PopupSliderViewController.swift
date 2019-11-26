@@ -34,7 +34,6 @@ class PopupSliderViewController: UIViewController {
         slider.maximumTrackTintColor = .red
         slider.minimumValue = 0
         slider.maximumValue = 255
-//        slider.setValue(slider.maximumValue/2, animated: false)
         slider.addTarget(self, action: #selector(setSliderValue), for: .touchCancel)
         
         return slider
@@ -54,8 +53,6 @@ class PopupSliderViewController: UIViewController {
         self.view.addSubview(self.sliderValueLabel)
         self.view.addSubview(self.slider)
                 
-        
-        
         setConstraints()
         touchToRemoveFromSuperView()
     }
@@ -68,14 +65,12 @@ class PopupSliderViewController: UIViewController {
     }
     
     func getSliderValueFromTelldus(){
-        DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
+        ApiManager.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
             let value = Double(stateValue)/2.55
             
             self.sliderValueLabel.text = "\(String(Int(value))) %"
             self.slider.value = Float(stateValue)
         })
-        
-        
     }
     
     func setXAndYCoordinatesToViewController() {
@@ -99,9 +94,7 @@ class PopupSliderViewController: UIViewController {
         self.sliderValueLabel.text = "\(String(Int(self.slider.value))) %"
         
         let value = Int(self.slider.value)
-        
-        print("\(String(value)) %")
-        DeviceInfoOutput.instance.dimmableLamp(id: deviceId, dimValue: value)
+        ApiManager.dimmableLamp(id: deviceId, dimValue: value)
     }
     
     func setConstraints() {

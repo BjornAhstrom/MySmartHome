@@ -124,7 +124,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @objc func changeNameButtonPressed() {
         newDeviceName = changeNameTextField.text ?? ""
         
-        DeviceInfoOutput.instance.setNewDeviceName(id: deviceId, name: newDeviceName)
+        ApiManager.setNewDeviceName(id: deviceId, name: newDeviceName)
         
         changeNameTextField.text = newDeviceName
     }

@@ -83,6 +83,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     var groupId: String?
     var test: Int = 0
     var devicesIds: [String] = [] // split string from deviceId in to this array
+    var groups = [Deviceinfo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,45 +109,73 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         view.addSubview(settingButton)
         
         setupConstraints()
-        setValue()
+        setGroupIdValue()
+        lampIsOff()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.getDeviceInfo()
+        
         DispatchQueue.main.async {
-            self.getDeviceInfo()
-            self.tableView.reloadData()
+            self.getGroupApiRequest()
+        }
+        
+        DispatchQueue.main.async {
+            
         }
     }
     
+    // MARK:  Group api request
+    func getGroupApiRequest() {
+        groups = []
+        self.startActivityIndicator(activityIndicator: activityIndicator)
+        
+        ApiManager.getAlldevicesRequest(onCompletion: { response in
+            
+            for group in response.device ?? [] {
+                
+                if group.type ?? "" == "group" {
+                    self.groups.append(group)
+                }
+            }
+            self.tableView.reloadData()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+        })
+    }
+    
+    // MARK: Get device history to set lamp buttons on or off
     func getDeviceInfo() {
         self.startActivityIndicator(activityIndicator: activityIndicator)
         
-        DeviceInfoOutput.instance.getGroupDevicesId(id: groupId ?? "No id", onCompletion: {(response) in
+        ApiManager.getGroupDevicesId(id: groupId ?? "No id", onCompletion: {(response) in
             
             // Strängen som kommer från responsen är en sträng med flera id som är komma (,) separerade ex (12345,54321,34567)
             // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
             self.devicesIds = response.components(separatedBy: ",")
             
             for id in self.devicesIds {
-                DeviceInfoOutput.instance.getHistory(id: id, onCompletion: {(state, stateValue)  in
+                ApiManager.getHistory(id: id, onCompletion: {(state, stateValue)  in
                     
                     DispatchQueue.main.async {
                         if state == 1 {
                             self.isOn = true
                             self.lampIsOn()
-                            self.tableView.reloadData()                        }
+                        }
                         else if state == 2 {
                             self.isOn = false
                             self.lampIsOff()
-                            self.tableView.reloadData()
+                            
                         }
+                        self.tableView.reloadData()
                     }
                 })
             }
+            
         })
-        self.stopActivityIndicator(activityIndicator: activityIndicator)
+        
+        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
     }
     
     @objc func settingsButtonForAllDevicesButtonPressed() {
@@ -164,7 +193,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func allDevicesButtonPressed() {
-        setValue()
+        setGroupIdValue()
         turnLampOnOrOff(bool: !isOn)
     }
     
@@ -172,9 +201,10 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         isOn = bool
         bool ? self.lampIsOn() : self.lampIsOff()
         bool ? allDevicesButton.setTitle("On", for: .normal) : allDevicesButton.setTitle("Off", for: .normal)
-        bool ? DeviceInfoOutput.instance.turnOnDevice(id: groupId ?? "No id") : DeviceInfoOutput.instance.turnOffDevice(id: groupId ?? "No id")
+        bool ? ApiManager.turnOnDevice(id: groupId ?? "No id") : ApiManager.turnOffDevice(id: groupId ?? "No id")
     }
     
+    // MARK: lampIsOn: change alldevices button to light layout
     func lampIsOn() {
         self.allDevicesButton.setTitleColor(self.lightningColor, for: .normal)
         self.allDevicesButton.setTitle("On", for: .normal)
@@ -193,6 +223,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         self.settingButton.backgroundColor = .init(white: 0.0, alpha: 0.0)
     }
     
+    // MARK: lampIsOff: change alldevices button to dark layout
     func lampIsOff() {
         self.allDevicesButton.setTitleColor(.gray, for: .normal)
         self.allDevicesButton.setTitle("Off", for: .normal)
@@ -209,7 +240,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         self.settingButton.backgroundColor = .init(white: 0.0, alpha: 0.0)
     }
     
-    public func setValue() {
+    public func setGroupIdValue() {
         groupId =  UserDefaults.standard.string(forKey: deviceIdKey) ?? ""
     }
     
@@ -269,7 +300,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return GetInfoAboutAllDevices.instance.devices.count
+        return groups.count   //GetInfoAboutAllDevices.instance.devices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -279,10 +310,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .init(white: 0, alpha: 0)
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        let group = self.groups[indexPath.row]
         
-        cell.groupOnOrOffButton.deviceId = device?.id ?? ""
-        cell.setTextToLabel(name: device?.name ?? "No group")
+        cell.groupOnOrOffButton.deviceId = group.id ?? ""
+        cell.setTextToLabel(name: group.name ?? "")
         
         return cell
     }
@@ -290,9 +321,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+//        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        let group = self.groups[indexPath.row]
         
-        whenTableViewCellIsSelectedGoToNextView(groupName: device?.name ?? "No name", id: device?.id ?? "No id", devicesId: device?.devices ?? "No devices")
+        whenTableViewCellIsSelectedGoToNextView(groupName: group.name ?? "No name", id: group.id ?? "No id", devicesId: group.devices ?? "No devices")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

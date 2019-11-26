@@ -94,6 +94,7 @@ class AddGroupViewController: UIViewController {
     let pickerController = UIImagePickerController()
     var thisGroupId: Int?
     var devicesId: [String: Int] = [:]
+    var devices = [Deviceinfo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +129,20 @@ class AddGroupViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.view.insertSubview(self.backgroundView, at: 0)
+        apiRequest()
     }
+    
+    func apiRequest() {
+           devices = []
+           
+           ApiManager.getAlldevicesRequest(onCompletion: { response in
+               
+               for dev in response.device ?? [] {
+                   self.devices.append(dev)
+               }
+               self.collectionView.reloadData()
+           })
+       }
     
     func setConstraints() {
         NSLayoutConstraint.activate([
@@ -205,7 +219,7 @@ class AddGroupViewController: UIViewController {
         let groupName = newGroupNameTextField.text
         
         // clientId 75884
-        DeviceInfoOutput.instance.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { (response, id) in
+        ApiManager.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { (response, id) in
             
             DispatchQueue.main.async {
                 if groupName != "" {
@@ -241,7 +255,7 @@ class AddGroupViewController: UIViewController {
 // MARK: CollectionView
 extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GetInfoAboutAllDevices.instance.deviceCount
+        return devices.count //GetInfoAboutAllDevices.instance.deviceCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -253,9 +267,9 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell.layer.cornerRadius = 5
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+        let device = devices[indexPath.row] //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
         
-        cell.setTextAndImageToCell(name: device?.name ?? "")
+        cell.setTextAndImageToCell(name: device.name ?? "")
         
         return cell
     }
@@ -268,7 +282,7 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         cell?.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell?.layer.cornerRadius = 5
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+        let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
         devicesId.updateValue(indexPath.row, forKey: device)
         
@@ -282,9 +296,10 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell?.layer.cornerRadius = 5
         
-        let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+        let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
         
         devicesId.removeValue(forKey: device)
+        print("!!!!!!!!")
         let str1 = devicesLabel.text ?? ""
         let str2 = str1.replacingOccurrences(of: "\(device),", with: "", options: String.CompareOptions.literal, range: nil)
         
@@ -296,8 +311,8 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let device = GetInfoAboutAllDevices.instance.devices.remove(at: sourceIndexPath.item)
-        GetInfoAboutAllDevices.instance.devices.insert(device, at: destinationIndexPath.item)
+        let device = devices.remove(at: sourceIndexPath.item)
+        devices.insert(device, at: destinationIndexPath.item)
     }
 }
 

@@ -21,7 +21,7 @@ class MainTabBarController: UITabBarController {
         let startViewController = ViewController()
         startViewController.title = "Groups"
         
-        let scenariosViewController = PopupSliderViewController() //ScenariosViewController()
+        let scenariosViewController = ScenariosViewController()  //PopupSliderViewController()
         scenariosViewController.title = "Scenarios"
         
         let allDevicesViewController = AllDevicesController() //AllDevicesViewController()
@@ -34,8 +34,8 @@ class MainTabBarController: UITabBarController {
         TelldusKeys.oauthswift.client.credential.oauthToken = TelldusKeys.token
         TelldusKeys.oauthswift.client.credential.oauthTokenSecret = TelldusKeys.token_secret
         
-        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
-        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
+//        GetInfoAboutGroups.instance.getGroupsInfo(url: "https://api.telldus.com/json/devices/list")
+//        GetInfoAboutAllDevices.instance.getDevicesInfo(url: "https://api.telldus.com/json/devices/list")
     }
 }
 

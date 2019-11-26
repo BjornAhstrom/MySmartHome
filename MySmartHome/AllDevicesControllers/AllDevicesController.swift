@@ -33,6 +33,7 @@ class AllDevicesController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 10, right: 20)
         layout.itemSize = CGSize(width: layout.itemSize.width*3, height: 60)
+        
         return layout
     }()
     
@@ -42,16 +43,23 @@ class AllDevicesController: UIViewController {
         view.backgroundColor = .init(white: 0, alpha: 0.0)
         view.allowsMultipleSelection = true
         
+//        if #available(iOS 10.0, *) {
+//            view.refreshControl = self.refreshControl
+//        } else {
+//            view.addSubview(self.refreshControl)
+//        }
+//        self.refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
         return view
     }()
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
+    lazy var refreshControl = UIRefreshControl()
+    
     var sliderValue: Float = 0.0
     var xAndYValueFromCellWithSlider = CGRect()
     var deviceId: String = ""
     
     var devices: [Deviceinfo] = []
-    var deviceInfo: [Deviceinfo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,9 +81,12 @@ class AllDevicesController: UIViewController {
         super.viewWillAppear(true)
         
         self.collectionView.reloadData()
+        self.collectionView.collectionViewLayout.invalidateLayout()
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(sender:)))
         collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
+        
+        self.apiRequest()
     }
     
     @objc func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
@@ -94,6 +105,28 @@ class AllDevicesController: UIViewController {
         default:
             collectionView.cancelInteractiveMovement()
         }
+    }
+    
+//    @objc func updateCollectionView() {
+//
+//        DispatchQueue.main.async {
+//            self.apiRequest()
+//        }
+//
+//        self.collectionView.reloadData()
+//        self.refreshControl.endRefreshing()
+//    }
+    
+    func apiRequest() {
+        self.devices = []
+        
+        ApiManager.getAlldevicesRequest(onCompletion: { response in
+            
+            for dev in response.device ?? [] {
+                self.devices.append(dev)
+            }
+            self.collectionView.reloadData()
+        })
     }
     
     func setConstraints() {
@@ -124,7 +157,7 @@ class AllDevicesController: UIViewController {
 extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return GetInfoAboutAllDevices.instance.deviceCount
+        return devices.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -135,14 +168,12 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.layer.masksToBounds = true
         cell.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell.layer.cornerRadius = 5
-        cell.slideTexToLeft(duration: 10, delay: 1)
+//        cell.slideTexToLeft(duration: 10, delay: 1)
         
         
-        guard let device = GetInfoAboutAllDevices.instance.devices(index: indexPath.row) else {
-            fatalError("No deviceinfo")
-        }
+        let device = devices[indexPath.row]
         
-        DeviceInfoOutput.instance.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
+        ApiManager.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
         
             DispatchQueue.main.async {
                 if deviceType == TelldusKeys.dimmableDeviceNr {
@@ -157,9 +188,9 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
             }
         })
         
-        DeviceInfoOutput.instance.getHistory(id: device.id ?? "", onCompletion: { (state, stateValue)  in
+        ApiManager.getHistory(id: device.id ?? "", onCompletion: { (state, stateValue)  in
             let stValue = Double(stateValue)/2.55
-
+            print("State: \(state), StateValue: \(stateValue)")
             DispatchQueue.main.async {
                 cell.sliderButton.setTitle("% \(Int(stValue))", for: .normal)
                 cell.onOffButton.deviceId = device.id ?? ""
@@ -179,8 +210,8 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let device = GetInfoAboutAllDevices.instance.devices.remove(at: sourceIndexPath.item)
-        GetInfoAboutAllDevices.instance.devices.insert(device, at: destinationIndexPath.item)
+        let device = devices.remove(at: sourceIndexPath.item)
+        devices.insert(device, at: destinationIndexPath.item)
     }
     
     @objc func setSliderValue() {

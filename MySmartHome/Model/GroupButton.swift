@@ -1,5 +1,5 @@
 //
-//  PredefindButton.swift
+//  GroupButton.swift
 //  MySmartHome
 //
 //  Created by Björn Åhström on 2019-11-06.

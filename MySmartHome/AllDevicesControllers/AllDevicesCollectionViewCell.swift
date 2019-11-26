@@ -35,6 +35,7 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     
     var onOffButton: Button = {
         let button = Button()
+        button.layer.cornerRadius = 10
         
         return button
     }()
@@ -56,15 +57,15 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    override var isSelected: Bool {
-        didSet {
-            if self.isSelected {
-                imageView.image = UIImage(named: "LampOn")
-            } else {
-                imageView.image = UIImage(named: "LampOff")
-            }
-        }
-    }
+//    override var isSelected: Bool {
+//        didSet {
+//            if self.isSelected {
+//                imageView.image = UIImage(named: "LampOn")
+//            } else {
+//                imageView.image = UIImage(named: "LampOff")
+//            }
+//        }
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

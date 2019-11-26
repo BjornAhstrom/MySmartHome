@@ -45,23 +45,22 @@ class Button: UIButton {
         isOn = bool
         
         bool ? lampIsOn() : lampIsOff()
-        bool ? DeviceInfoOutput.instance.turnOnDevice(id: self.deviceId) : DeviceInfoOutput.instance.turnOffDevice(id: self.deviceId)
+        bool ? ApiManager.turnOnDevice(id: self.deviceId) : ApiManager.turnOffDevice(id: self.deviceId)
     }
     
     func getStateFromDevice() {
         
-        DeviceInfoOutput.instance.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
+        ApiManager.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
             if state == 1 || stateValue > 0 {
                 self.isOn = true
                 self.lampIsOn()
                 self.setTitle("On", for: .normal)
                 
             }
-            else if state == 2 {
+            else if state == 2 || stateValue <= 0 {
                 self.isOn = false
                 self.lampIsOff()
                 self.setTitle("Off", for: .normal)
-                
             }
         })
     }
