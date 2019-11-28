@@ -24,6 +24,7 @@ class AddGroupViewController: UIViewController {
     var newGroupNameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
+        textField.backgroundColor = .init(white: 0, alpha: 0)
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .done
         textField.textColor = .darkGray
