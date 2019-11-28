@@ -27,7 +27,7 @@ class AddGroupViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .done
         textField.textColor = .darkGray
-        textField.placeholder = "New group name"
+        textField.placeholder = "\(NSLocalizedString("newGroupName", comment: ""))"
         textField.text = ""
         
         return textField
@@ -65,7 +65,7 @@ class AddGroupViewController: UIViewController {
         button.layer.borderColor = UIColor.darkGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
-        button.setTitle("Add", for: .normal)
+        button.setTitle("\(NSLocalizedString("save", comment: ""))", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.addTarget(self, action: #selector(saveGroupButtonPressed), for: .touchUpInside)
@@ -137,10 +137,12 @@ class AddGroupViewController: UIViewController {
            
            ApiManager.getAlldevicesRequest(onCompletion: { response in
                
-               for dev in response.device ?? [] {
-                   self.devices.append(dev)
-               }
-               self.collectionView.reloadData()
+            DispatchQueue.main.async {
+                for dev in response.device ?? [] {
+                    self.devices.append(dev)
+                }
+                self.collectionView.reloadData()
+            }
            })
        }
     
@@ -212,6 +214,8 @@ class AddGroupViewController: UIViewController {
         openCameraOrPhotoLibraryAlert()
     }
     
+    
+    // MARK: Save new group
     func saveNewGroup() {
         loadActivityIndicator()
         let text = devicesLabel.text
@@ -219,13 +223,13 @@ class AddGroupViewController: UIViewController {
         let groupName = newGroupNameTextField.text
         
         // clientId 75884
-        ApiManager.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "", devices: String(str ?? ""), onCompletion: { (response, id) in
+        ApiManager.createNewDeviceGroupName(clientId: "75884", groupName: groupName ?? "",  devices: String(str ?? ""), onCompletion: { (response, id) in
             
             DispatchQueue.main.async {
                 if groupName != "" {
                     self.thisGroupId = id
-//                    self.showAlertWhenNewGroupName(groupName: groupName ?? "", alertMessage: response)
-//                    self.removeActivityIndicator()
+                    //                    self.showAlertWhenNewGroupName(groupName: groupName ?? "", alertMessage: response)
+                    //                    self.removeActivityIndicator()
                     self.addPhotoNowOrLater()
                 } else {
                     self.showAlertWhenNoGroupName(alertMessage: response)
@@ -267,9 +271,13 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         cell.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell.layer.cornerRadius = 5
         
-        let device = devices[indexPath.row] //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
-        
-        cell.setTextAndImageToCell(name: device.name ?? "")
+        if devices.count > 0 {
+            let device = devices[indexPath.row]  //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)
+            
+            cell.setTextAndImageToCell(name: device.name ?? "")
+        } else {
+            return cell
+        }
         
         return cell
     }
@@ -279,14 +287,19 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
         
         cell?.layer.masksToBounds = true
-        cell?.backgroundColor = .init(white: 0.3, alpha: 0.7)
+        cell?.backgroundColor = .init(white: 0.3, alpha: 0.5)
         cell?.layer.cornerRadius = 5
         
-        let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+        if devices.count > 0 {
+            let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+            
+            devicesId.updateValue(indexPath.row, forKey: device)
+            
+            devicesLabel.text? += "\(device),"
+        } else {
+            return
+        }
         
-        devicesId.updateValue(indexPath.row, forKey: device)
-        
-        devicesLabel.text? += "\(device),"
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -296,14 +309,19 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
         cell?.backgroundColor = .init(white: 0.5, alpha: 0.5)
         cell?.layer.cornerRadius = 5
         
-        let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+        if devices.count > 0 {
+            let device = devices[indexPath.row].id ?? "" //GetInfoAboutAllDevices.instance.devices(index: indexPath.row)?.id ?? ""
+            
+            devicesId.removeValue(forKey: device)
+            
+            let str1 = devicesLabel.text ?? ""
+            let str2 = str1.replacingOccurrences(of: "\(device),", with: "", options: String.CompareOptions.literal, range: nil)
+            
+            devicesLabel.text = str2
+        } else {
+            return
+        }
         
-        devicesId.removeValue(forKey: device)
-        print("!!!!!!!!")
-        let str1 = devicesLabel.text ?? ""
-        let str2 = str1.replacingOccurrences(of: "\(device),", with: "", options: String.CompareOptions.literal, range: nil)
-        
-        devicesLabel.text = str2
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -311,8 +329,13 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let device = devices.remove(at: sourceIndexPath.item)
-        devices.insert(device, at: destinationIndexPath.item)
+        if devices.count > 0 {
+            let device = devices.remove(at: sourceIndexPath.item)
+            devices.insert(device, at: destinationIndexPath.item)
+        } else {
+            return
+        }
+        
     }
 }
 
@@ -322,15 +345,15 @@ extension AddGroupViewController {
     // Display this warning if the user want to confirm or dissmis the new group
     public func showConfirmGroupAlert() {
         let newGroup = newGroupNameTextField.text
-        let alert = UIAlertController(title: "Add group", message: newGroup, preferredStyle: .alert)
+        let alert = UIAlertController(title: "\(NSLocalizedString("addGroup", comment: ""))", message: newGroup, preferredStyle: .alert)
         
-        let acceptAction = UIAlertAction(title: "Ok", style: .default, handler: { (error) in
+        let acceptAction = UIAlertAction(title: "\(NSLocalizedString("ok", comment: ""))", style: .default, handler: { (error) in
             print(error)
             self.saveNewGroup()
             self.removeActivityIndicator()
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in })
+        let cancelAction = UIAlertAction(title: "\(NSLocalizedString("cancel", comment: ""))", style: .cancel, handler: { (_) in })
         
         alert.addAction(acceptAction)
         alert.addAction(cancelAction)
@@ -341,9 +364,9 @@ extension AddGroupViewController {
     // Display this warning if the user has not entered a group name
     func showAlertWhenNoGroupName(alertMessage: String) {
         
-        let alert = UIAlertController(title: "No group name", message: alertMessage, preferredStyle: .alert)
+        let alert = UIAlertController(title: "\(NSLocalizedString("noGroupName", comment: ""))", message: alertMessage, preferredStyle: .alert)
         
-        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: { (_) in })
+        let acceptAction = UIAlertAction(title: "\(NSLocalizedString("ok", comment: ""))", style: .destructive, handler: { (_) in })
         
         alert.addAction(acceptAction)
         
@@ -355,7 +378,7 @@ extension AddGroupViewController {
         
         let alert = UIAlertController(title: groupName, message: alertMessage, preferredStyle: .alert)
         
-        let acceptAction = UIAlertAction(title: "Ok", style: .destructive, handler: { (_) in })
+        let acceptAction = UIAlertAction(title: "\(NSLocalizedString("ok", comment: ""))", style: .destructive, handler: { (_) in })
         
         alert.addAction(acceptAction)
         
@@ -364,14 +387,14 @@ extension AddGroupViewController {
     
     // Ask user if the user want to add a background photo now or later
     func addPhotoNowOrLater() {
-        let alert = UIAlertController(title: "Add photo", message: "You can do it later", preferredStyle: .alert)
+        let alert = UIAlertController(title: "\(NSLocalizedString("addPhoto", comment: ""))", message: "\(NSLocalizedString("youCanDoItLater", comment: ""))", preferredStyle: .alert)
         
-        let now = UIAlertAction(title: "Add now", style: .default, handler: {(_) in
+        let now = UIAlertAction(title: "\(NSLocalizedString("addNow", comment: ""))", style: .default, handler: {(_) in
             // Open camera
             self.openCameraOrPhotoLibraryAlert()
         })
         
-        let later = UIAlertAction(title: "Later", style: .cancel, handler: {(_) in
+        let later = UIAlertAction(title: "\(NSLocalizedString("later", comment: ""))", style: .cancel, handler: {(_) in
             // Go back to ViewController
             self.goBackToViewController()
         })
@@ -387,18 +410,18 @@ extension AddGroupViewController {
 extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
         func openCameraOrPhotoLibraryAlert() {
-        let alert = UIAlertController(title: "Choose", message: "Camera or photo library", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "\(NSLocalizedString("choose", comment: ""))", message: "\(NSLocalizedString("cameraOrPhotoLibrary", comment: ""))", preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {(_) in
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("camera", comment: ""))", style: .default, handler: {(_) in
             self.openCamera()
         }))
         
-        alert.addAction(UIAlertAction(title: "Photo library", style: .default, handler: {(_) in
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("photoLibrary", comment: ""))", style: .default, handler: {(_) in
             self.openPhotoLibrary()
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {(_) in
-        print("Cancel")
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("cancel", comment: ""))", style: .cancel, handler: {(_) in
+//        print("Cancel")
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -435,9 +458,9 @@ extension AddGroupViewController: UINavigationControllerDelegate, UIImagePickerC
     }
     
     func alertWhenNoCamera() {
-        let alert = UIAlertController(title: "No camera", message: "Your device doesn't have a camera", preferredStyle: .alert)
+        let alert = UIAlertController(title: "\(NSLocalizedString("noCamera", comment: ""))", message: "\(NSLocalizedString("yourDeviceDoesntHaveACamera", comment: ""))", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: {(_) in }))
+        alert.addAction(UIAlertAction(title: "\(NSLocalizedString("ok", comment: ""))", style: .destructive, handler: {(_) in }))
         
         present(alert, animated: true)
     }

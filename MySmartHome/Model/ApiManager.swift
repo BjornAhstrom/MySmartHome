@@ -80,7 +80,7 @@ struct ApiManager {
     }
     
     // MARK: Device Information: The id of the device to get info
-    static func getDeviceInformation(id: String, onCompletion: @escaping (String, String) -> Void ) {
+    static func getDeviceInformation(id: String, onCompletion: @escaping (String, String, String) -> Void ) {
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/device/info?id=\(id)") { result in
             switch result {
             case.success(let response):
@@ -90,8 +90,8 @@ struct ApiManager {
                 let decoder = JSONDecoder()
                 let device = try! decoder.decode(Deviceinfo.self, from: jsonData!)
                 
-                self.deviceInfo.append(device)
-                onCompletion(device.statevalue ?? "", device.deviceType ?? "")
+//                self.deviceInfo.append(device)
+                onCompletion(device.statevalue ?? "", device.deviceType ?? "", device.type ?? "")
                 
             case.failure(let error):
                 print(error.localizedDescription)
@@ -154,6 +154,7 @@ struct ApiManager {
     
     // MARK: createNewDeviceGroupName, The id of the client, the name of the group and a comma seperated string with the devices ids this group should control
     static func createNewDeviceGroupName(clientId: String, groupName: String, devices: String, onCompletion: @escaping (String, Int) -> Void) {
+        
         TelldusKeys.oauthswift.client.get("https://api.telldus.com/json/group/add?clientId=\(clientId)&name=\(groupName)&devices=\(devices)") { result in
             switch result {
             case.success(let response):

@@ -1,0 +1,56 @@
+/*
+  Localizable.strings
+  MySmartHome
+
+  Created by Björn Åhström on 2019-11-28.
+  Copyright © 2019 Björn Åhström. All rights reserved.
+*/
+
+// MainTabBarController
+"groups" = "Groups";
+"devices" = "Devices";
+
+// ViewController
+"addGroup" = "Add group";
+"addNewGroup" = "Add new group";
+
+// DevicesInGroupController
+"labelRemoveGroup" = "Remove group";
+"buttonRemoveGroup" = "Remove group";
+
+// AddGroupViewController
+"newGroupName" = "New group name";
+"save" = "Save";
+"addGroup" = "Add group";
+"noGroupName" = "No group name";
+"addPhoto" = "Add photo";
+"youCanDoItLater" = "You can do it later";
+"addNow" = "Add now";
+"later" = "Later";
+
+// ButtonSettingsController
+"chooseGroup" = "Choose group";
+
+// ScenariosViewController
+
+
+// AllDEvicesVontroller
+"yourDevices" = "Your devices";
+
+// SettingsViewController
+"LearnDevice" = "Learn device";
+"newDeviceName" = "New device name";
+"learn" = "Learn";
+"changeName" = "Change name";
+
+// General
+"setTitleOff" = "Off";
+"setTitleOn" = "On";
+"ok" = "Ok";
+"cancel" = "Cancel";
+"choose" = "Choose";
+"cameraOrPhotoLibrary" = "Camera or photo library";
+"camera" = "Camera";
+"photoLibrary" = "Photo library";
+"noCamera" = "No camera";
+"yourDeviceDoesntHaveACamera" = "Your device doesn't have a camera";

@@ -35,7 +35,7 @@ class PopupSliderViewController: UIViewController {
         slider.minimumValue = 0
         slider.maximumValue = 255
         slider.addTarget(self, action: #selector(setSliderValue), for: .touchCancel)
-        
+        slider.addTarget(self, action: #selector(setSliderValueToLabel), for: .valueChanged)
         return slider
     }()
     
@@ -91,10 +91,13 @@ class PopupSliderViewController: UIViewController {
     }
     
     @objc func setSliderValue() {
-        self.sliderValueLabel.text = "\(String(Int(self.slider.value))) %"
-        
         let value = Int(self.slider.value)
         ApiManager.dimmableLamp(id: deviceId, dimValue: value)
+    }
+    
+    @objc func setSliderValueToLabel() {
+        let value = Double(self.slider.value/2.55)
+        self.sliderValueLabel.text = "\(String(Int(value))) %"
     }
     
     func setConstraints() {

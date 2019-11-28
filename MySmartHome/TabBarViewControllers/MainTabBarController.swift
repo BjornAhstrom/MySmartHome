@@ -10,24 +10,26 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
+    let startViewController = ViewController()
+    let scenariosViewController = ScenariosViewController()
+    let allDevicesViewController = AllDevicesController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTelldusKeys()
         setupTabBar()
     }
     
+    
     func setupTabBar() {
         
-        let startViewController = ViewController()
-        startViewController.title = "Groups"
+        startViewController.title = "\(NSLocalizedString("groups", comment: ""))"
         
-        let scenariosViewController = ScenariosViewController()  //PopupSliderViewController()
-        scenariosViewController.title = "Scenarios"
+//        scenariosViewController.title = "Scenarios"
         
-        let allDevicesViewController = AllDevicesController() //AllDevicesViewController()
-        allDevicesViewController.title = "Devices"
+        allDevicesViewController.title = "\(NSLocalizedString("devices", comment: ""))"
         
-        self.viewControllers = [startViewController, scenariosViewController, allDevicesViewController]
+        self.viewControllers = [startViewController, allDevicesViewController]
     }
     
     func setTelldusKeys() {

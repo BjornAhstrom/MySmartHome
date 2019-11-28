@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         textField.contentVerticalAlignment = .center
         textField.contentHorizontalAlignment = .left
         textField.textColor = .darkGray
-        textField.placeholder = "New device name"
+        textField.placeholder = "\(NSLocalizedString("newDeviceName", comment: ""))"
         
         return textField
     }()
@@ -39,7 +39,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.darkGray.cgColor
         button.layer.cornerRadius = 20
-        button.setTitle("Learn", for: .normal)
+        button.setTitle("\(NSLocalizedString("learn", comment: ""))", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.addTarget(self, action: #selector(learnDeviceButtonPressed), for: .touchUpInside)
@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.darkGray.cgColor
         button.layer.cornerRadius = 20
-        button.setTitle("Change name", for: .normal)
+        button.setTitle("\(NSLocalizedString("changeName", comment: ""))", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.addTarget(self, action: #selector(changeNameButtonPressed), for: .touchUpInside)

@@ -12,19 +12,25 @@ class Button: UIButton {
     
     var isOn = false
     var deviceId: String = ""
+    var timer: DispatchSourceTimer?
+    var stateValue: Int = 0
+    var deviceType: String = ""
+    var st: Int = 0
+    var devices: [Deviceinfo] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         initButton()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
-            self.getStateFromDevice()
-        })
+        //        DispatchQueue.main.async {
+        self.getStateFromDevice()
+        
+        //        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setTitle("Off", for: .normal)
+        setTitle("\(NSLocalizedString("setTitleOff", comment: ""))", for: .normal)
         initButton()
     }
     
@@ -48,45 +54,75 @@ class Button: UIButton {
         bool ? ApiManager.turnOnDevice(id: self.deviceId) : ApiManager.turnOffDevice(id: self.deviceId)
     }
     
+    // MARK: Get on and off history from an device
     func getStateFromDevice() {
         
-        ApiManager.getHistory(id: deviceId, onCompletion: {(state, stateValue) in
-            if state == 1 || stateValue > 0 {
-                self.isOn = true
-                self.lampIsOn()
-                self.setTitle("On", for: .normal)
+        let queue = DispatchQueue.global(qos: .background)
+        self.timer = DispatchSource.makeTimerSource(queue: queue)
+        self.timer?.schedule(deadline: .now(), repeating: .milliseconds(2000), leeway: .seconds(1))
+        self.timer?.setEventHandler(handler: {
+            
+            ApiManager.getHistory(id: self.deviceId, onCompletion: {(state, stateValue) in
                 
-            }
-            else if state == 2 || stateValue <= 0 {
-                self.isOn = false
-                self.lampIsOff()
-                self.setTitle("Off", for: .normal)
-            }
+                self.setStateOnButton(state: state, stateValue: stateValue)
+            })
         })
+        self.timer?.resume()
+    }
+    
+    func setStateOnButton(state: Int, stateValue: Int) {
+        
+        if self.st != state { // Kolla om det här fungerar
+//            print("self.st: \(self.st), state: \(state)")
+            self.st = state
+            
+            if self.st == 1 && self.st != 0 || self.stateValue > 0 {
+                DispatchQueue.main.async {
+                    self.isOn = true
+                    self.lampIsOn()
+                    self.setTitle("\(NSLocalizedString("setTitleOn", comment: ""))", for: .normal)
+                }
+            }
+            else if self.st == 2 && self.st != 0 || self.stateValue <= 0 {
+                DispatchQueue.main.async {
+                    self.isOn = false
+                    self.lampIsOff()
+                    self.setTitle("\(NSLocalizedString("setTitleOn", comment: ""))", for: .normal)
+                }
+            }
+            
+        }
+        
+        
+        //        print("state: \(state), stateValue: \(stateValue)")
     }
     
     func lampIsOn() {
-        self.setTitleColor(ButtonColors.lightningWhiteColor, for: .normal)
-        self.setTitle("On", for: .normal)
-        self.backgroundColor = .init(white: 0.7, alpha: 0.4)
-        self.layer.borderColor = ButtonColors.lightningWhiteColor.cgColor
-        self.layer.borderWidth = 5
-        
-        self.layer.shadowColor = ButtonColors.lightningWhiteColor.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 15
+        DispatchQueue.main.async {
+            self.setTitleColor(ButtonColors.lightningWhiteColor, for: .normal)
+            self.setTitle("\(NSLocalizedString("setTitleOn", comment: ""))", for: .normal)
+            self.backgroundColor = .init(white: 0.7, alpha: 0.4)
+            self.layer.borderColor = ButtonColors.lightningWhiteColor.cgColor
+            self.layer.borderWidth = 5
+            
+            self.layer.shadowColor = ButtonColors.lightningWhiteColor.cgColor
+            self.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+            self.layer.shadowOpacity = 1
+            self.layer.shadowRadius = 15
+        }
     }
     
     func lampIsOff() {
-        self.setTitleColor(.gray, for: .normal)
-        self.setTitle("Off", for: .normal)
-        self.backgroundColor = .init(white: 0.3, alpha: 0.4)
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.borderWidth = 5
-        
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowOpacity = 0
+        DispatchQueue.main.async {
+            self.setTitleColor(.gray, for: .normal)
+            self.setTitle("\(NSLocalizedString("setTitleOff", comment: ""))", for: .normal)
+            self.backgroundColor = .init(white: 0.3, alpha: 0.4)
+            self.layer.borderColor = UIColor.gray.cgColor
+            self.layer.borderWidth = 5
+            
+            self.layer.shadowOffset = CGSize(width: 0, height: 0)
+            self.layer.shadowOpacity = 0
+        }
     }
 }
 

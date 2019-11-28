@@ -51,8 +51,9 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
     lazy var textLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
-        label.textAlignment = .right
+        label.textAlignment = .center
         label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -83,16 +84,14 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         addSubview(uiView)
         
         setConstraints(sliderIsOn: false)
-//        slideTexToLeft()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTextAndImageToCell(name: String) {  //, image: UIImage) {
+    func setTextAndImageToCell(name: String) {
         textLabel.text = name
-//        imageView.image = image
     }
     
     func setConstraints(sliderIsOn: Bool) {
@@ -107,10 +106,14 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
         
         // texLabel constraints
         NSLayoutConstraint.activate([
-            textLabel.heightAnchor.constraint(equalToConstant: 20),
-            textLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
-            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15)
+            textLabel.topAnchor.constraint(equalTo: self.uiView.topAnchor),
+            textLabel.leadingAnchor.constraint(equalTo: self.uiView.leadingAnchor),
+            textLabel.trailingAnchor.constraint(equalTo: self.uiView.trailingAnchor),
+            textLabel.bottomAnchor.constraint(equalTo: self.uiView.bottomAnchor)
+//            textLabel.heightAnchor.constraint(equalToConstant: 20),
+//            textLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
+//            textLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15)
         ])
         
         // sliderButton constraints
@@ -136,14 +139,14 @@ class AllDevicesCollectionViewCell: UICollectionViewCell {
 //        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
     }
     
-    func slideTexToLeft(duration: Double, delay: Double) {
-//        DispatchQueue.main.async(execute: {
+    func slideTexToLeft(name: String) {
+        let labelX = self.textLabel.bounds.origin.x
+        let labelY = self.textLabel.bounds.origin.y
+        let textLengt = Double(name.count)
 
-            UIView.animate(withDuration: duration, delay: delay, options: ([.curveLinear, .repeat]), animations: {() -> Void in
-
-                self.textLabel.transform = CGAffineTransform(translationX: self.textLabel.bounds.origin.x - 200, y: self.textLabel.bounds.origin.y)
-
-            }, completion:  nil)
-//        })
-    }
+        UIView.animate(withDuration: textLengt, delay: 1, options: [.curveLinear, .repeat], animations: {
+            self.textLabel.transform = CGAffineTransform(translationX: labelX - 200, y: labelY)
+            self.contentView.layoutIfNeeded()
+        })
+       }
 }

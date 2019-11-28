@@ -46,7 +46,7 @@ class ButtonSettingsViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 25)
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.text = "Choose group"
+        label.text = "\(NSLocalizedString("chooseGroup", comment: ""))"
         
         return label
     }()
@@ -59,7 +59,7 @@ class ButtonSettingsViewController: UIViewController {
         button.backgroundColor = .gray
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
-        button.setTitle("Ok", for: .normal)
+        button.setTitle("\(NSLocalizedString("ok", comment: ""))", for: .normal)
         button.addTarget(self, action: #selector(onOkButtonPressed), for: .touchUpInside)
         
         return button
@@ -73,7 +73,7 @@ class ButtonSettingsViewController: UIViewController {
         button.backgroundColor = .gray
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("\(NSLocalizedString("cancel", comment: ""))", for: .normal)
         button.addTarget(self, action: #selector(onCancelButtonPressed), for: .touchUpInside)
         
         return button

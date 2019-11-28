@@ -25,6 +25,7 @@ class GroupCollectionViewCell: UICollectionViewCell {
 //        label.layer.borderColor = UIColor.darkGray.cgColor
 //        label.layer.borderWidth = 1
         label.layer.cornerRadius = 5
+        label.textColor = .white
         label.font = .boldSystemFont(ofSize: 18)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center

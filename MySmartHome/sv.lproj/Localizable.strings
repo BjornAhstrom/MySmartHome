@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  MySmartHome
+
+  Created by Björn Åhström on 2019-11-28.
+  Copyright © 2019 Björn Åhström. All rights reserved.
+*/
+
+// MainTabBarController
+"groups" = "Grupper";
+"devices" = "Enheter";
+
+// ViewController
+"addGroup" = "Lägg till grupp";
+"addNewGroup" = "Lägg till ny grupp";
+
+// DevicesInGroupController
+"labelRemoveGroup" = "Ta bort grupp";
+"buttonRemoveGroup" = "Ta bort";
+
+// AddGroupViewController
+"newGroupName" = "Nytt gruppnamn";
+"save" = "Spara";
+"addGroup" = "Lägg till grupp";
+"noGroupName" = "Inget gruppnamn";
+"addPhoto" = "Lägg till foto";
+"youCanDoItLater" = "Du kan göra det senare";
+"addNow" = "Lägg till nu";
+"later" = "Senare";
+
+// ButtonSettingsController
+"chooseGroup" = "Välj grupp";
+
+// ScenariosViewController
+"" = "";
+"" = "";
+"" = "";
+"" = "";
+"" = "";
+"" = "";
+"" = "";
+
+// AllDEvicesVontroller
+"yourDevices" = "Dina enheter";
+
+// SettingsViewController
+"LearnDevice" = "Lär upp enhet";
+"newDeviceName" = "Nytt enhetsnamn";
+"learn" = "Lär upp";
+"changeName" = "Byt namn";
+
+// General
+"setTitleOff" = "Av";
+"setTitleOn" = "På";
+"ok" = "Ok";
+"cancel" = "Avbryt";
+"choose" = "Välj";
+"cameraOrPhotoLibrary" = "Kamera eller galleri";
+"camera" = "Kamera";
+"photoLibrary" = "Foto galleri";
+"noCamera" = "Det finns ingen kamera";
+"yourDeviceDoesntHaveACamera" = "Din enhet har ingen kamera";

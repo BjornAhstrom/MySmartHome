@@ -14,7 +14,7 @@ class AllDevicesController: UIViewController {
         let image = UIImageView()
         image.backgroundColor = .white
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "Background")
+        image.image = UIImage(named: "Background3")
         
         return image
     }()
@@ -24,7 +24,7 @@ class AllDevicesController: UIViewController {
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 30)
         label.textAlignment = .center
-        label.text = "Your devices"
+        label.text = "\(NSLocalizedString("yourDevices", comment: ""))"
         
         return label
     }()
@@ -43,12 +43,12 @@ class AllDevicesController: UIViewController {
         view.backgroundColor = .init(white: 0, alpha: 0.0)
         view.allowsMultipleSelection = true
         
-//        if #available(iOS 10.0, *) {
-//            view.refreshControl = self.refreshControl
-//        } else {
-//            view.addSubview(self.refreshControl)
-//        }
-//        self.refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+        //        if #available(iOS 10.0, *) {
+        //            view.refreshControl = self.refreshControl
+        //        } else {
+        //            view.addSubview(self.refreshControl)
+        //        }
+        //        self.refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
         return view
     }()
     
@@ -58,8 +58,10 @@ class AllDevicesController: UIViewController {
     var sliderValue: Float = 0.0
     var xAndYValueFromCellWithSlider = CGRect()
     var deviceId: String = ""
-    
     var devices: [Deviceinfo] = []
+    var timer: DispatchSourceTimer?
+    
+    static var uiView: UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +89,15 @@ class AllDevicesController: UIViewController {
         collectionView.addGestureRecognizer(longPressGesture ?? UILongPressGestureRecognizer())
         
         self.apiRequest()
+        
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        print("ViewWillDisappear")
     }
     
     @objc func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
@@ -107,19 +118,18 @@ class AllDevicesController: UIViewController {
         }
     }
     
-//    @objc func updateCollectionView() {
-//
-//        DispatchQueue.main.async {
-//            self.apiRequest()
-//        }
-//
-//        self.collectionView.reloadData()
-//        self.refreshControl.endRefreshing()
-//    }
+    //    @objc func updateCollectionView() {
+    //
+    //        DispatchQueue.main.async {
+    //            self.apiRequest()
+    //        }
+    //
+    //        self.collectionView.reloadData()
+    //        self.refreshControl.endRefreshing()
+    //    }
     
     func apiRequest() {
         self.devices = []
-        
         ApiManager.getAlldevicesRequest(onCompletion: { response in
             
             for dev in response.device ?? [] {
@@ -127,6 +137,15 @@ class AllDevicesController: UIViewController {
             }
             self.collectionView.reloadData()
         })
+        
+        let queue = DispatchQueue.global(qos: .background)
+        self.timer = DispatchSource.makeTimerSource(queue: queue)
+        self.timer?.schedule(deadline: .now(), repeating: .milliseconds(2000), leeway: .seconds(1))
+        self.timer?.setEventHandler(handler: {
+            
+        })
+        self.timer?.resume()
+        
     }
     
     func setConstraints() {
@@ -168,39 +187,47 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.layer.masksToBounds = true
         cell.backgroundColor = .init(white: 0.3, alpha: 0.7)
         cell.layer.cornerRadius = 5
-//        cell.slideTexToLeft(duration: 10, delay: 1)
         
-        
-        let device = devices[indexPath.row]
-        
-        ApiManager.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType)  in
-        
-            DispatchQueue.main.async {
-                if deviceType == TelldusKeys.dimmableDeviceNr {
-                    cell.sliderButton.isHidden = false
-                    cell.setConstraints(sliderIsOn: true)
-                    self.xAndYValueFromCellWithSlider = CGRect(x: cell.frame.origin.x, y: cell.frame.origin.y, width: 0, height: 0)
-                    self.deviceId = device.id ?? ""
-                    
-                } else {
-                    cell.sliderButton.isHidden = true
+        if devices.count > 0 {
+            
+            let device = devices[indexPath.row]
+            
+            cell.onOffButton.deviceId = device.id ?? ""
+
+            ApiManager.getDeviceInformation(id: device.id ?? "", onCompletion: {(stateValue, deviceType, type)  in
+                
+                DispatchQueue.main.async {
+                    if deviceType == TelldusKeys.dimmableDeviceNr {
+                        cell.sliderButton.isHidden = false
+                        cell.setConstraints(sliderIsOn: true)
+                        self.xAndYValueFromCellWithSlider = CGRect(x: cell.frame.origin.x, y: cell.frame.origin.y, width: 0, height: 0)
+                        self.deviceId = device.id ?? ""
+                        
+                        let value = Double(stateValue)
+                        let stV = (value ?? 0)/2.55
+                        
+                        cell.sliderButton.setTitle("\(Int(stV)) % ", for: .normal)
+                    } else {
+                        cell.sliderButton.isHidden = true
+                    }
                 }
-            }
-        })
-        
-        ApiManager.getHistory(id: device.id ?? "", onCompletion: { (state, stateValue)  in
-            let stValue = Double(stateValue)/2.55
-            print("State: \(state), StateValue: \(stateValue)")
+            })
+            
+//            UIView.animate(withDuration: 10, delay: 1, options: [.curveLinear, .repeat], animations: {
+//                cell.textLabel.transform = CGAffineTransform(translationX: cell.textLabel.bounds.origin.x - 200, y: cell.textLabel.bounds.origin.y)
+//                
+//            })
+            
             DispatchQueue.main.async {
-                cell.sliderButton.setTitle("% \(Int(stValue))", for: .normal)
-                cell.onOffButton.deviceId = device.id ?? ""
+                cell.setTextAndImageToCell(name: device.name ?? "")
+                
             }
-        })
-        
-        cell.setTextAndImageToCell(name: device.name ?? "")
-        
-        cell.sliderButton.addTarget(self, action: #selector(self.setSliderValue), for: .touchUpInside)
-        
+                        cell.sliderButton.addTarget(self, action: #selector(self.setSliderValue), for: .touchUpInside)
+            
+        } else {
+            print("The array is empty")
+            return cell
+        }
         
         return cell
     }

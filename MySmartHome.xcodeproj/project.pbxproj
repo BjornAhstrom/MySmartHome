@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E0E557F23702F1800794DFF /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E557E23702F1800794DFF /* DeviceInfo.swift */; };
 		1E0E558D2370464800794DFF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E558C2370464800794DFF /* Button.swift */; };
-		1E0E55A32373070600794DFF /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E55A22373070600794DFF /* GroupButton.swift */; };
+		1E0E55A32373070600794DFF /* GroButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E55A22373070600794DFF /* GroButton.swift */; };
 		1E0E55A523730D2D00794DFF /* GroupButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E55A423730D2D00794DFF /* GroupButtonTableViewCell.swift */; };
 		1E0E55A72373265000794DFF /* DevicesInGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0E55A62373265000794DFF /* DevicesInGroupViewController.swift */; };
 		1E2C9D292370195A00355398 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C9D282370195A00355398 /* MainTabBarController.swift */; };
@@ -24,6 +24,8 @@
 		1E972AEB238AE827003F6C9F /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972AEA238AE827003F6C9F /* CameraController.swift */; };
 		1E972B00238C63FA003F6C9F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972AFF238C63FA003F6C9F /* ApiManager.swift */; };
 		1E972B02238CE9DE003F6C9F /* ScenariosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972B01238CE9DE003F6C9F /* ScenariosCollectionViewCell.swift */; };
+		1E972B12238D97F0003F6C9F /* AnimateTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972B11238D97F0003F6C9F /* AnimateTextViewController.swift */; };
+		1E972B14238F8924003F6C9F /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E972B13238F8924003F6C9F /* GroupButton.swift */; };
 		1E9C5FE5237C031400700C1B /* MessageFromTelldus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */; };
 		1E9C5FEE237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */; };
 		1E9C5FF0237D947500700C1B /* ButtonSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */; };
@@ -36,6 +38,7 @@
 		1ECAD6A92366B73400FBA461 /* MySmartHome.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAD6A72366B73400FBA461 /* MySmartHome.xcdatamodeld */; };
 		1ECAD6AB2366B73500FBA461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ECAD6AA2366B73500FBA461 /* Assets.xcassets */; };
 		1ECAD6AE2366B73500FBA461 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ECAD6AC2366B73500FBA461 /* LaunchScreen.storyboard */; };
+		1ED0432C23905F3200A392D8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1ED0432A23905F3200A392D8 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,7 +118,7 @@
 		1E0E555A23702DDB00794DFF /* OAuthSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OAuthSwift.xcodeproj; path = ../../../OAuthSwift/OAuthSwift.xcodeproj; sourceTree = "<group>"; };
 		1E0E557E23702F1800794DFF /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		1E0E558C2370464800794DFF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
-		1E0E55A22373070600794DFF /* GroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
+		1E0E55A22373070600794DFF /* GroButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroButton.swift; sourceTree = "<group>"; };
 		1E0E55A423730D2D00794DFF /* GroupButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupButtonTableViewCell.swift; sourceTree = "<group>"; };
 		1E0E55A62373265000794DFF /* DevicesInGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInGroupViewController.swift; sourceTree = "<group>"; };
 		1E2C9D282370195A00355398 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 		1E972AEA238AE827003F6C9F /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		1E972AFF238C63FA003F6C9F /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		1E972B01238CE9DE003F6C9F /* ScenariosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenariosCollectionViewCell.swift; sourceTree = "<group>"; };
+		1E972B11238D97F0003F6C9F /* AnimateTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateTextViewController.swift; sourceTree = "<group>"; };
+		1E972B13238F8924003F6C9F /* GroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
 		1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFromTelldus.swift; sourceTree = "<group>"; };
 		1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesInGroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		1E9C5FEF237D947500700C1B /* ButtonSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSettingsViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +147,9 @@
 		1ECAD6AA2366B73500FBA461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ECAD6AD2366B73500FBA461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1ECAD6AF2366B73500FBA461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ED0432B23905F3200A392D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = MySmartHome/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1ED0432D23905FCC00A392D8 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		1ED0432E23905FCC00A392D8 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = MySmartHome/sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				1E0E558C2370464800794DFF /* Button.swift */,
+				1E972B13238F8924003F6C9F /* GroupButton.swift */,
 			);
 			path = CustomButton;
 			sourceTree = "<group>";
@@ -189,6 +198,7 @@
 		1E0E559B237152DA00794DFF /* TestViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1E972B11238D97F0003F6C9F /* AnimateTextViewController.swift */,
 			);
 			path = TestViewController;
 			sourceTree = "<group>";
@@ -200,7 +210,7 @@
 				1E2C9D3323702C3F00355398 /* TelldusKeys.swift */,
 				1E9C5FE4237C031400700C1B /* MessageFromTelldus.swift */,
 				1E972AEA238AE827003F6C9F /* CameraController.swift */,
-				1E0E55A22373070600794DFF /* GroupButton.swift */,
+				1E0E55A22373070600794DFF /* GroButton.swift */,
 				1E972AFF238C63FA003F6C9F /* ApiManager.swift */,
 			);
 			path = Model;
@@ -231,13 +241,13 @@
 			path = SettingsButtonOnBigButton;
 			sourceTree = "<group>";
 		};
-		1E52F1BE238408AD00B4C128 /* DevicesControllers */ = {
+		1E52F1BE238408AD00B4C128 /* DevicesInGroupControllers */ = {
 			isa = PBXGroup;
 			children = (
 				1E0E55A62373265000794DFF /* DevicesInGroupViewController.swift */,
 				1E9C5FED237D3C6F00700C1B /* DevicesInGroupCollectionViewCell.swift */,
 			);
-			path = DevicesControllers;
+			path = DevicesInGroupControllers;
 			sourceTree = "<group>";
 		};
 		1E972AF2238BC665003F6C9F /* SliderController */ = {
@@ -261,7 +271,7 @@
 			children = (
 				1E2C9D2A23701C6A00355398 /* ViewController.swift */,
 				1E0E55A423730D2D00794DFF /* GroupButtonTableViewCell.swift */,
-				1E52F1BE238408AD00B4C128 /* DevicesControllers */,
+				1E52F1BE238408AD00B4C128 /* DevicesInGroupControllers */,
 				1E52F1BC238407E300B4C128 /* AddGroupControllers */,
 				1E52F1BD2384084000B4C128 /* SettingsButtonOnBigButton */,
 			);
@@ -290,6 +300,7 @@
 		1ECAD6922366B73400FBA461 = {
 			isa = PBXGroup;
 			children = (
+				1ED0432A23905F3200A392D8 /* Localizable.strings */,
 				1ECAD69D2366B73400FBA461 /* MySmartHome */,
 				1ECAD69C2366B73400FBA461 /* Products */,
 				1E52F1B22383093500B4C128 /* Frameworks */,
@@ -370,6 +381,7 @@
 			knownRegions = (
 				en,
 				Base,
+				sv,
 			);
 			mainGroup = 1ECAD6922366B73400FBA461;
 			productRefGroup = 1ECAD69C2366B73400FBA461 /* Products */;
@@ -445,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ECAD6AE2366B73500FBA461 /* LaunchScreen.storyboard in Resources */,
+				1ED0432C23905F3200A392D8 /* Localizable.strings in Resources */,
 				1ECAD6AB2366B73500FBA461 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,8 +471,10 @@
 			files = (
 				1EBDF306237EA97A0046ADF0 /* ButtonSettingsCollectionViewCell.swift in Sources */,
 				1E31BB4723859CDD000C91E5 /* PopupSliderViewController.swift in Sources */,
-				1E0E55A32373070600794DFF /* GroupButton.swift in Sources */,
+				1E0E55A32373070600794DFF /* GroButton.swift in Sources */,
+				1E972B12238D97F0003F6C9F /* AnimateTextViewController.swift in Sources */,
 				1EA0CC6E237480EE00571C9B /* SettingsViewController.swift in Sources */,
+				1E972B14238F8924003F6C9F /* GroupButton.swift in Sources */,
 				1E0E55A523730D2D00794DFF /* GroupButtonTableViewCell.swift in Sources */,
 				1E2C9D2D23701C7B00355398 /* ScenariosViewController.swift in Sources */,
 				1EA0CC89237AA1AC00571C9B /* AddGroupViewController.swift in Sources */,
@@ -499,8 +514,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				1ECAD6AD2366B73500FBA461 /* Base */,
+				1ED0432D23905FCC00A392D8 /* sv */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1ED0432A23905F3200A392D8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1ED0432B23905F3200A392D8 /* Base */,
+				1ED0432E23905FCC00A392D8 /* sv */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -510,6 +535,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -570,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
