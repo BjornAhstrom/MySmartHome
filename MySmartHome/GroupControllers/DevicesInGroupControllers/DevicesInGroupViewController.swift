@@ -114,10 +114,15 @@ class DevicesInGroupViewController: UIViewController {
         
         setConstraints()
         getImage(imageName: groupId)
-        
+        setupCameraButton()
+       
+    }
+    
+    // Set a camera button to the right in navigation bar
+    func setupCameraButton() {
         let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(onCameraPressed))
         
-        cameraButton.tintColor = .darkGray
+        cameraButton.tintColor = .systemGray
         
         self.navigationItem.setRightBarButton(cameraButton, animated: true)
     }
