@@ -83,7 +83,7 @@ class AddGroupViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        view.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: self.myCell)
         view.backgroundColor = .init(white: 1, alpha: 0.0)
         view.allowsMultipleSelection = true
         
@@ -93,6 +93,7 @@ class AddGroupViewController: UIViewController {
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     let pickerController = UIImagePickerController()
+    let myCell = "MyCell"
     var thisGroupId: Int?
     var devicesId: [String: Int] = [:]
     var devices = [Deviceinfo]()
@@ -264,7 +265,7 @@ extension AddGroupViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? GroupCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.myCell, for: indexPath) as? GroupCollectionViewCell else {
             fatalError("Something went wrong to the cell")
         }
         

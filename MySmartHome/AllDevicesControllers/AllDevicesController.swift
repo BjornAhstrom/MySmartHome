@@ -39,7 +39,7 @@ class AllDevicesController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        view.register(AllDevicesCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.register(AllDevicesCollectionViewCell.self, forCellWithReuseIdentifier: self.myCell)
         view.backgroundColor = .init(white: 0, alpha: 0.0)
         view.allowsMultipleSelection = true
         
@@ -51,6 +51,8 @@ class AllDevicesController: UIViewController {
         //        self.refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
         return view
     }()
+    
+    let myCell = "MyCell"
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer?
     lazy var refreshControl = UIRefreshControl()
@@ -180,7 +182,7 @@ extension AllDevicesController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? AllDevicesCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.myCell, for: indexPath) as? AllDevicesCollectionViewCell else {
             fatalError("Something went wrong with the cell")
         }
         

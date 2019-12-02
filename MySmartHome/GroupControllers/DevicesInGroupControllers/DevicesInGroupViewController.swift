@@ -37,7 +37,7 @@ class DevicesInGroupViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        view.register(DevicesInGroupCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.register(DevicesInGroupCollectionViewCell.self, forCellWithReuseIdentifier: self.myCell)
         view.backgroundColor = .init(white: 0, alpha: 0.0)
         view.allowsMultipleSelection = true
         view.reloadData()
@@ -78,6 +78,7 @@ class DevicesInGroupViewController: UIViewController {
     }()
     
     let pickerController = UIImagePickerController()
+    let myCell = "MyCell"
     
 //    var buttons: [GroButton] = []
     
@@ -255,7 +256,7 @@ extension DevicesInGroupViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? DevicesInGroupCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.myCell, for: indexPath) as? DevicesInGroupCollectionViewCell else {
             fatalError()
         }
         let devId = devicesIds[indexPath.row]

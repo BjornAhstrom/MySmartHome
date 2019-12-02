@@ -28,7 +28,7 @@ class ButtonSettingsViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        view.register(ButtonSettingsCollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.register(ButtonSettingsCollectionViewCell.self, forCellWithReuseIdentifier: self.myCell)
         view.backgroundColor = .init(white: 0, alpha: 0)
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.borderWidth = 1
@@ -80,6 +80,7 @@ class ButtonSettingsViewController: UIViewController {
     }()
     
     let deviceIdKey = "DeviceId"
+    let myCell = "MyCell"
     
     var selectedDeviceId: String = ""
     var mainViewController: ViewController?
@@ -186,7 +187,7 @@ extension ButtonSettingsViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as? ButtonSettingsCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.myCell, for: indexPath) as? ButtonSettingsCollectionViewCell else {
             fatalError()
         }
         

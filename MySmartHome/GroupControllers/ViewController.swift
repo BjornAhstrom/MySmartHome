@@ -65,12 +65,12 @@ class ViewController: UIViewController, UINavigationBarDelegate {
         return button
     }()
     
-    var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tView = UITableView()
         tView.backgroundColor = .init(white: 0.3, alpha: 0.7)
         tView.layer.cornerRadius = 8
         tView.layer.masksToBounds = true
-        tView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: "ButtonCell")
+        tView.register(GroupButtonTableViewCell.self, forCellReuseIdentifier: self.buttonCell)
         
         return tView
     }()
@@ -78,6 +78,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     let deviceIdKey = "DeviceId"
     let activityIndicator = UIActivityIndicatorView()
     let lightningColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7)//UIColor(displayP3Red: 143/255, green: 184/255, blue: 255/255, alpha: 0.7)//UIColor(displayP3Red: 174/255, green: 234/255, blue: 255/255, alpha: 0.7)
+    let buttonCell = "ButtonCell"
     
     var isOn = false
     var groupId: String?
@@ -145,7 +146,7 @@ class ViewController: UIViewController, UINavigationBarDelegate {
     
     // MARK: Get device history to set lamp buttons on or off
     func getDeviceInfo() {
-        //                    self.startActivityIndicator(activityIndicator: self.activityIndicator)
+        self.startActivityIndicator(activityIndicator: self.activityIndicator)
         ApiManager.getGroupDevicesId(id: self.groupId ?? "No id", onCompletion: {(response) in
             
             let queue = DispatchQueue.global(qos: .background)
@@ -153,34 +154,34 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             self.timer?.schedule(deadline: .now(), repeating: .seconds(10), leeway: .seconds(1))
             self.timer?.setEventHandler(handler: {
                 
-            // Strängen som kommer från responsen är en sträng med flera id som är komma (,) separerade ex (12345,54321,34567)
-            // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
-            self.devicesIds = response.components(separatedBy: ",")
-            
-            for id in self.devicesIds {
-                ApiManager.getHistory(id: id, onCompletion: {(state, stateValue)  in
-                    
-                    DispatchQueue.main.async {
-                        if state == 1 {
-                            self.isOn = true
-                            self.lampIsOn()
-                            self.tableView.reloadData()
+                // Strängen som kommer från responsen är en sträng med flera id som är komma (,) separerade ex (12345,54321,34567)
+                // Här tas komma tecknet bort och separerar alla id och lägger dem i en String array
+                self.devicesIds = response.components(separatedBy: ",")
+                
+                for id in self.devicesIds {
+                    ApiManager.getHistory(id: id, onCompletion: {(state, stateValue)  in
+                        
+                        DispatchQueue.main.async {
+                            if state == 1 {
+                                self.isOn = true
+                                self.lampIsOn()
+                                self.tableView.reloadData()
+                            }
+                            else if state == 2 {
+                                self.isOn = false
+                                self.lampIsOff()
+                                self.tableView.reloadData()
+                            }
                         }
-                        else if state == 2 {
-                            self.isOn = false
-                            self.lampIsOff()
-                            self.tableView.reloadData()
-                        }
-                    }
-                })
-            }
-            
+                    })
+                }
+                
             })
             self.timer?.resume()
             
         })
-        //        self.tableView.reloadData()
-        //                    self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+        self.tableView.reloadData()
+        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
     }
     
     func testingTimer() {
@@ -313,7 +314,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as? GroupButtonTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: self.buttonCell) as? GroupButtonTableViewCell else {
             fatalError("The deque cell is not an instace of GroupButtonTableViewCell.")
         }
         
